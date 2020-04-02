@@ -1,0 +1,32 @@
+// 手风琴效果
+// 初始化 第一个 状态
+$('https://img5.073img.com/h5/2018/pc/js/.dh ul li.curr').css({width:'580px'});
+$('.dh ul li.curr .layer').css({height:'40px'});
+
+$('.sfq ul li').hover(
+	function() {
+		// 获取索引
+		var _index = $(this).index();
+		$(this).addClass('curr').stop().animate({width: '580px'}, 'slow').siblings().stop().animate({width: '69px'},'slow').removeClass('curr');
+		$(this).find('.layer').stop().animate({height:'40px'},'slow').parent().siblings().find('.layer').stop().animate({height: '100%'},'slow');
+	},
+	function(){
+		//移出
+	}
+)
+
+
+// 推荐在这里
+$(function() {
+	$(".hereBtn").click(function() {
+		$(this).fadeOut();
+		$(".hereBox").animate({right: 0}, 600);
+	})
+	$(".hereBox .tit .close").click(function() {
+		$(".hereBox").animate({right: -317}, 600, function(){ $(".hereBtn").fadeIn();});
+	})
+})
+
+
+
+

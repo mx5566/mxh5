@@ -1,0 +1,72 @@
+<script src="/static/plugins/bootstrap-paginator/js/bootstrap-paginator.min.js" type="text/javascript"></script>
+
+<script>
+   // /user/list/astaxie/25
+    // {{urlfor "UserController.List" ":name" "astaxie" ":age" "25"}}
+
+    // /user/list?name=astaxie&age=25
+    // {{urlfor "UserController.List" "name" "astaxie" "age" "25"}}
+
+   function onEditImage(Id) {
+       //let id = $("image-id").val();
+       let title = '上传图片';
+       if (Id > 0) {
+           title = "编辑图片"
+       }
+
+       console.log("function onEditImage id %d", Id);
+       let url = '{{ urlfor "ImageController.EditImage" }}' + '/' + Id;
+       layer.open({
+           type: 2,
+           title: title,
+           shadeClose: false,
+           shade: 0.2,
+           maxmin: true,
+           shift: 1,
+           area: ['60em', '55em'],
+           content: url,
+           btn: ['保存', '关闭'],
+           yes: function (index, layero) {
+               let iframeWin = window[layero.find('iframe')[0]['name']];
+               iframeWin.FormSubmit();
+           },
+           scrollbar: false
+       });
+   }
+
+   function onRemoveImage() {
+
+   }
+
+   function RefreshSingleImage(id, path) {
+       let url = path + '?'+Math.random();
+       console.log("RefreshSingleImage %d %s", id, url);
+
+       $("#img-id-" + id.toString() + '').attr('src', url);
+   }
+
+
+    $('#pageLimit').bootstrapPaginator({
+        currentPage: '{{.json.currentpage}}',
+        totalPages: '{{.json.totalpage}}',
+        size:"normal",
+        bootstrapMajorVersion: 3,
+        alignment:"right",
+        useBootstrapTooltip:'true',
+        numberOfPages: '{{ .json.eachpage }}',
+        onPageClicked: function (e, originalEvent, type, page) {
+
+            let href = '{{urlfor "GameController.Index"  }}' + "/" + page.toString();
+            window.location.href = href
+        },
+        itemTexts: function (type, page, current) {
+            switch (type) {
+                case "first": return "首页";
+                case "prev": return "上一页";
+                case "next": return "下一页";
+                case "last": return "末页";
+                case "page": return page;
+            }
+        }});
+</script>
+

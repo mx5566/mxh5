@@ -1,0 +1,351 @@
+
+<div class="winpop_main" style="display:none" id="userInfoDiv">
+    <div id="info" da-gameid="" da-username="" da-uid="" da-avatar="" da-is-bindphone="0" da-appid="0" da-browser="3" da-auto-login="0" da-tghzhks-appid="" da-tghzhks-game_id="" da-tghzhks-tgc="" da-is-showlogin="0" style="display: none" da-usershare-fromuid=""></div>
+    <!-- 登录 -->
+
+    <div class="thisWinPop phoneLogin WinPop_2 h5-wap-login " id="loginDiv" style="display: none;transform: scale(.7);">
+        <h4>07073登录</h4>
+        <div class="WinPop_close" ><a href="javascript:;" id="loginBackA" target="_self" ></a></div>
+        <div class="loginForm">
+            <ul>
+                <li><input type="text" class="text" id="login_username" placeholder="请输入帐号/手机号"></li>
+                <li>
+                    <input type="password" class="password h5-wap-input-password" id="login_password" placeholder="请输入密码">
+                    <a class="wjmm" id="findpwdA" href="javascript:;" target="_self">找回？</a>
+                </li>
+            </ul>
+            <a class="dlyx" id="loginOper" value="登录游戏" class="WinPop_btn1">登录游戏</a>
+            <p>
+                <!--<a class="fl h5-wap-visitor-login-btn" href="javascript:;">游客登录</a>-->
+                <a class="fr cBlue h5-wap-reg-link" href="javascript:void(0);">手机注册</a>
+                <span style="font-size: .2rem;position: relative;left: 1.6rem;top: .44rem;display: block;background: #fff;color:#666;width: 2rem;text-align: center;">其它登录方式</span>
+            </p>
+        </div>
+        <div class="share">
+            <ul>
+                <a class="h5-wap-third-party-link" da-type="2" href="javascript:;" target="_self">
+                    <li><img src="/static/img5.073img.com/h5/wap/img/login/icon_5.png"  alt=""><span>QQ</span></li>
+                </a>
+                <a class="h5-wap-third-party-link" da-browser="3" da-type="3" href="javascript:;" target="_self">
+                    <li><img src="/static/img5.073img.com/h5/wap/img/login/icon_6.png"  alt=""><span>微信</span></li>
+                </a>
+                <a class="h5-wap-third-party-link" da-type="1" href="javascript:;" target="_self">
+                    <li><img src="/static/img5.073img.com/h5/wap/img/login/icon_7.png"  alt=""><span>微博</span></li>
+                </a>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 注册 -->
+    <div class="thisWinPop WinPop WinPop_2 h5-wap-reg-div WinPop_0" id="regDiv" style="display:none;">
+        <div class="WinPop_tit">手机注册
+            <div class="WinPop_close"><a href="javascript:;" id="regBackA" class="h5-wap-back-login-div" target="_self"></a></div>
+        </div>
+        <div class="WinPop_box">
+            <ul>
+                <li><input id="reg_username" type="text" class="input_txt input_txt3 h5-wap-input-data" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="请输入手机号"></li>
+                <li>
+                    <input id="reg_password" type="password" class="input_txt input_txt2 h5-wap-input-data h5-wap-input-password" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="请输入密码">
+                    <div class="WinPop_mima">
+                        <div class="eye"></div>
+                    </div>
+                </li>
+                <li>
+                    <input id="reg_code" type="text" class="input_txt input_txt4 h5-wap-input-data" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="请输入验证码">
+                    <div class="WinPop_mima h5-wap-get-captcha-link">
+                        <span h5-wap-captcha-type="register" class="h5-wap-change-status">获取验证码</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="indulgeVeri">
+                        <span>防沉迷验证</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="infoTips">
+                        <span><i></i>以下信息涉及账户及财产安全，一经填写后无法修改</span>
+                    </div>
+                </li>
+                <li>
+                    <input id="reg_realname" type="text" class="input_txt input_txt5 h5-input-data" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="请输入真实姓名">
+                </li>
+                <li>
+                    <input id="reg_idcard" type="text" class="input_txt input_txt6 h5-input-data" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="请输入身份证号码">
+                </li>
+                <li>
+                    <div class="WinPop_btn_box">
+                        <p>
+                            <input id="reg_protocol" type="checkbox" class="h5-wap-input-data" checked value="1" style="width: .25rem;height: .25rem;margin: 0;position: relative; top: .03rem;margin-right: .06rem;">我已看过并同意
+                            <a href="javascript:;" class="h5-wap-protocol-link">《07073网络服务使用协议》</a>
+                        </p>
+                        <input type="button" value="注册" class="WinPop_btn1 h5-wap-reg-btn" style="margin-top: .20rem;">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--<div class="WinPop_a">
+            <a href="javascript:;" class="h5-wap-visitor-login-btn">游客登录</a><a href="javascript:;" class="h5-wap-third-party-btn">其他方式登录</a>
+        </div>-->
+    </div>
+
+    <!-- 密码找回 -->
+    <div class="thisWinPop WinPop WinPop_3 h5-wap-find-pwd" id="findpwdDiv" style="display:none;">
+        <div class="WinPop_tit">找回密码
+            <div class="WinPop_close"><a href="javascript:;" id="regBackA" class="h5-wap-back-login-div" target="_self"></a></div>
+        </div>
+        <div class="WinPop_box">
+            <ul>
+                <li><input type="text" id="findpwd_username" class="input_txt input_txt1" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="用户名/手机号"><span style="position: absolute;right: 0;top: 0.26rem;"><a href="javascript:;" id="appealAcountA" style="font-size: 0.26rem;color: #999 !important;">找回账号</a></span></li>
+                <!--li>
+                    <div class="yanzheng h5-wap-find-notice" id="embed-captcha">
+                    </div>
+                </li-->
+                <li><div class="WinPop_btn_box"><input type="button" value="下一步" class="WinPop_btn1 h5-wap-find-pwd-btn" id="findpwdOper"></div></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 密码找回确认 -->
+    <div class="thisWinPop WinPop WinPop_3 h5-wap-find-pwd-confirm" id="findpwdConfirmDiv" style="display:none;">
+        <div class="WinPop_tit">找回密码
+            <div class="WinPop_close"><a href="javascript:;" class="h5-wap-back-login-div" target="_self"></a></div>
+        </div>
+        <div class="WinPop_box">
+            <ul>
+                <li class="phone">当前绑定手机：<i h5-wap-bind-phone=""></i></li>
+                <li>
+                    <input type="text" id="h5-wap-input-phone-code" class="input_txt input_txt4" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="请输入验证码">
+                    <div class="WinPop_mima h5-wap-get-captcha-link">
+                        <span h5-wap-captcha-type="findpwd">获取验证码</span>
+                    </div>
+                </li>
+                <li><div class="WinPop_btn_box"><input type="button" value="确认" class="WinPop_btn1 h5-wap-find-pwd-confirm-btn"></div></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 重新设置密码 -->
+    <div class="WinPop WinPop_3" id="settingPwdDiv" style="display: none;">
+        <div class="WinPop_tit">新密码设置
+            <div class="WinPop_close"><a href="javascript:;" class="h5-wap-back-login-div" target="_self"></a></div>
+        </div>
+        <div class="WinPop_box">
+            <ul>
+                <li>
+                    <input type="password" id="h5-wap-input-setting-password" class="input_txt input_txt2 h5-wap-input-password" onblur="$(this).removeClass('on')" onfocus="$(this).addClass('on')" placeholder="请输入新密码">
+                    <div class="WinPop_mima">
+                        <div class="eye"></div>
+                    </div>
+                </li>
+                <li><div class="WinPop_btn_box"><input type="button" value="提交" class="WinPop_btn1 h5-wap-change-pwd-btn"></div></li>
+            </ul>
+        </div>
+    </div>
+
+    <!--登录方式 begin-->
+    <style>
+        .modify_new_h{ height: 3.5rem; }
+        .thisWinPop_tit_img{ padding: 0.4rem 0 0.1rem; }
+        .thisWinPop_tit_img img{ width: 1.6rem; height: 0.4rem; }
+        .thisWinPop_new_msg{font-size: 0.24rem; color:#ff882c; text-align: center; padding: 0.4rem 0 0;}
+        .thisWinPop_new_msg a{ color:#ff882c;}
+    </style>
+    <div class="thisWinPop modify_winpop modify_new_h" id="moreLoginDiv" style="display:none;">
+        <div class="thisWinPop_tit thisWinPop_tit_img"><img src="/static/img5.073img.com/h5/wap/img/dlfs.png"  alt=""></div>
+        <div class="btn_con">
+            <a id="moreLoginOper" href="javascript:;" class="login_btn02" style="float:none;width:5.5rem;border-radius:4.5rem;background:url(https://img5.073img.com/h5/pc/img/55090.gif) no-repeat">立即登录</a>
+        </div>
+        <div class="thisWinPop_new_msg"><a class="data-more-login-btn" href="javascript:;">更多登录方式</a></div>
+    </div>
+    <!--登录方式 end-->
+
+    <!-- 手机验证 -->
+    <div class="thisWinPop modify_winpop" id="findpwdPhoneDiv" style="display:none;">
+        <div class="thisWinPop_close">
+            <a id="findpwdPhoneBackA" href="javascript:;" target="_self"></a>
+        </div>
+        <div class="thisWinPop_tit">手机验证</div>
+        <div class="thisWinPop_table">
+            <ul>
+                <li class="num">
+                    <p>此帐号当前绑定手机号：<i id="findpwdPhoneNum">139****3421</i></p>
+                </li>
+                <li>
+                    <input maxlength="5" id="findpwdPhoneCode" type="text" placeholder="输入验证码" value="">
+                    <a id="findpwdPhoneCodeGet" target="_self" href="javascript:;" class="get">获取验证码</a></li>
+            </ul>
+            <div class="btn_con"><a id="findpwdPhoneOper" target="_self" href="javascript:;" class="found_btn">确认</a></div>
+        </div>
+    </div>
+    <!-- 修改密码 -->
+    <div class="thisWinPop modify_winpop" id="chgpwdDiv" style="display:none;">
+        <div class="thisWinPop_close">
+            <a id="chgpwdBackA" href="javascript:;" target="_self"></a>
+        </div>
+        <div class="thisWinPop_tit">新密码设置</div>
+        <div class="thisWinPop_table">
+            <ul>
+                <li><span class="icon-unlocked"></span>
+                    <input id="chgpwd_password" type="password" placeholder="请输入密码" value="">
+                    <a href="#" class="clear"></a>
+                </li>
+                <li><span class="icon-unlocked"></span>
+                    <input id="chgpwd_repassword" type="password" placeholder="请确认密码" value="">
+                    <a href="#" class="clear"></a>
+                </li>
+            </ul>
+            <div class="btn_con"><a id="chgpwdOper" target="_self" href="javascript:;" class="regist_btn">确认</a></div>
+        </div>
+    </div>
+    <!-- 游客登录 -->
+    <style>
+        .my_code_save{ width: 5.9rem; height: 8.73rem; position: fixed; left:50%; top:50%; margin-top: -5rem; margin-left: -2.95rem; background: url("/static/img5.073img.com/h5/wap/img/save_bg.png") no-repeat 0 0; background-size: 100% 100%;z-index: 999; text-align: center;}
+        .my_code_save_img{ margin: 0.37rem auto 0; width: 5.14rem; height: 5.94rem;}
+        .my_code_save_img img{ width: 5.14rem; height: 5.94rem; display: block; }
+        .my_code_save a{font-size: 0.34rem; color: #ff3a44; font-weight: bold; display: block; margin:0 auto; height: 0.88rem; line-height: 0.88rem; width: 3.2rem; background: #ffffff; border-radius: 0.44rem;}
+        .my_code_save p{ padding: 0.28rem 0 0.42rem; font-size: 0.3rem; color: #ffffff; text-align: center; }
+    </style>
+    <!--<div class="gray" style="display: none;"></div>-->
+    <div class="my_code_save"  id="visitorLoginDiv" style="display: none;">
+        <div class="my_code_save_img"><img src="/static/img5.073img.com/h5/wap/img/save_tu.png"  alt=""></div>
+        <p>游客提示：保存账号方便下次登录游戏。</p>
+        <a href="javascript:;" id="visitorBackB">立即开玩</a>
+    </div>
+
+
+    <!-- 绑定手机提示 -->
+
+    <div class="thisWinPop tips_winpop2" id="bangPhoneNoticeDiv" style="display:none;height:5.4rem">
+        <div class="thisWinPop_close">
+            <a href="javascript:;" id="bandohoneBackA"></a>
+        </div>
+        <div class="thisWinPop_tit">提示</div>
+        <div class="tips_con">
+            <p>您的帐号尚未绑定手机，忘记密码或者被盗时将无法通过手机找回密码！</p>
+            <p style="color: red;font-size: 0.2rem;">注：绑定手机后，可使用手机号登录</p>
+
+        </div>
+        <div class="btn_con"><a href="javascript:;" id="bandohoneBackB" class="binding_btn01">稍后绑定</a><a href="javascript:;" id="bindPhoneC" class="binding_btn02">立即绑定</a></div>
+        <div class="checkbox-box checkbox-box-1">
+            <input type="checkbox" id="notishiBindPhone">今天不再提示
+        </div>
+    </div>
+
+    <!-- 绑定手机后，可使用手机号和密码进行登录 -->
+    <div class="BDafter" id="h5-wap-bind-phone-popup-div" style="display:none;">
+        <h3>绑定手机后，可使用手机号和密码进行登录</h3>
+        <ul>
+            <li>
+                <input type="text" placeholder="请输入手机号" class="text h5-wap-input-data" id="bind_and_chgpwd_username">
+                <i></i>
+            </li>
+            <li>
+                <input type="password" placeholder="请输入密码" class="text password h5-wap-input-password h5-wap-input-data" id="bind_and_chgpwd_password">
+                <i></i>
+                <em class="h5-wap-eye eye_1"></em>
+            </li>
+            <li class="h5-wap-get-captcha-link">
+                <input type="text" placeholder="请输入验证码" class="text yzm h5-wap-input-data" id="bind_and_chgpwd_code">
+                <i></i>
+                <span class="orange" h5-wap-captcha-type="bind_and_chgpwd">获取验证码</span>
+            </li>
+        </ul>
+        <div class="BDbtn h5-wap-bind-and-chgpwd-btn">绑定</div>
+        <i class="close"></i>
+    </div>
+
+    <!-- 绑定手机号 -->
+    <div class="BDphone" id="h5-wap-draw-bind-phone-popup-div" style="display:none;">
+        <div class="BDphone-tit">
+            <span>为了方便兑换价值较高奖品  请您绑定手机号</span>
+        </div>
+        <div class="cont">
+            <ul>
+                <li><input type="text" placeholder="请输入手机号" class="text h5-wap-input-data" id="bind_draw_username"></li>
+                <li><input type="text" placeholder="请输入验证码" class="w280 h5-wap-input-data" id="bind_draw_code"><div class="getCode h5-wap-get-captcha-link"><span h5-wap-captcha-type="draw_bind">获取验证码</span></div></li>
+            </ul>
+            <div class="btn h5-wap-draw-bind-btn">绑定</div>
+        </div>
+        <!-- 关闭 -->
+        <div class="close"></div>
+    </div>
+
+    <!-- 错误提示 -->
+    <!--<div class="tips dn">
+        <span>弹窗之上使用的异常提示承载</span>
+    </div>-->
+
+    <style>
+        #embed-captcha .geetest_btn {
+            width:5.8rem !important;
+            height:1rem !important;
+            overflow: hidden;
+        }
+        .geetest_success_radar_tip {
+            width:5.8rem !important;
+        }
+
+        .geetest_success_btn{
+            width: 5.8rem !important;
+        }
+
+        .valiWrap{width: 5.8rem;background: #fff;position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);border-radius: .3rem;padding: .5rem .35rem;z-index: 99999;display:none}
+        .valiWrap .valiTit{text-align: center;font-size: .5rem;margin-bottom: .5rem;}
+        .valiWrap .valicont{width: 5.8rem;height: 1rem;background: #ccc;margin: 0 auto;}
+        .valiWrap a{width: .3rem;height: .3rem;position: absolute;right: .3rem;top: .3rem;}
+        .valiWrap a img{width: .3rem;height: .3rem;display: block;}
+    </style>
+
+    <div style="position: fixed;left: 0;top: 0;right: 0;bottom: 0;background: rgba(0, 0, 0, .6);z-index:99998;display:none" id="valiWrapMask"></div>
+    <div class="valiWrap" >
+        <div class="valiTit">人机验证</div>
+        <div class="valicont" id="embed-captcha">
+
+        </div>
+        <a href="javascript:;"><img src="/static/img5.073img.com/openh5/wap/2018/images/close_2.png"  alt=""></a>
+    </div>
+
+    <style>
+        .BDafter{width: 6.68rem;height: 5.12rem;position: absolute;left: 50%;top: 50%;margin-left: -3.34rem;margin-top: -2.56rem;background: #fff;border-radius: .25rem;}
+        .BDafter h3{font-size: .3rem;color: #ff5c5c;text-align: center;font-weight: bold;margin-top: .3rem;margin-bottom: .1rem;}
+        .BDafter ul{margin: 0 .8rem;}
+        .BDafter ul li{position: relative;}
+        .BDafter ul li input{height: .88rem;border: none;border-bottom: 1px solid #e6e6e6;font-size: .24rem;}
+        .BDafter ul li input.text{width: 4.68rem;padding-left: .4rem;}
+        .BDafter ul li i{width: .26rem;height: .36rem;display: inline-block;position: absolute;left: 0;top: .25rem;background-size: .26rem .36rem;}
+        .BDafter ul li input.text + i{background-image:url("/static/img5.073img.com/h5/wap/img/BDafter_icon_1.png");}
+        .BDafter ul li input.password{width: 4.28rem;padding-right: .4rem;}
+        .BDafter ul li input.yzm{width: 3.28rem;padding-right: 1.4rem;}
+        .BDafter ul li input.password + i{background-image:url("/static/img5.073img.com/h5/wap/img/BDafter_icon_2.png");}
+        .BDafter ul li input.yzm + i{background-image:url("/static/img5.073img.com/h5/wap/img/BDafter_icon_3.png");}
+        .BDafter ul li em.eye_1{width: .35rem;height: .24rem;display: block;background-image: url("/static/img5.073img.com/h5/wap/img/eye_1.png");background-size: .35rem .24rem;position: absolute;right: 0;top: .3rem;}
+        .BDafter ul li em.eye_2{width: .35rem;height: .24rem;display: block;background-image: url("/static/img5.073img.com/h5/wap/img/eye_2.png");background-size: .35rem .24rem;position: absolute;right: 0;top: .3rem;}
+        .BDafter ul li span{font-size: .24rem;position: absolute;right: 0;top: .25rem;}
+        .BDafter ul li span.orange{color: #fe632b;}
+        .BDafter ul li span.ccc{color: #ccc;}
+        .BDafter ul li span.span1{color: #ccc;}
+        .BDafter .BDbtn{width: 5.08rem;height: .86rem;line-height: .86rem;text-align: center;background: #fe632b;margin: 0 auto;border-radius: .1rem;margin-top: .3rem;font-size: .3rem;color: #fff;}
+        .BDafter i.close{width: .25rem;height: .25rem;display: block;position: absolute;right: .2rem;top: .1rem;background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARBAMAAADJQ1rJAAAAKlBMVEUAAAC9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb0feJBkAAAADXRSTlMAuAnZjggiGxrhVk8WpDXKNgAAAG1JREFUCNdjiApgAIHTDAxrRUEMDtsEhsCLIMHmKwwMTLKiICEHIFcRKAgSAguyg4TAgslAIYjgXaAQGOTeVIAw2G3nCkFYxVcUL4IFgRqZZIXAQkCNYEGwWWDBw1cgZjIw7HWAmJnAwAbWD6QADnAZm/N8ncMAAAAASUVORK5CYII=) no-repeat;background-size: .25rem .25rem;}
+
+        .geetest_logo{display: none;}
+        .geetest_success_logo{display:none;}
+        .geetest_goto{display:none;}
+    </style>
+
+    <!-- 绑定手机后，可使用手机号和密码进行登录 END -->
+</div>
+
+<!-- 退出登陆提示 -->
+<div class="userCenter_winpop" id="logoutNoticeDiv" style="display:none;">
+    <div class="userCenter_winpop_tit">提示</div>
+    <p>是否确认要退出账号？</p>
+    <div class="userCenter_winpop_btn"><a href="javascript:;" id="logoutBtnNo">取消</a><a href="javascript:;" id="logoutBtnYes">确认</a></div>
+</div>
+<!-- 退出登陆按钮 -->
+<div class="btn_con" style="display:none"><a id="logoutOper" href="javascript:;" target="_self" class="found_btn">切换帐号</a></div>
+<!-- 任务提示 -->
+<div id="task_notice" class="user_winpop user_code user_code_1" style="display: none;">
+    <div class="user_winpop_record"></div>
+    <div class="user_code_btn"><a href="javascript:;" id="task_kown_btn" data-url="" class="copy copy_gift_code">知道啦</a></div>
+</div>
+

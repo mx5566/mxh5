@@ -1,0 +1,688 @@
+$(function() {
+	var gchgOldPwdOper_FLAG = false;
+    var glogoutOper_FLAG = false;
+    var gbindPhoneOper_FLAG = false;
+    var gbindPhoneCodeGet_FLAG = false;
+    var gbindRealnameOper_FLAG = false;
+    
+    var getCode_FLAG = false;
+
+    function adaptive() {
+        var w = $(window).height();
+        // console.log(w);
+        var a = $(".userInfo").height();
+        var b = $(".new_msg").height() | 0;
+        var c = $(".notice").height() | 0;
+        var d = $(".userInfo_nav").height();
+
+        //var h = w - a - b - c -d;
+        //$(".wrapper").height(w);
+        $(".wrapper").css("height", "100%");
+        //$(".lt_bar_main").height(h);
+
+        // 铺满页面
+        //$('#frameGame').css('height', $(window).height());
+        $("#frameGame").css("height", "100%");
+        //$('#frameGame').css('width', $(document.body).width());
+        $("#frameGame").css("width", "100%");
+
+        $("#conDiv").css("height", "100%");
+        $(".lt_bar_main").css("height", $("#conDiv").height() - a - b - c - d);
+    }
+    adaptive();
+    $(window).resize(function() {
+        adaptive();
+    });
+
+    $(".new_msg i").click(function() {
+        $('.new_msg').hide();
+        adaptive();
+    })
+
+	// 标签切换
+	$('.no_tab').click(function() {
+		var index = $('.no_tab').index($(this));
+		$('.no_tab').removeClass('this');
+		$(this).addClass('this');
+
+		$('.no_con').hide()
+		$('.no_con').eq(index).show();
+	});
+	$(".no_con a,.no_a_jump a").bind('click', function(e) {
+		var url = $(this).attr('data-url');
+		if (!url) {
+			return false;
+		}
+		// window.location.href = url;
+		$('#winpop3JumpUrl').attr('href', url);
+		$('#winpop3').show();
+	});
+
+	// 取消操作
+	$('#winpop3CancelJump').click(function() {
+		$('#winpop3').hide();
+	});
+
+	// 2017-07-25 新添加
+	// 新弹窗关闭
+	$(".winpop_close").click(function() {
+		$(this).parent(".user_winpop").hide();
+		$("https://img5.073img.com/h5/wap/js/.gray,.mask").hide();
+	});
+
+	// 关注公众号
+	$("#gzGzgA").click(function() {
+		$("#gzGzgDiv").show();
+		$(".pc_thisWinPop_close").show();
+		$("#boxA2").show();
+	});
+	// 关闭二维码
+	$("#closeGzBtn").click(function() {
+		// if ($("#gzGzgDiv").css('display') != "none") {
+			$("#gzGzgDiv").hide();
+			$("https://img5.073img.com/h5/wap/js/.gray,.mask").hide();
+		// }
+	});
+	$("#closeGzBtn2").click(function() {
+		// if ($("#gzGzgDiv").css('display') != "none") {
+			$("#gzGzgDiv").hide();
+			$(".pc_thisWinPop_close").hide();
+			$("https://img5.073img.com/h5/wap/js/.gray,.mask").hide();
+		// }
+	});
+	
+	
+	function libao_get_code(libao_id, obj) {
+	
+		if (getCode_FLAG) {
+			return false;
+		}
+		
+		getCode_FLAG = true;
+		
+		$.ajax({
+			url: "/front2018/libao/aj_getcode?appid="+$("#info").attr("da-appid"),
+			data: {
+				libao_id: libao_id
+			},
+			type: "GET",
+			dataType: "json",
+			cache: false,
+			success: function(msg) {
+				$('.h5-score-sc-ceng1').hide();
+				$('.aj_getcode').text('领取');
+		        $('.aj_getcode_hui').show();
+				getCode_FLAG = false;
+				if (msg.errno == 100) {
+					// 当前是领取按钮，变成查看按钮
+					if (obj.hasClass("lb_list_btn01")) {
+						obj.removeClass("lb_list_btn01").addClass("lb_list_btn02");
+						obj.html("查看");
+						$('.userInfo').find('em').text(msg.info.user_score);
+                        obj.next(".need").remove();
+					}
+					
+					$("#ballLblqCode").html(msg.info.libao_code);
+					$("#libao_usage").html(msg.info.libao_usage);
+					$("#libao_notice").show();
+					$(".mask").show();
+				} else if (msg.errno == 601) { 
+                   	// 未关注公众号
+                    $('#libaoCodeWx').show();
+                    $('#commonGray').show();
+                    $('.new_2017code > img').attr('src', msg.info.qr_url);
+                } else {
+					//console.log(msg);
+					window.showNotice(msg.errstr);
+				}
+			}
+		});
+	}
+	
+	// 领取礼包
+	$(".no_ballLqGift").click(function() {
+		var obj = $(this);
+		var parent_dl = obj.parent("dd").parent("dl");
+		$("#ballLblqTitle").html(parent_dl.attr("da-libao_name"));
+		var libao_score = parseInt(parent_dl.attr("da-libao_score") || 0);
+		var libao_id = parent_dl.attr("da-libao_id");
+		
+		//礼分礼包
+		if (libao_score && obj.text() != '查看' && libao_score > 0) {
+			if ($('.userInfo').find('em')) {
+				var user_score = parseInt($('.userInfo').find('em').text());
+				//用户积分不足
+				if (user_score < libao_score) {
+					window.showNotice('您的积分不足');
+					return;
+				}
+			}
+			
+			$('#libaoUseScore').text(libao_score);
+			
+			if ( ! $('.h5-score-sc-ceng1').data('confirmed')) {
+				$('.aj_getcode').attr('data-id', libao_id);
+				$('.h5-score-sc-ceng1').show();
+				$('.h5-score-sc-ceng1').removeData('confirmed');
+				return;
+			}
+			
+		}
+		
+		libao_get_code(libao_id, obj);
+	});
+	
+	$('.aj_getcode').click(function(){
+		var libao_id = $(this).attr('data-id');
+		var obj = $('#libao_' + libao_id);
+		$(this).text('领取中....');
+        $('.aj_getcode_hui').hide();
+        
+		libao_get_code(libao_id, obj);
+	});
+
+	// 边框隐藏
+	$('#rtBarImg').click(function() {
+		$('#conDiv').hide();
+		$(".lt_bar").hide();
+		$("#ballConDiv").show();
+		SuspendedBall.ShowBall();
+	});
+
+	// 用户中心
+	$("#ballUserInfoA").click(function() {
+		$(".lt_bar").hide();
+		$("#ballUserinfoDiv").show();
+	});
+	// 用户中心后退
+	// goBackConA
+	$("#goBackConA").click(function() {
+		$("#ballUserinfoDiv").hide();
+		$("#ballConDiv").show();
+
+	});
+	// 修改旧密码返回
+	$('#chgOldPwdBackA').click(function() {
+		$('#chgOldPwdDiv').hide();
+		resetValue();
+		$("#ballUserinfoDiv").show();
+	});
+	// 修改旧密码框显示
+	$('#chgOldPwdA').click(function() {
+		$('#ballUserinfoDiv').hide();
+		$('#chgOldPwdDiv').show();
+		resetValue();
+		var chgoldpwd_vm = $.trim($('#chgOldPwd_oldpassword').attr('data-vm'));
+		if (chgoldpwd_vm != '') {
+			$('#chgOldPwd_oldpassword').val(chgoldpwd_vm).attr('type','text');
+		}
+	});
+	// 修改旧密码操作
+	$('#chgOldPwdOper').click(function() {
+		if (true === gchgOldPwdOper_FLAG) {
+			showNotice('操作频繁');
+			return false;
+		}
+
+		var chgoldpwd_oldpassword_val = $.trim($('#chgOldPwd_oldpassword').val());
+		var chgoldpwd_password_val = $.trim($('#chgOldPwd_password').val());
+		var chgoldpwd_repassword_val = $.trim($('#chgOldPwd_repassword').val());
+
+		if (chgoldpwd_oldpassword_val === '') {
+			showNotice('旧密码未填写');
+			return false;
+		}
+		if (chgoldpwd_password_val === '') {
+			showNotice('新密码未填写');
+			return false;
+		}
+		if (chgoldpwd_password_val.length < 6 || chgoldpwd_password_val.length > 15) {
+			showNotice('密码最少6位，最长15位');
+			return false;
+		};
+
+		if (cPasswd(chgoldpwd_password_val)) {
+			showNotice('不支持中文的密码哦 ');
+			return false;
+		};
+		if (chgoldpwd_password_val != chgoldpwd_repassword_val) {
+			showNotice('两次输入新密码不一致');
+			return false;
+		}
+
+		gchgOldPwdOper_FLAG = true;
+		$.ajax({
+			url: '/login/aj_chgoldpwd',
+			data: {
+				oldpassword: chgoldpwd_oldpassword_val,
+				password: chgoldpwd_password_val,
+				repassword: chgoldpwd_repassword_val
+			},
+			type: 'POST',
+			dataType: 'json',
+			cache: false,
+			success: function(msg) {
+				gchgOldPwdOper_FLAG = false;
+				if (msg.errno == 100) {
+					showNotice('修改成功,正在返回平台登录...');
+					setTimeout("$('#logoutOper').click();", 1000);
+				} else if (msg.errno == 121) {
+					//loginYet();
+					location.reload();
+				} else {
+					showNotice(msg.errstr);
+				}
+			}
+		});
+	});
+
+	// 绑定手机框打开
+	$('#bindPhoneA').click(function() {
+		$('#ballUserinfoDiv').hide();
+		$('#bindPhoneDiv').show();
+		resetValue();
+	});
+
+	// 绑定手机操作
+	$('#bindPhoneOper').click(function() {
+		if (true === gbindPhoneOper_FLAG) {
+			return false;
+		}
+
+		var phone = $.trim($('#bindPhone_phone').val());
+		var code = $.trim($('#bindPhone_code').val());
+
+		if (phone === '') {
+			showNotice('手机号未填写');
+			return false;
+		}
+		if (!cPhone(phone) || phone.length != 11) {
+			showNotice('请输入正确手机号');
+			return false;
+		};
+		if (code === '') {
+			showNotice('手机验证码未填');
+			return false;
+		}
+
+		//gbindPhoneOper_FLAG = true;
+		$.ajax({
+			url: '/login/aj_bind_phone',
+			data: {
+				phone: phone,
+				code: code
+			},
+			type: 'POST',
+			dataType: 'json',
+			cache: false,
+			success: function(msg) {
+                console.log(11223411);
+				gbindPhoneOper_FLAG = false;
+				if (msg.errno == 100) {
+                    if (msg.info.remark_tpl == '') {
+                        showNotice(msg.errstr);
+                    } else {
+                        taskNotice(msg.info.remark_tpl);
+                        $('.gray').show();
+                    }
+					// 已绑定手机
+					$('.no_bindphone').hide();
+					$('#bindPhoneLiOk').show();
+
+					$('#bindPhoneBackA').click();
+				} else {
+					showNotice(msg.errstr);
+				}
+			}
+		});
+	});
+
+	// 绑定手机返回
+	$('#bindPhoneBackA').click(function() {
+		$('#bindPhoneDiv').hide();
+		resetValue();
+		$('#ballUserinfoDiv').show();
+	});
+
+	// 绑定手机获取验证码
+	$('#bindPhoneCodeGet').click(function() {
+		if (true === gbindPhoneCodeGet_FLAG) {
+			showNotice('操作频繁');
+			return false;
+		}
+
+		var phone = $.trim($('#bindPhone_phone').val());
+		if (phone === '') {
+			showNotice('手机号码未填写');
+			return false;
+		}
+		if (!cPhone(phone) || phone.length != 11) {
+			showNotice('手机号格式不正确');
+			return false;
+		};
+		var _this = $(this);
+		gbindPhoneCodeGet_FLAG = true;
+		$.ajax({
+			url: '/login/aj_bind_phonecode',
+			data: {
+				phone: phone
+			},
+			type: 'POST',
+			dataType: 'json',
+			cache: false,
+			success: function(msg) {
+				gbindPhoneCodeGet_FLAG = false;
+				if (msg.errno == 100) {
+					showNotice(msg.errstr);
+					setTimes(_this);
+				} else {
+					showNotice(msg.errstr);
+				}
+			}
+		});
+	});
+
+
+    // 实名认证框打开
+    $('#bindRealnameA').click(function() {
+        $('#ballUserinfoDiv').hide();
+        $('#bindRealnameDiv').show();
+        resetValue();
+    });
+
+    // 实名认证操作
+    $('#bindRealnameOper').click(function() {
+        if (true === gbindRealnameOper_FLAG) {
+            return false;
+        }
+
+        var realname = $.trim($('#bind_realname').val());
+        var idcard = $.trim($('#bind_idcard').val());
+
+
+
+        // 表单错误数
+        var err_num = 0;
+        if (false === check_realname()) {
+            err_num++;
+        } else if (false === check_idcard()) {
+            err_num++;
+        }
+        if (err_num > 0) {
+            return false;
+        }
+
+        gbindRealnameOper_FLAG = true;
+        $.ajax({
+            url: '/login/aj_bind_realname',
+            data: {
+                realname: realname,
+                idcard: idcard
+            },
+            type: 'post',
+            dataType: 'json',
+            cache: false,
+            success: function(msg) {
+                gbindRealnameOper_FLAG = false;
+                if (msg.errno == 100) {
+                    if (undefined == msg.info.remark_tpl || msg.info.remark_tpl == '') {
+                        showNotice(msg.errstr);
+                    } else {
+                        taskNotice(msg.info.remark_tpl);
+                        $('.gray').show();
+                    }
+                    // 已实名认证
+                    $('.no_bindrealname').hide();
+                    $('#bindRealnameLiOk').show();
+
+                    $('#bindRealnameBackA').click();
+                } else {
+                    showNotice(msg.errstr);
+                }
+            }
+        });
+    });
+
+    // 实名认证返回
+    $('#bindRealnameBackA').click(function() {
+        $('#bindRealnameDiv').hide();
+        resetValue();
+        $('#ballUserinfoDiv').show();
+    });
+
+
+	// 弹出提示框
+    function showNotice(msg) {
+        $('#notice_wrong').html(msg);
+        $('#notice_wrong').show();
+		var x = ($(".lt_bar:visible").outerWidth() - $('#notice_wrong').outerWidth() )/2+'px';
+		var y = ($(".lt_bar:visible").outerHeight() - $('#notice_wrong').outerHeight() )/2+'px';
+		$('#notice_wrong').css({'top':y,'left':x});
+        $('#notice_wrong').delay(2000).fadeOut(100);
+    }
+
+
+// 姓名检测
+    function check_realname() {
+        // 姓名值
+        var realname_val = $.trim($("#bind_realname").val());
+        if (realname_val == "") {
+            showNotice('请输入真实姓名');
+            return false;
+        }
+        return true;
+    }
+
+// 身份证检测
+    function check_idcard() {
+        var idcard_val = $.trim($("#bind_idcard").val());
+        var res = checkCard(idcard_val);
+        if (idcard_val == "" || !res) {
+            showNotice('请使用真实身份信息认证');
+            return false;
+        }
+        return true;
+    }
+
+//                         function IdentityCodeValid(code) {
+//                             var city = {11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古", 21: "辽宁", 22: "吉林", 23: "黑龙江 ", 31: "上海", 32: "江苏", 33: "浙江", 34: "安徽", 35: "福建", 36: "江西", 37: "山东", 41: "河南", 42: "湖北 ", 43: "湖南", 44: "广东", 45: "广西", 46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南", 54: "西藏 ", 61: "陕西", 62: "甘肃", 63: "青海", 64: "宁夏", 65: "新疆", 71: "台湾", 81: "香港", 82: "澳门", 91: "国外 "};
+//                             var tip = "";
+//                             var pass = true;
+
+//                             if (!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)) {
+//                                 //tip = "身份证号格式错误";
+//                                 pass = false;
+//                             }
+
+//                             else if (!city[code.substr(0, 2)]) {
+//                                 //tip = "地址编码错误";
+//                                 pass = false;
+//                             }
+//                             else {
+//                                 //18位身份证需要验证最后一位校验位
+//                                 if (code.length == 18) {
+//                                     code = code.split('');
+//                                     //∑(ai×Wi)(mod 11)
+//                                     //加权因子
+//                                     var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+//                                     //校验位
+//                                     var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+//                                     var sum = 0;
+//                                     var ai = 0;
+//                                     var wi = 0;
+//                                     for (var i = 0; i < 17; i++)
+//                                     {
+//                                         ai = code[i];
+//                                         wi = factor[i];
+//                                         sum += ai * wi;
+//                                     }
+//                                     var last = parity[sum % 11];
+//                                     if (parity[sum % 11] != code[17]) {
+//                                         //tip = "校验位错误";
+//                                         pass = false;
+//                                     }
+//                                 }
+//                             }
+//                             return pass;
+//                         }
+    var vcity = { 11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",
+        21:"辽宁",22:"吉林",23:"黑龙江",31:"上海",32:"江苏",
+        33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",
+        42:"湖北",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",
+        51:"四川",52:"贵州",53:"云南",54:"西藏",61:"陕西",62:"甘肃",
+        63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外"
+    };
+
+    checkCard = function(card)
+    {
+        //是否为空
+        if(card === '')
+        {
+//                        	    alert('请输入身份证号，身份证号不能为空');
+            return false;
+        }
+        //校验长度，类型
+        if(isCardNo(card) === false)
+        {
+//                        	    alert('您输入的身份证号码不正确，请重新输入');
+            return false;
+        }
+        //检查省份
+        if(checkProvince(card) === false)
+        {
+//                        	    alert('您输入的身份证号码不正确,请重新输入');
+            return false;
+        }
+        //校验生日
+        if(checkBirthday(card) === false)
+        {
+//                        	    alert('您输入的身份证号码生日不正确,请重新输入');
+            return false;
+        }
+        //检验位的检测
+        if(checkParity(card) === false)
+        {
+//                        	    alert('您的身份证校验位不正确,请重新输入');
+            return false;
+        }
+        return true;
+    };
+
+
+//检查号码是否符合规范，包括长度，类型
+    isCardNo = function(card)
+    {
+        //身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+        var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+        if(reg.test(card) === false)
+        {
+            return false;
+        }
+
+        return true;
+    };
+
+//取身份证前两位,校验省份
+    checkProvince = function(card)
+    {
+        var province = card.substr(0,2);
+        if(vcity[province] == undefined)
+        {
+            return false;
+        }
+        return true;
+    };
+
+//检查生日是否正确
+    checkBirthday = function(card)
+    {
+        var len = card.length;
+        //身份证15位时，次序为省（3位）市（3位）年（2位）月（2位）日（2位）校验位（3位），皆为数字
+        if(len == '15')
+        {
+            var re_fifteen = /^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/;
+            var arr_data = card.match(re_fifteen);
+            var year = arr_data[2];
+            var month = arr_data[3];
+            var day = arr_data[4];
+            var birthday = new Date('19'+year+'/'+month+'/'+day);
+            return verifyBirthday('19'+year,month,day,birthday);
+        }
+        //身份证18位时，次序为省（3位）市（3位）年（4位）月（2位）日（2位）校验位（4位），校验位末尾可能为X
+        if(len == '18')
+        {
+            var re_eighteen = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
+            var arr_data = card.match(re_eighteen);
+            var year = arr_data[2];
+            var month = arr_data[3];
+            var day = arr_data[4];
+            var birthday = new Date(year+'/'+month+'/'+day);
+            return verifyBirthday(year,month,day,birthday);
+        }
+        return false;
+    };
+
+//校验日期
+    verifyBirthday = function(year,month,day,birthday)
+    {
+        var now = new Date();
+        var now_year = now.getFullYear();
+        //年月日是否合理
+        if(birthday.getFullYear() == year && (birthday.getMonth() + 1) == month && birthday.getDate() == day)
+        {
+            //判断年份的范围（3岁到100岁之间)
+            var time = now_year - year;
+            if(time >= 17 && time <= 100)
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    };
+
+//校验位的检测
+    checkParity = function(card)
+    {
+        //15位转18位
+        card = changeFivteenToEighteen(card);
+        var len = card.length;
+        if(len == '18')
+        {
+            var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+            var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+            var cardTemp = 0, i, valnum;
+            for(i = 0; i < 17; i ++)
+            {
+                cardTemp += card.substr(i, 1) * arrInt[i];
+            }
+            valnum = arrCh[cardTemp % 11];
+            if (valnum == card.substr(17, 1))
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    };
+
+//15位转18位身份证号
+    changeFivteenToEighteen = function(card)
+    {
+        if(card.length == '15')
+        {
+            var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+            var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+            var cardTemp = 0, i;
+            card = card.substr(0, 6) + '19' + card.substr(6, card.length - 6);
+            for(i = 0; i < 17; i ++)
+            {
+                cardTemp += card.substr(i, 1) * arrInt[i];
+            }
+            card += arrCh[cardTemp % 11];
+            return card;
+        }
+        return card;
+    };
+
+});

@@ -1,0 +1,260 @@
+﻿.mask{position: fixed;left: 0;top: 0;right: 0;bottom: 0;background: rgba(0, 0, 0, .7);z-index: 9;display: none;}
+.dn{display: none;}
+
+/* 2018-06-06 弹窗卡券*/
+.coupon{width: 5.4rem;background: #f00;position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);border-top-left-radius: 3.5rem 1.3rem;border-top-right-radius: 3.5rem 1.3rem;border-bottom-left-radius: .3rem;border-bottom-right-radius: .3rem;background: #ee3f43;background: linear-gradient(to right bottom, #fd5b4e, #dd1f37); z-index: 10}
+.coupon h5{font-size: .36rem;color: #fff;font-weight: normal;text-align: center;margin-top: .5rem;background: url("../img/couponBg.png") no-repeat center bottom;padding-bottom: .34rem;}
+.coupon h5 span{font-weight: bold;color: #ffe691;}
+.coupon h5 span em{font-size: .48rem;}
+.coupon ul{margin-top: .36rem;}
+.coupon ul li{width: 4.7rem;height: 1.2rem;margin: 0 auto;border-radius: .05rem;margin-bottom: .2rem;}
+.coupon ul li.orange{background: #fff6cd;}
+.coupon ul li.white{background: #fff;}
+.coupon ul li .left{width: 1.24rem;height: 1.2rem;float: left;text-align: center;border-right: .02rem dotted #d1d0cc;position: relative;}
+.coupon ul li .left span{font-size: .4rem;color: #ff5339;font-weight: bold;display: block;margin-top: .2rem;}
+.coupon ul li .left span em{font-size: .18rem;}
+.coupon ul li .left b{display: block;font-weight: normal;font-size: .16rem;color: #666;margin-top: .05rem;}
+.coupon ul li .left .dotTop{width: .16rem;height: .08rem;background: #f8534b;position: absolute;border-radius: 0 0 .08rem .08rem;display: block;right: -.09rem;top: -1px;}
+.coupon ul li .left .dotBottom{width: .16rem;height: .08rem;background: #f8534b;position: absolute;border-radius: .08rem .08rem 0 0;display: block;right: -.09rem;bottom: -1px;}
+
+.coupon ul li .right{width: 3.4rem;height: 1.2rem;float: left;text-align: center;}
+.coupon ul li .right p{width: 1.9rem;height: 1rem;padding: .1rem;display: flex;align-items: center;font-weight: bold;float: left;text-align: center; font-size: .2rem;}
+.coupon ul li .right span{display: block;font-size: .16rem;margin-top: .25rem;}
+.coupon ul li .right b{width: 1rem;height: .33rem;line-height: .33rem;display: inline-block;border-radius: .165rem;font-size: .18rem;color: #fff;font-weight: normal;margin-top: .43rem;cursor: pointer;}
+.coupon ul li .right span.jifen{color: #666;}
+.coupon ul li .right span.day{color: #ff0101;}
+.coupon ul li .right b.getted{background: #ccc;}
+.coupon ul li .right b.get{background: #fc4c4b;}
+.coupon ul li .right b.buy{background: #ffb400; margin-top: 0.21rem;}
+
+.coupon .myCoupon{text-align: center;display: block;font-size: .24rem;color: #ffe691;margin-bottom: .5rem;margin-top: .4rem;}
+
+.coupon .couponClose{width: .5rem;height: .5rem;border-radius: 50%;position: absolute;left: 50%;bottom: -.8rem;margin-left: -.25rem;background: url("../img/QRcodeClose.png") no-repeat center center rgba(255, 255, 255, .2 );background-size: .2rem .2rem;cursor: pointer;}
+
+
+/** @type {2018-05-23 } [订单支付成功弹提示窗] */
+.paySuccess{width: 5.2rem;height: 8.88rem;background: #fff;border-radius: .2rem;position: absolute;left: 50%;top: 50%;margin-left: -3rem;margin-top: -4.44rem;z-index: 99;padding: 0 .4rem; }
+.paySuccess h3{font-size: .4rem;color: #f90;text-align: center;font-weight: normal;margin: 0;padding: 0;margin-top: .35rem;margin-bottom: .3rem;}
+.paySuccess ul li{height: .7rem;line-height: .7rem;margin: 0;padding: 0;justify-content: space-between;display: flex;}
+.paySuccess ul li span{font-size: .32rem;color: #333;}
+.paySuccess ul li em{font-size: .28rem;color: #757575;font-style: normal;}
+.paySuccess ul li em.realPay{color: #fe632b;}
+.paySuccess ul li.paySuccessLine{height: 1px;background: #e0e0e0;margin: .28rem 0;}
+.paySuccess .know{height: .96rem;line-height: .96rem;background: #fe632b;border-radius: .1rem;font-size: .36rem;color: #fff;text-align: center;margin-top: .3rem;}
+
+.paySuccess .guajiangBg{width: 5.2rem;height: 2.4rem;background: url("../img/guajiangBg.jpg") no-repeat;background-size: 5.2rem 2.4rem;margin-top: .2rem;}               
+.paySuccess .guajiangBg .guajiang{width: 4.9rem;height: 1.96rem;margin: 0 auto;position: relative;top: .22rem;background: url("../img/guajiangBg_2.jpg") no-repeat;background-size: 4.9rem 1.96rem;}   
+.paySuccess .guajiangBg .guajiang p{width: 100%;height: 1.96rem;line-height: 1.96rem;position: absolute;left: 0;top: 0;text-align: center;font-size: .3rem;color: #333;margin: 0;padding: 0;}    .paySuccess .guajiangBg .guajiang p em{color: #ff5656;font-style: normal;}
+.paySuccess .guajiangBg .guajiang p.thanks{font-size: .48rem;color: #febb45;}
+.paySuccess .guajiangBg .guajiang #redux{width: 100%;height: 100%;position: absolute;left: 0;top: 0;}
+
+/** @type {2018-06-22} [多种分享] */
+.h5-wap-share{width: 5.2rem;height: 3.9rem;background: #fff;border-radius: .2rem;position: fixed;left: 50%;top: 50%;margin-left: -3rem;margin-top: -2.35rem;padding: .4rem;z-index:10;}
+.h5-wap-share h4{font-size: .4rem;color: #212121;text-align: center;font-weight: normal;}
+.h5-wap-share ul{display: flex;justify-content: space-between;margin-top: .3rem;margin-bottom: .3rem;}
+.h5-wap-share ul li a{font-size: .24rem;color: #757575;display: block;text-align: center;}
+.h5-wap-share ul li a img{width: .88rem;height: .88rem;display: block;margin-bottom: .05rem;}
+
+.h5-wap-share .form .text{width: 3.22rem;height: .8rem;line-height: .8rem;border: .01rem solid #e2e2e2;outline: none;padding: 0 .18rem;font-size: .24rem;color: #999;float: left;}
+.h5-wap-share .form .btn{width: 1.4rem;height: .82rem;line-height: .82rem;background: #fe632b;text-align: center;font-size: .32rem;color: #fff;float: right;border-radius: .1rem;cursor: pointer;}
+
+.h5-wap-share p{font-size: .24rem;color: #333;text-align: center;padding-top: .2rem;clear: both;}
+
+.h5-wap-share .close{position: absolute;right: .2rem;top: .2rem;cursor: pointer;}
+.h5-wap-share .close img{display: block;}
+
+.share-component {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .3rem;
+    margin-bottom: .3rem;
+}
+.social-share-icon  {
+    font-size: .24rem;
+    color: #757575;
+    display: block;
+    text-align: center;
+}
+.social-share-icon img {
+    width: .88rem;
+    height: .88rem;
+    display: block;
+    margin-bottom: .05rem;
+}
+
+/* 2018-07-16 关注公众号 */
+.followGZH{width: 5.6rem;height: 6.7rem;position: fixed;left: 50%;top: 50%;background: #fff;border-radius: .2rem;margin-left: -2.8rem;margin-top: -3.35rem;display: none;z-index: 10}
+.followGZH .tit9{font-size: .42rem;color: #333;text-align: center;margin-top: .25rem;}
+.followGZH .tit9 span{display: inline-block;line-height: .8rem;border-bottom: 3px solid #333;padding: 0 .25rem;}
+.followGZH .cont{width: 4.68rem;height: 4.68rem;border: 1px solid #ccc;margin: 0 auto;}
+.followGZH .cont img{width: 3.98rem;height: 3.98rem;margin: 0 auto;display: block;margin-top: .35rem;}
+
+.followGZH p{font-size: .24rem;color: #333;text-align: center;margin-top: .2rem;}
+
+.followGZH .close{width: .29rem;height: .29rem;position: absolute;right: .2rem;top: .2rem;}
+.followGZH .close img{width: .29rem;height: .29rem;display: block;cursor: pointer;}
+
+/* 2018-07-19 移浏览器登录 */
+.browserLogin{width: 7.5rem;position: absolute;top: 0;padding-bottom: .3rem; background: #fff; bottom: 0;z-index: 9999;display: none;height: 100vh;}
+.browserLogin .myTips{width: 6.25rem;margin: 0 auto;display: flex;justify-content: space-between;align-items: center;margin-top: .6rem;}
+.browserLogin .myTips img{width: 1rem;height: 1rem;}
+.browserLogin .myTips p{width: 5rem;font-size: .22rem;line-height: .36rem;text-align: justify;}
+
+.browserLogin .QRcode img{width: 3.98rem;height: 3.98rem;margin: .3rem auto;display: block;}
+
+.browserLogin .process li .box{width: 4.66rem;border: 3px solid #ff9927;margin: 0 auto;}
+.browserLogin .process li .box p{border: 1px solid #ff9927;font-size: .24rem;margin: 1px;color: #f18402;text-align: center;padding: .14rem;}
+.browserLogin .process li img{width: .34rem;height: .2rem;display: block;margin: .12rem auto;}
+
+.browserLogin .close{width: .2rem;height: .2rem;background: url("../img/closegz.png") no-repeat;position: absolute;right: .2rem;top: .2rem;background-size: .2rem .2rem;}
+
+/* 2018-08-01 客服弹窗 */
+.public{width: 6.7rem;height: 9.3rem;background: #fff;position: fixed;left: 50%;top: 50%;margin-left: -3.35rem;margin-top: -4.4rem;border-radius: .2rem;}
+.public .tit{width: 6.7rem;height: 1.24rem;background: url("../img/getSuccess_tit_bg.jpg") no-repeat;text-align: center;font-size: .36rem;color: #fff;border-top-left-radius: .2rem;border-top-right-radius: .2rem;display: flex;align-items: center;justify-content: center;}
+.public .cont p{width: 4.64rem;height: .94rem;line-height: .94rem;text-align: center;border: 2px solid #e1e1e1;margin: 0 auto;font-size: .3rem;color: #42bc42;margin-top: .36rem;}
+.public .cont .copyBtn{width: 2.9rem;height: .8rem;line-height: .8rem;text-align: center;background: linear-gradient(to right, #ff4c43, #ff4c43);text-align: center;border-radius: .4rem;font-size: .32rem;color: #fff;display: block;margin: 0 auto;margin-top: .26rem;}
+.public .cont .lace{width: 6.23rem;height: .24rem;margin: 0 auto;display: block;margin-top: .3rem;}
+.public .cont .erweima{width: 3.1rem;height: 3.1rem;margin: 0 auto;display: block;border: .1rem solid #ededed;margin-top: .28rem;}
+.public .cont .read{width: 2.62rem;height: .45rem;display: block;margin: 0 auto;margin-top: .1rem;}
+.closeBtn img {
+    width: .25rem;
+    height: .25rem;
+    position: absolute;
+    right: .2rem;
+    top: .2rem;
+}
+
+/* 2018-08-06 维护状态 */
+.wrap_box_mt{ height: 5rem; margin-top: -2.5rem; }
+.wrap_box_tit.new_mt{ margin-top: 0.3rem; }
+.wrap_box_newmsg{ height:0.64rem; background: #fffbcc; text-align: center;
+font-size: 0.26rem; color: #ff6537; line-height:0.64rem;overflow: hidden; }
+
+/* 2018-08-27 开服提醒弹窗 */
+.zyy{width: 6rem;background: #fff;position: fixed;left: 50%;top: 50%;z-index: 999;transform: translate(-50%, -50%);border-radius: .2rem;padding-top: .55rem;}
+.zyy .zyyCont{width: 5.3rem;padding: 0 .35rem;}
+.zyy .zyyCont img{width: 5rem;height: 5rem;margin: 0 auto;display: block;margin-bottom: .2rem;}
+.zyy .zyyCont p{line-height: .46rem;font-size: .3rem;color: #333;text-align: justify;}
+.zyy .zyyCont p em{font-weight: bold;}
+.zyy .zyyBtnBox{width: 6rem;border-top: 1px solid #d0d0d0;margin-top: .5rem;}
+.zyy .zyyBtnBox .closeTips{width: 6rem;height: 1rem;line-height: 1rem;text-align: center;font-size: .3rem;color: #fa4a3a;cursor: pointer;}
+.zyy .zyyBtnBox .zyyBtn{width: 49.5%;height: 1rem;line-height: 1rem;text-align: center;font-size: .3rem;color: #fa4a3a;cursor: pointer;float: left;cursor: pointer;}
+.zyy .zyyBtnBox .zyyBtn.zyyThink{border-right: 1px solid #d0d0d0;}
+.zyy .zyyBtnBox .zyyBtn.zyyCancel{color: #666;}
+
+
+/* 2018-11-05 卡券弹窗红包模板 */
+.redPackcoupon{z-index:99;width: 5.4rem;background: #000;position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);border-radius: 0.3rem;background: linear-gradient(145deg, #ff945f, #ff304a); }
+.redPackcoupon{display: flex;flex-direction: column;align-items: center;justify-content:space-between;padding: 0.8rem 0;}
+.redPackcoupon p{font-size: 0.4rem;color: #ffffff;margin: 0;padding: 0;text-align: center;}
+.redPackcoupon a.sure{width: 2rem;height: 0.68rem;line-height: 0.68rem;display: block;font-size: 0.36rem;background: #ffb400;color: #fff;text-decoration: none;text-align: center;border-radius: 0.34rem;margin-top: 0.6rem;}
+
+.redPack{z-index:10; width: 5.4rem;height: 7.04rem;background: url("../img/redPackBg.png") no-repeat;position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);background-size: 5.4rem 7.04rem;}
+.redPack h5{width: 5.4rem;font-size: 0.4rem;color: #fff;font-weight: normal;margin: 0;padding: 0;position: absolute;top: 35%;text-align: center;}
+.redPack p{width: 5.4rem;font-size: 0.35rem;color: #ffe691;margin: 0;padding: 0;text-align: center;position: absolute;top: 48%;}
+.redPack i.close img{width: 0.6rem;height: 0.6rem;position: absolute;left: 50%;bottom: -1rem;transform: translate(-50%);}
+
+.redPack .cli{width: 5.4rem;height: 7.04rem;}
+
+
+/* 2018-11-16 帐号申诉 */
+
+.zy3{z-index: 99;width: 5.2rem;position: fixed;background: #fff;left: 50%;top: 50%;transform: translate(-50%, -50%);padding: 0.3rem 0.4rem;border-radius: 0.2rem;}
+
+.zy3 .title9{position: relative;}
+.zy3 .title9 p{font-size: 0.4rem;font-weight: normal;color: #212121;text-align: center;}
+.zy3 .title9 a .back{width: 0.2rem;height: 0.3rem;display: block;position: absolute;left: 0;top: 0.13rem;}
+
+/* .zy3{transform: scale(0.6) translate(-83.5%, -83.5%);} */
+
+/* 帐号申诉 */
+.complaint .cont{margin-top: 0.4rem;}
+.complaint .cont h6{font-size: 0.3rem;font-weight: normal;}
+.complaint .cont a{width: 100%;height: 0.8rem;line-height: 0.8rem;font-size: 0.35rem;display: block;border: 1px solid #ccc;margin-top: 0.2rem;display: flex;align-items: center;justify-content: space-between;border-radius: 0.05rem;}
+.complaint .cont a span{color: #333333;margin-left: 0.2rem;}
+.complaint .cont a img{width: 0.2rem;height: 0.3rem;margin-right: 0.2rem;}
+
+/* 充值记录 */
+.record .cont ul li input{width: 100%;height: 0.8rem;border:  none;border-bottom: 1px solid #ccc;display: block;margin-top: 0.2rem;font-size: 0.3rem;outline: none;}
+.record .cont .submitBtn{width: 100%;height: 0.9rem;line-height: 0.9rem;background: #fe632b;display: block;font-size: 0.36rem;color: #fff;text-align: center;margin-top: 0.3rem;border-radius: 0.08rem;}
+
+.record .layui-input{padding-left: 2px;margin-left: 2px;}
+.record .layui-form-item{margin-bottom: 0;}
+.record .layui-inline{margin-bottom: 0;border-radius: 0;}
+.record .layui-form-item .layui-input-inline{width: 5.2rem;margin: 0;font-size: 0.2rem;}
+.record .layui-form-select dl{max-height: 200px;top: 0.82rem;}
+.record .layui-form-select dl dd.layui-this{background-color: #fe632b;}
+
+.laydate-theme-molv.layui-laydate-range{width: 274px !important;top: 50% !important;left: 50% !important;margin-left: -137px;margin-top: -243px;}
+.layui-laydate-content{padding: 0 !important;}
+.layui-laydate-header{line-height: 20px !important;}
+.layui-laydate-content td, .layui-laydate-content th{width: 39px !important;height: 20px !important;font-size: 0.15rem;}
+
+/* 申诉提交成功 */
+.success .cont p{font-size: 0.24rem;text-align: center;}
+.success .cont a{height: 0.8rem;line-height: 0.8rem;display: block;font-size: 0.3rem;text-align: center;border-radius: 0.05rem;margin-top: 10px;}
+.success .cont a.qun{border: 1px solid #fe632b;background: #fe632b;color: #fff;}
+.success .cont a.close{border: 1px solid #fe632b;color: #fe632b;}
+
+/* 登录信息 */
+.info .cont ul li input{width: 100%;height: 0.8rem;border:  none;border-bottom: 1px solid #ccc;display: block;margin-top: 0.2rem;font-size: 0.3rem;outline: none;}
+.info .cont .submitBtn{width: 100%;height: 0.9rem;line-height: 0.9rem;background: #fe632b;display: block;font-size: 0.36rem;color: #fff;text-align: center;margin-top: 0.3rem;border-radius: 0.08rem;}
+.info .cont ul li textarea{width: 100%;height: 1.5rem;display: block;margin-top: 0.3rem;outline: none;border: 1px solid #ccc;font-size: 0.3rem;}
+
+.info .layui-inline{margin-bottom: 0 !important;}
+.info .layui-field-box{padding: 0;}
+.info .layui-form-item{display: flex;justify-content: space-between;margin-bottom: 0;position: relative;left: 0.08rem;}
+.info .layui-form-item .layui-input-inline{width: 5.2rem;margin: 0;float: left;}
+.info .layui-form-select .layui-input{border-radius: 0;}
+.info .layui-form-select .layui-edge{right: 3px;}
+.info .layui-form-select dl dd.layui-this{background-color: #fe632b;}
+.info .layui-form-select dl{max-height: 200px;top: 0.82rem;font-size: 0.2rem;}
+
+.info #p1 div .layui-form-item div:nth-child(2){display: none;}
+
+.sel-box .btn{background: #fe632b !important;}
+.sel-con .border{border-color: #fe632b !important;}
+
+
+/*2018/11/26  侠客行弹窗*/
+.gamePopup{z-index:99; width: 5.8rem;height: 7.2rem;position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);}
+.gamePopup a img{width: 5.8rem;height: 7.2rem;display: block;}
+.gamePopup .close_2{width: 0.8rem;height: 0.8rem;position: fixed;left: 50%;bottom: -1rem;transform: translateX(-50%);display: block;cursor: pointer;}
+
+/* 2019/01/24 绑定手机弹窗*/
+.bindphone2019 .WinPop {z-index: 1111; position: absolute; left: 50%; background: #fff; margin-left: -3rem; width: 6rem; border-radius: 0.2rem; font-size: 0.32rem; overflow: hidden;}
+.bindphone2019 .WinPop_tit{ height:1.03rem; padding-top: 0.05rem; text-align: center; font-size:0.4rem; color: #212121; line-height: 1.03rem; position: relative;}
+.bindphone2019 .WinPop_box{padding: 0 0.4rem;}
+.bindphone2019 .WinPop_box ul li{ position:relative;}
+.bindphone2019 
+.bindphone2019 .WinPop_box input::-ms-clear{display:none;}
+.bindphone2019 .WinPop_box input::-ms-reveal{display:none;}
+.bindphone2019 .WinPop_box .input_txt{ padding:0 0 0 0.47rem; background-color:#fff; border: none; border-bottom: #ececec solid 1px; height:0.98rem; display: block; position: relative; width:4.73rem; color:#bdbdbd; font-size:0.32rem; no-repeat; color:#757575;}
+.bindphone2019 .WinPop_box .input_txt1{ background:url("../img/login/icon3.png") no-repeat 0 0.32rem; background-size:0.36rem 0.36rem;}
+.bindphone2019 .WinPop_box .input_txt2{ background:url("../img/login/icon2.png") no-repeat 0 0.30rem; background-size:0.36rem 0.36rem;}
+.bindphone2019 .WinPop_box .input_txt3{ background:url("../img/login/icon1.png") no-repeat 0 0.32rem; background-size:0.36rem 0.36rem;}
+.bindphone2019 .WinPop_box .input_txt4{ background:url("../img/login/icon4.png") no-repeat 0 0.32rem; background-size:0.36rem 0.36rem;}
+.bindphone2019 .WinPop_box .input_txt1.on {background:url("../img/login/icon33.png") no-repeat 0 0.32rem; background-size:0.36rem 0.36rem; border-color: #fe632b;}
+.bindphone2019 .WinPop_box .input_txt2.on {background:url("../img/login/icon22.png") no-repeat 0 0.30rem; background-size:0.36rem 0.36rem; border-color: #fe632b;}
+.bindphone2019 .WinPop_box .input_txt3.on {background:url("../img/login/icon11.png") no-repeat 0 0.32rem; background-size:0.36rem 0.36rem; border-color: #fe632b;}
+.bindphone2019 .WinPop_box .input_txt4.on {background:url("../img/login/icon44.png") no-repeat 0 0.32rem; background-size:0.36rem 0.36rem; border-color: #fe632b;}
+.bindphone2019 .WinPop_box ul li.phone{font-size: 0.32rem; border-bottom: #ececec solid 1px; height:0.98rem; line-height:0.98rem; color:#757575;}
+.bindphone2019 .WinPop_box ul li .yanzheng{ margin-top:0.4rem; height:0.96rem; background:#757575; line-height:0.96rem; text-align: center; font-size:0.32rem; color:#bdbdbd;}
+.bindphone2019 .WinPop_box ul li i{ color:#212121;}
+
+.bindphone2019 .WinPop_close{width:17px; height:17px; position: absolute; right: 12px; top:12px;}
+.bindphone2019 .WinPop_close a{display:block; width:17px; height:17px; background: url("../img/login/icon0329.png") no-repeat 0 -207px;}
+.bindphone2019 .WinPop_close a:hover{ background-position:-368px -207px;}
+.bindphone2019 .WinPop_btn_box{ padding:0.3rem 0 0.4rem;}
+.bindphone2019 .WinPop_btn_box p{ font-size:0.22rem; color:#bdbdbd; padding-top:0.2rem;}
+.bindphone2019 .WinPop_btn_box p a{ color:#757575;}
+.bindphone2019 .WinPop_btn_box p a span{color:#bdbdbd;}
+.bindphone2019 .WinPop_btn1{ width:100%; height:0.96rem; border:none; background:#fe632b; color:#fff; font-size:0.36rem; border-radius:0.05rem; cursor:pointer;}
+.bindphone2019 .WinPop_a{ width:6.1rem;}
+.bindphone2019 .WinPop_a a{ height:0.98rem; width:3rem; float: left; border-top:#e2e2e2 solid 1px;border-right:#e2e2e2 solid 1px; text-align: center; color:#757575; line-height:0.98rem;}
+.bindphone2019 .WinPop_mima{ line-height:0.98rem; position: absolute; right:0px; top:0px; height:0.98rem; z-index:10; font-size:0.28rem;}
+.bindphone2019 .WinPop_mima a{ color:#757575;}
+.bindphone2019 .WinPop_mima span{ color:#fe632b; cursor: pointer;}
+.bindphone2019 .WinPop_mima span.span1{ color:#cccccc;}
+.bindphone2019 .WinPop_mima .eye{cursor: pointer; width:0.46rem; height:0.98rem; background:url("../img/login/eye1.png") no-repeat 0 0.24rem;  background-size:0.46rem 0.46rem;}
+.bindphone2019 .WinPop_mima .eye_open{background:url("../img/login/eye2.png") no-repeat 0 0.24rem;  background-size:0.46rem 0.46rem;}

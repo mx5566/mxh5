@@ -1,0 +1,18 @@
+<script>
+    function AlipayFun()
+    {
+        let url = '{{ urlfor "AlipayNewController.Native"}}'
+        $.sdpost(url, {}, function (re) {
+            console.log("收到的状态码--%s", re.url);
+            //let el=document.getElementById('aid');
+            //el.target = '_new'; //指定在新窗口打开
+
+            //el.href = re.url;
+
+            location.href = re.url
+            //el.attachEvent("onclick", function(){alert("测试");});
+        });
+
+
+    }
+</script>

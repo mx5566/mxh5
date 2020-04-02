@@ -1,0 +1,177 @@
+﻿input[type=button], input[type=submit], input[type=file], button { cursor: pointer; -webkit-appearance: none; padding:0px; margin:0px; border:none; overflow:hidden; box-shadow: none; outline:none; }
+input[type="text"],input[type="password"] {-webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-appearance: none;border-radius: 0; padding:0px; margin:0px; border:none;outline:none;}
+
+.gray_box{ background: #000; opacity:0.7;filter: alpha(opacity=70); width: 100%; position:absolute; left:0px; top:0px; height:100%; z-index:1110;}
+.gray_box1{ background: #000; opacity:0.7;filter: alpha(opacity=70); width: 100%; position:absolute; left:0px; top:0px; height:100%;z-index:1120;}
+
+.WinPop {z-index: 11112; position: absolute; left: 50%; background: #fff; margin-left: -300px; width: 600px; border-radius: 20px; font-size: 32px; overflow: hidden;}
+.WinPop_tit{ height:103px; padding-top: 5px; text-align: center; font-size:40px; color: #212121; line-height: 103px; position: relative;}
+.WinPop_box{padding: 0 40px;}
+.WinPop_box ul li{ position:relative;}
+
+.WinPop_box input::-ms-clear{display:none;}
+.WinPop_box input::-ms-reveal{display:none;}
+.WinPop_box .input_txt{ padding:0 0 0 47px; background-color:#fff; border: none; border-bottom: #ececec solid 1px; height:98px; display: block; position: relative; width:473px; color:#bdbdbd; font-size:32px; no-repeat; color:#757575;}
+.WinPop_box .input_txt1{ background:url("../img/login/icon3.png") no-repeat 0 32px; background-size:36px 36px;}
+.WinPop_box .input_txt2{ background:url("../img/login/icon2.png") no-repeat 0 30px; background-size:36px 36px;}
+.WinPop_box .input_txt3{ background:url("../img/login/icon1.png") no-repeat 0 32px; background-size:36px 36px;}
+.WinPop_box .input_txt4{ background:url("../img/login/icon4.png") no-repeat 0 32px; background-size:36px 36px;}
+.WinPop_box .input_txt1.on {background:url("../img/login/icon33.png") no-repeat 0 32px; background-size:36px 36px; border-color: #fe632b;}
+.WinPop_box .input_txt2.on {background:url("../img/login/icon22.png") no-repeat 0 30px; background-size:36px 36px; border-color: #fe632b;}
+.WinPop_box .input_txt3.on {background:url("../img/login/icon11.png") no-repeat 0 32px; background-size:36px 36px; border-color: #fe632b;}
+.WinPop_box .input_txt4.on {background:url("../img/login/icon44.png") no-repeat 0 32px; background-size:36px 36px; border-color: #fe632b;}
+
+.WinPop_box ul li.phone{font-size: 32px; border-bottom: #ececec solid 1px; height:98px; line-height:98px; color:#757575;}
+.WinPop_box ul li .yanzheng{ margin-top:40px; height:96px; background:#757575; line-height:96px; text-align: center; font-size:32px; color:#bdbdbd;}
+.WinPop_box ul li i{ color:#212121;}
+
+.WinPop_close{width:17px; height:17px; position: absolute; right: 12px; top:12px;}
+.WinPop_close a{display:block; width:17px; height:17px; background: url("../img/login/icon0329.png") no-repeat 0 -207px;}
+.WinPop_close a:hover{ background-position:-368px -207px;}
+
+.WinPop_btn_box{ padding:30px 0 40px;}
+.WinPop_btn_box p{ font-size:22px; color:#bdbdbd; padding-top:20px;}
+.WinPop_btn_box p a{ color:#757575;}
+.WinPop_btn_box p a span{color:#bdbdbd;}
+.WinPop_btn1{ width:100%; height:96px; border:none; background:#fe632b; color:#fff; font-size:36px; border-radius:5px; cursor:pointer;}
+.WinPop_a{ width:610px;}
+.WinPop_a a{ height:98px; width:300px; float: left; border-top:#e2e2e2 solid 1px;border-right:#e2e2e2 solid 1px; text-align: center; color:#757575; line-height:98px;}
+
+.WinPop_mima{ line-height:98px; position: absolute; right:0px; top:0px; height:98px; z-index:10; font-size:28px;}
+.WinPop_mima a{ color:#757575;}
+.WinPop_mima span{ color:#fe632b; cursor: pointer;}
+.WinPop_mima span.span1{ color:#cccccc;}
+.WinPop_mima .eye{cursor: pointer; width:46px; height:98px; background:url("../img/login/eye1.png") no-repeat 0 24px;  background-size:46px 46px;}
+.WinPop_mima .eye_open{background:url("../img/login/eye2.png") no-repeat 0 24px;  background-size:46px 46px;}
+
+
+.WinPop_msg{ padding:0 40px 30px; color:#999999; line-height:56px; text-align: center;}
+/*
+.WinPop_close{display:none; width:17px; height:17px; position: absolute; right: 12px; top:12px;}
+.WinPop_close a{display:block; width:17px; height:17px; background: url(../img/login/icon1.png) no-repeat 0 -207px;}
+.WinPop_close a:hover{ background-position:-368px -207px;}
+*/
+.WinPop_other{ padding:30px 0 0 8px; height:170px; display: flex; justify-content: space-between;}
+.WinPop_other a{width:108px; text-align: center; float:left; font-size:24px; color:#757575; background-repeat:no-repeat; margin: 0 19px; display:inline;}
+.WinPop_other a span{ width:8800px; height:8800px; display:block; margin:0 auto 1000px; }
+.WinPop_other a.a1 span{background-image:url("../img/login/phone.png"); background-size:100% 100%;}
+.WinPop_other a.a2 span{background-image:url("../img/login/qq.png");  background-size:100% 100%;}
+.WinPop_other a.a3 span{background-image:url("../img/login/wx.png");  background-size:100% 100%;}
+.WinPop_other a.a4 span{background-image:url("../img/login/sina.png");  background-size:100% 100%;}
+
+a.WinPop_other_btn{ height:96px; line-height:96px; border-top:#e2e2e2 solid 1px; text-align: center; font-size:32px; color:#757575; display:block;}
+
+.WinPop_1{top:22%;}
+.WinPop_2{top:16%;}
+.WinPop_3{top:27%;}
+.WinPop_4{top:32%; z-index:1121;}
+
+/* 网络协议 */
+.agree{width: 560px;background: #fff;position: fixed;left: 50%;top: 5%;margin-left: -300px;border-radius: 20px;padding: 0 20px;overflow: hidden;z-index:11112;}
+.agree .title h1{height: 95px;line-height: 95px;text-align: center;color: #212121;font-size: 40px;font-weight: normal;border-bottom: 1px solid #ccc;padding-top: 20px;}
+.agree .title h6{height: 95px;line-height: 95px;text-align: center;color: #212121;font-size: 40px;font-weight: normal;border-bottom: 1px solid #ccc;padding-top: 20px;}
+.agree .title .close{width: 17px;height: 17px;position: absolute;right: 20px;top: 25px;}
+.agree .cont{overflow-y: auto;margin-top: 40px;}
+.agree .cont p{line-height: 46px;font-size: 28px;color: #666;text-align: justify;margin-bottom: 40px;padding: 0 15px;}
+.agree .cont::-webkit-scrollbar {width: 5px;height: 5px;}
+.agree .cont::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {border-radius: 999px;border:0 solid transparent;}
+.agree .cont::-webkit-scrollbar-track {box-shadow: 1px 1px 5px rgba(100,100,100,.2) inset;}
+.agree .cont::-webkit-scrollbar-thumb {min-height: 20px;background-clip: content-box;box-shadow: 0 0 0 5px rgba(100,100,100,.5) inset;}
+.agree .cont::-webkit-scrollbar-corner {background: transparent;}
+
+/* 登录 */
+.phoneLogin{width: 520px;height: 710px;background: #fff;position: fixed;left: 50%;z-index: 11112;margin-left: -300px;border-radius: 20px;padding: 0 40px;}
+.phoneLogin h4{height: 110px;line-height: 110px;text-align: center;font-size: 40px;color: #212121;}
+.phoneLogin .loginForm ul li{position: relative;}
+.phoneLogin .loginForm ul li .text{width: 473px;height: 98px;line-height: 98px;margin: 0;padding: 0;font-size: 32px;display: block;position: relative;top: 1px;padding-left: 47px;background: url("../img/login/icon9.png") no-repeat left 30px;background-size: 28px 300px;border-bottom: 1px solid #e0e0e0;}
+.phoneLogin .loginForm ul li .text:focus{background-position: left -48px;border-color: #fe632b;}
+.phoneLogin .loginForm ul li .password{width: 323px;height: 98px;line-height: 98px;margin: 0;padding: 0;font-size: 32px;display: block;position: relative;top: 1px;padding-left: 47px;background: url("../img/login/icon9.png") no-repeat left -126px;background-size: 28px 300px;border-bottom: 1px solid #e0e0e0;padding-right: 150px;}
+.phoneLogin .loginForm ul li .password:focus{background-position: left -204px;border-color: #fe632b;}
+
+.phoneLogin .loginForm ul li{position: relative;}
+.phoneLogin .loginForm ul li .phone{width: 28px;height: 38px;display: block;float: left;margin-right: 20px;}
+.phoneLogin .loginForm ul li .eye{width: 38px;height: 26px;position: absolute;right: 0;top: 36px;}
+.phoneLogin .loginForm .wjmm{font-size: 28px;color: #757575;text-align: right;display: block;margin-top: 20px;margin-bottom: 30px;position: absolute;right: 0;top: 8px;}
+.phoneLogin .loginForm .dlyx{width: 520px;height: 96px;line-height: 96px;text-align: center;display: block;background: #fe632b;color: #fff;font-size: 36px;border-radius: 8px;margin-top: 40px;}
+.phoneLogin .loginForm p{margin-top: 30px;border-bottom: 1px solid #e0e0e0;height: 60px;}
+.phoneLogin .loginForm p a{font-size: 28px;color: #666;display: block;}
+.phoneLogin .loginForm p a.fl{float: left;}
+.phoneLogin .loginForm p a.fr{float: right;}
+.phoneLogin .loginForm p .cBlue{color: #33b7f4;}
+
+.phoneLogin .share{padding-top: 30px;clear: both;}
+.phoneLogin .share ul{width: 100%;display: flex;justify-content: space-around;}
+.phoneLogin .share ul a li{width: 88px;text-align: center;}
+.phoneLogin .share ul a li img{width: 88px;height: 88px;display: block;}
+.phoneLogin .share ul a li span{font-size: 24px;color: #757575;display: block;}
+
+.modify_new_h{ height: 350px; }
+.thisWinPop_tit_img{ padding: 40px 0 10px; }
+.thisWinPop_tit_img img{ width: 160px; height: 40px; }
+.thisWinPop_new_msg{font-size: 24px; color:#ff882c; text-align: center; padding: 40px 0 0;}
+.thisWinPop_new_msg a{ color:#ff882c;}
+
+.my_code_save{ width: 590px; height: 873px; position: fixed; left:50%; top:50%; margin-top: -500px; margin-left: -295px; background: url("../img/save_bg.png") no-repeat 0 0; background-size: 100% 100%;z-index: 999; text-align: center;}
+.my_code_save_img{ margin: 37px auto 0; width: 514px; height: 594px;}
+.my_code_save_img img{ width: 514px; height: 594px; display: block; }
+.my_code_save a{font-size: 34px; color: #ff3a44; font-weight: bold; display: block; margin:0 auto; height: 88px; line-height: 88px; width: 320px; background: #ffffff; border-radius: 44px;}
+.my_code_save p{ padding: 28px 0 42px; font-size: 30px; color: #ffffff; text-align: center; }
+
+/* 极验验证码 */
+#embed-captcha .geetest_btn { width:520px !important;height:96px !important;overflow: hidden;}
+.geetest_success_btn{width: 520px !important;}
+.geetest_holder {width: 520px !important;height: 96px !important;}
+.geetest_success_radar_tip {width:475px !important;height: 96px !important;line-height: 96px !important;font-size: 24px !important;}
+.geetest_radar_tip {font-size: 24px !important;height: 96px !important;line-height: 96px !important;}
+.geetest_success_logo {width: 24px !important;height: 24px !important;top: 36px !important;}
+.geetest_logo {width: 24px !important;height: 24px !important;top: 36px !important;}
+.geetest_radar {top: 28px !important;}
+.geetest_success_box {top: 36px !important;}
+
+/* 注册修改 2018/04/18 */
+.WinPop_0{top:50%;}
+
+.h40{height: 45px;}
+.indulgeVeri{width: 400px;height: 1px;background: #dfdfdf;margin: 0 auto;position: relative;margin-top: 34px;display:block;font-weight: normal;}
+.indulgeVeri span{width: 180px;font-size: 20px;color: #666;display: block;position: absolute;left: 0;top: 0;background: #fff;left: 50%;margin-left: -90px;top: -15px;text-align: center;}
+
+.infoTips{width: 560px;background: #fff2d4;font-size: 18px;color: #999;position: relative;left: -40px;text-align: center;padding: 10px 20px;margin-top: 26px;}
+.infoTips span i{width: 24px;height: 24px;background: url("../img/login/myIcon.png") no-repeat left top;display: inline-block;background-size: 24px;position: relative;top: 5px;}
+
+.WinPop_box .input_txt5{ background:url("../img/login/icon5.png") no-repeat 0 32px; background-size:36px 36px;}
+.WinPop_box .input_txt5.on {background:url("../img/login/icon55.png") no-repeat 0 32px; background-size:36px 36px; border-color: #fe632b;}
+.WinPop_box .input_txt6{ background:url("../img/login/icon6.png") no-repeat 0 32px; background-size:36px 36px;}
+.WinPop_box .input_txt6.on {background:url("../img/login/icon66.png") no-repeat 0 32px; background-size:36px 36px; border-color: #fe632b;}
+
+
+.zzyy .thisWinPop{ z-index:1111111; position:fixed; left: 50%; background:#fff;  border-radius:20px; margin-left:-257px;  width:515px;transform: scale(.5);zoom: .6\9\0;*zoom: .6;}
+.zzyy .tips_winpop2{top:32%;}
+.zzyy .thisWinPop_close{ width:49px; height:51px; position:absolute; top:0; right:0;}
+.zzyy .thisWinPop_close a{ width:49px; height:51px;  background:url("../img/close3.png") no-repeat 0 0; display:block;}
+.zzyy .thisWinPop_close a:hover{background:url("../img/close3.png") no-repeat 0 -61px;}
+
+.zzyy .thisWinPop_tit{ text-align:center; line-height:72px; text-align:center; font-size:28px; color:#666;}
+
+.zzyy .thisWinPop_tit a{ width:100px; display:inline-block;height:50px; border-bottom:4px solid #fff; overflow: hidden;  margin:13px 15px 0; color:#ffa425; font-size:28px; text-align: center; line-height:50px;}
+.zzyy .thisWinPop_tit a.on{ border-bottom:4px solid #ffa724;}
+.zzyy .thisWinPop_tit a img{ width:57px; margin:13px auto 0; display:inline-block;}
+
+.zzyy .tips_con{ width:370px; margin:0 auto;}
+.zzyy .tips_con h4{ font-size:24px; color:#666; line-height:34px; font-weight: normal; padding-bottom: 10px;}
+.zzyy .tips_con h4 i{ color:#ffa425;}
+.zzyy .tips_con p{ font-size:18px; color:#666; line-height:30px; padding-bottom: 15px;}
+.zzyy .btn_con{  width:370px; height:88px; margin:0 auto; text-align:center; }
+.zzyy .btn_con a{ font-size:24px; width:370px; display:block; text-align:center; height:58px; line-height:58px; border-radius:39px; color: #fefefe;}
+
+
+.zzyy a.binding_btn01{ width:180px; background:#b6b6b6; float:left;}
+.zzyy a.binding_btn01:hover{background:#999;}
+.zzyy a.binding_btn02{ width:180px; background:#ff882d; float:right;}
+.zzyy a.binding_btn02:hover{ background:#ff6d2d;}
+
+.zzyy a.login_btn01{ background:#ff912a; width:140px;  float:left; }
+.zzyy a.login_btn01:hover{ background:#ff6d2d;}
+.zzyy a.login_btn02{ background:url("../img/icon2.png") no-repeat 0 -389px; width:220px; float:right;}
+.zzyy a.login_btn02:hover{ background: #ff1c4c;}
+
+.zzyy .btn_con a:hover{color: #fefefe;}

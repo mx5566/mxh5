@@ -1,0 +1,138 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        游戏列表
+        <small>分页展示</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{urlfor "HomeController.Index"}}">
+                <i class="fa fa-dashboard"></i> 首页</a>
+        </li>
+        <li class="active">游戏列表</li>
+    </ol>
+</section>
+<script>
+    /**
+     * 图片按宽高比例进行自动缩放
+     * @param ImgObj
+     *     缩放图片源对象
+     * @param maxWidth
+     *     允许缩放的最大宽度
+     * @param maxHeight
+     *     允许缩放的最大高度
+     * @usage
+     *     调用：<img src="图片" onload="javascript:DrawImage(this,100,100)">
+     */
+    function DrawImage(ImgObj, maxWidth, maxHeight){
+        // var image = new Image();
+        // //原图片原始地址（用于获取原图片的真实宽高，当<img>标签指定了宽、高时不受影响）
+        // image.src = ImgObj.src;
+        // // 当图片比图片框小时不做任何改变
+        // if (image.width < maxWidth&& image.height < maxHeight) {
+        //     ImgObj.width = image.width;
+        //     ImgObj.height = image.height;
+        // }
+        // else //原图片宽高比例 大于 图片框宽高比例,则以框的宽为标准缩放，反之以框的高为标准缩放
+        // {
+        //     if (maxWidth/ maxHeight  <= image.width / image.height) //原图片宽高比例 大于 图片框宽高比例
+        //     {
+        //         ImgObj.width = maxWidth;   //以框的宽度为标准
+        //         ImgObj.height = maxWidth* (image.height / image.width);
+        //     }
+        //     else {   //原图片宽高比例 小于 图片框宽高比例
+        //         ImgObj.width = maxHeight  * (image.width / image.height);
+        //         ImgObj.height = maxHeight  ;   //以框的高度为标准
+        //     }
+        // }
+
+
+        let image = new Image();
+        //原图片原始地址（用于获取原图片的真实宽高，当<img>标签指定了宽、高时不受影响）
+        image.src = ImgObj.src;
+        // 用于设定图片的宽度和高度
+        let tempWidth;
+        let tempHeight;
+
+        if(image.width > 0 && image.height > 0){
+
+
+            //原图片宽高比例 大于 指定的宽高比例，这就说明了原图片的宽度必然 > 高度
+            if (image.width/image.height >= maxWidth/maxHeight) {
+                if (image.width > maxWidth) {
+                    tempWidth = maxWidth;
+                    // 按原图片的比例进行缩放
+                    tempHeight = (image.height * maxWidth) / image.width;
+                } else {
+                    // 按原图片的大小进行缩放
+                    tempWidth = image.width;
+                    tempHeight = image.height;
+                }
+            } else {// 原图片的高度必然 > 宽度
+                if (image.height > maxHeight) {
+                    tempHeight = maxHeight;
+                    // 按原图片的比例进行缩放
+                    tempWidth = (image.width * maxHeight) / image.height;
+                } else {
+                    // 按原图片的大小进行缩放
+                    tempWidth = image.width;
+                    tempHeight = image.height;
+                }
+            }
+            // 设置页面图片的宽和高
+            ImgObj.height = tempHeight;
+            ImgObj.width = tempWidth;
+            // 提示图片的原来大小
+            ImgObj.alt = image.width + "×" + image.height;
+        }
+    }
+
+</script>
+
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <div class="row">
+        <form id="searchFormGame" class="searchForm">
+            <div class="box box-solid collapsed-box">
+                <div class="box-header with-border">
+                    <input type="text" name="GameType" class="form-control pull-left input-wd-md" placeholder="游戏类型">
+                    <input type="text" name="GameName" class="form-control pull-left input-wd-md" placeholder="游戏名字">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning" id="btnSearch"><i class="fa fa-search"></i> 搜索</button>
+                        <button type="button" class="btn btn-default" id="btnClearSearch"><i class="fa fa-eraser"></i> 清除</button>
+                    </div>
+                {{if .showMoreQuery }}
+                    <div class="box-tools pull-right">
+                        <button id="searchpanelbtn" type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                {{end}}
+                    <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="display: none;">
+                    <input type="text" name="Mobile" class="form-control pull-left input-wd-md" placeholder="手机号">
+                    <select name="Status" class="form-control bs-select" data-width="100px">
+                        <option value="">- 全部 -</option>
+                        <option value="-1">锁定</option>
+                        <option value="0">禁用</option>
+                        <option value="1">启用</option>
+                    </select>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </form>
+        <div id="game-list-all">
+        </div>
+    </div>
+
+    <div>
+        <div id="Game Paginator" style="text-align: center">
+            <ul id="pageLimit">
+
+            </ul>
+        </div>
+    </div>
+
+</section>

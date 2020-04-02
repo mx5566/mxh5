@@ -1,0 +1,74 @@
+<!-- 验证插件 -->
+<script src="/static/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/static/plugins/jquery-validation/localization/messages_zh.min.js"></script>
+<!-- 针对当前主题进行简单封装，精简代码 -->
+<script src="/static/sdtheme/scripts/sdvalidate.js"></script>
+<script src="/static/plugins/ckeditor/ckeditor.js"></script>
+<script>
+    let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    let editor = undefined;
+    $(function () {
+        //验证
+        validateInfo();
+
+        $("#NoticeStatus").selectpicker('val', '{{.m.NoticeStatus}}');
+        editontentInit();
+
+    });
+
+    function editontentInit() {
+        let urlImage = '{{urlfor "ImageController.UploadCkEditorImage"}}';
+        editor = CKEDITOR.replace( 'NoticeContent' , {
+            filebrowserImageUploadUrl: urlImage,
+            removeDialogTabs:"image:advanced;image:Link",
+            skin : 'kama',
+            extraPlugins : 'codesnippet',
+
+
+        // uploadUrl: '/apps/ckfinder/3.4.5/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+
+            // Configure your file manager integration. This example uses CKFinder 3 for PHP.
+           //filebrowserBrowseUrl: '/apps/ckfinder/3.4.5/ckfinder.html',
+            //filebrowserImageBrowseUrl: '/apps/ckfinder/3.4.5/ckfinder.html?type=Images',
+            //filebrowserUploadUrl: '/apps/ckfinder/3.4.5/core/connector/php/connector.php?command=QuickUpload&type=Files',
+        });
+    }
+
+    //表单验证及AJAX提交
+    function validateInfo() {
+        let $thisForm = $('#thisForm');
+        $thisForm.sdvalidate({
+            rules: {
+                 NavName: {
+                    maxlength: 32,
+                    required: true
+                }
+            },
+            messages: {},
+            submitHandler: function (form) {
+                let url ='{{ urlfor "GameNoticeController.Edit"}}';
+                console.log("---------------++++++++++" + $("#NoticeContent").text());
+
+               $("#NoticeContent").text(editor.getData());
+                let data = $thisForm.serialize();
+
+                console.log($("#NoticeContent").text());
+                console.log("-----------------" + JSON.stringify(data));
+                $.sdpost(url,data,function(re){
+                    if(re.code === 0){
+                        parent.layer.msg(re.msg);
+                        parent.refresh(re.obj);
+                        parent.layer.close(index)
+                    }else{
+                        parent.layer.alert(re.msg,{icon:2,title:'失败'})
+                    }
+                });
+                return false;
+            }
+        });
+    }
+
+    function FormSubmit() {
+        $("#thisForm").submit();
+    }
+</script>

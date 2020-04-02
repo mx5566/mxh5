@@ -1,0 +1,80 @@
+<div class="row">
+    <!-- form start -->
+    <form class="form-horizontal" id="thisForm">
+        <input type="hidden" Name="GameId" id="Id" value="{{.game.GameId}}">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">游戏名称</label>
+                <div class="col-sm-8">
+                    <input type="text" name="GameName" class="form-control" placeholder="字母汉字" value="{{.game.GameName}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">类型</label>
+                <div class="col-sm-8">
+                    <select class="bs-select form-control" name="GameType" id="GameType">
+                    {{range $index, $elem := .gameTypes}}
+                        <option value="{{$elem.GameTypeId}}" >{{$elem.GameTypeId}}{{$elem.GameTypeName}}</option>
+                    {{end}}
+                    </select>
+                {{/*<input type="text" name="GameType" class="form-control" placeholder="" value="{{.game.GameType}}">*/}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">玩家数目</label>
+                <div class="col-sm-8">
+                    <input type="text" name="GamePerNum" class="form-control" placeholder="" value="{{.game.GamePerNum}}" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">状态</label>
+                <div class="col-sm-8">
+                    <select class="bs-select form-control" name="GameStatus" id="GameStatus">
+                    {{range $index, $elem := .mapGameStatus}}
+                        <option value="{{$index}}" >{{$index}}{{$elem}}</option>
+                    {{end}}
+                    </select>
+                    {{/*<input type="text" name="GameStatus" class="form-control" placeholder="" value="{{.game.GameStatus}}">*/}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">顺序</label>
+                <div class="col-sm-8">
+                    <input type="text" name="GameWeight" class="form-control" placeholder="非负整数" value="{{.game.GameWeight}}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">游戏介绍</label>
+                <div class="col-sm-8">
+                    <input type="text" name="GameDescription" class="form-control" placeholder="" value="{{.game.GameDescription}}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">标签</label>
+                <div class="col-sm-8">
+                    <select multiple  class="bs-select form-control" name="GameTabs" id="GameTabs">
+                        {{range $index, $elem := .tabs}}
+                            <option value="{{$elem.TabId}}" >{{$elem.TabId}}{{$elem.TabName}}</option>
+                        {{end}}
+                    </select>
+                </div>
+            </div>
+            {{/*<span class="gameType" ><strong>类型</strong></span>*/}}
+			
+			<input type="hidden" id="input-image" name="GameIcovStr" value="{{.game.GameIcovStr}}">
+			<input type="hidden" id="input-image-id" name="GameIcov" value="{{.game.GameIcov}}">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">游戏icov</label>
+                <div class=" kv-image col-sm-6 text-center">
+                    <div class="form-control file-loading">
+                        <input id="input-b3" name="input-b3" type="file" class="file">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

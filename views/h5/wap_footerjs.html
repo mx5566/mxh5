@@ -1,0 +1,53 @@
+<script type="text/javascript">
+    $(window).scroll(function(event) {
+        if ($(this).scrollTop() > 900) {
+            $(".backTop").show();
+        } else {
+            $(".backTop").hide();
+        }
+    })
+</script>
+
+<!--底部 end-->
+<script type="text/javascript" src="/static/img5.073img.com/h5/wap/js/swiper.min.js-1.0.1.158" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/other/jquery.lazyload.min.js-1.0.1.158" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/other/tabScroll.js-1.0.1.158" ></script>
+<script src="/static/img5.073img.com/h5/wap/js/jquery.share.js-v=1.0.1.158"  type="text/javascript" charset="utf-8"></script>
+<script src="/static/img5.073img.com/h5/wap/js/jquery.qrcode.min.js-v=1.0.1.158"  type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // 渠道弹窗
+        if (!$.cookie('aj_channel_bid')) {
+            $.ajax({
+                url: "/wap/ajax/aj_channel_bid",
+                data: {appid: "0"},
+                type: "GET",
+                dataType: "json",
+                cache: false,
+                success: function(msg) {
+                    // 支付成功后的回调地址
+                    $.cookie("aj_channel_bid", 1, {
+                        expires: 1,
+                        path: '/',
+                        domain: 'https://h5.07073.com/h5.07073.com'
+                    });
+
+                    if (msg.errno === 100) {
+
+                        $("body").append(msg.info);
+
+                        $(".mask, .sg").fadeIn();
+
+                        $(".sg i").click(function() {
+                            $(".mask, .sg").fadeOut();
+                        })
+
+                    } else {
+                        console.log(msg);
+                    }
+                }
+            });
+        }
+    });
+</script>

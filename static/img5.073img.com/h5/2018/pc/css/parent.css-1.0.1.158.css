@@ -1,0 +1,250 @@
+/*2017-12-14 foot*/
+.gameInfo {
+	padding: 19px 15px 15px 15px;
+	background: #fff;
+	margin-top: 20px;
+}
+
+.gameInfo .tit {
+	height: 45px;
+	line-height: 45px;
+	border-bottom: 1px solid #dedede;
+	font-size: 18px;
+	color: #666;
+	padding-left: 4px;
+}
+
+.gameInfo .cont {
+	padding-top: 20px;
+	padding-left: 4px;
+}
+
+.gameInfo .cont p {
+	font-size: 14px;
+	color: #666;
+	margin-bottom: 12px;
+}
+
+.h5_footbox2 {
+	height: 124px;
+}
+
+.about_nav, .family_nav {
+	height: 86px;
+	background-color: #f8f8f8;
+	width: 100%;
+	text-align: center;
+	border-bottom: 2px solid #efefef;
+}
+
+.family_nav li.current a {
+	background-color: #dd3051;
+	color: #fff;
+}
+
+.family_nav li a {
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	display: inline-block;
+	width: 142px;
+	height: 43px;
+	line-height: 43px;
+	color: #969696;
+	font-size: 24px;
+}
+
+.family_nav li.current a {
+	background-color: #2faf01;
+}
+
+.about_section .family_info {
+	color: #2faf01;
+	font-size: 16px;
+	margin: 50px 0;
+	line-height: 30px;
+}
+
+.about_section1, .family_section1 {
+	height: 679px;
+	overflow: hidden;
+	background: url("../images/aboutbg1.jpg") no-repeat center top;
+}
+
+.about_section1 .about_text1, .family_section1 .about_text1 {
+	width: 560px;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	bottom: 60px;
+}
+
+.about_section1 p, .family_section1 p {
+	color: #969696;
+	font-size: 18px;
+	line-height: 30px;
+}
+
+.about_section1 p strong, .family_section1 p strong {
+	font-size: 24px;
+	color: #000;
+}
+
+.family_section {
+	border-bottom: 4px solid #f4f4f4;
+	padding: 50px 0;
+}
+
+.family_header {
+	height: 446px;
+	overflow: hidden;
+	position: relative;
+	background:url("../images/family_bg.jpg") no-repeat center top;
+}
+
+.family_nav li.current a {
+	background-color: #2596ff;
+}
+
+.about_section .family_info {
+	color: #2596ff;
+	font-size: 16px;
+	margin: 50px 0;
+	line-height: 30px;
+}
+
+.family_section1 {
+	background: url("../images/family_bg1.jpg") no-repeat center top;
+	height: 470px;
+}
+
+.family_section2>div {
+	overflow: hidden;
+	background: url("../images/family_bg2.jpg") no-repeat left 0;
+}
+
+.family_section3 {
+	background: url("../images/family_bg3.jpg") no-repeat center 50px;
+	height: 377px;
+	overflow: hidden;
+}
+
+.family_section3 p {
+    color: #666;
+    font-size: 16px;
+    line-height: 30px;
+    margin-top: 250px;
+}
+
+.family_section4 {
+	background-image: url("../images/family_bg4.jpg");
+	background-position: center 50px;
+}
+
+.family_wrap p a {
+	color: #2596ff;
+	text-decoration: underline;
+}
+
+.family_wrap p span {
+	color: #2596ff;
+}
+
+.about_header .box {
+	width: 1000px;
+	margin: 0 auto;
+	position: relative;
+	top: 242px;
+}
+
+.about_header .box span {
+	display: block;
+	width: 506px;
+	height: 56px;
+	text-align: left;
+	font-size: 16px;
+	line-height: 30px;
+	padding: 20px;
+	color: #fff;
+}
+
+.w1200 {
+    margin: 0 auto;
+    position: relative;
+    width: 1200px;
+}
+
+.w1000 {
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+    width: 1000px;
+}
+
+.about_nav li, .family_nav li {
+    float: left;
+    padding-top: 23px;
+    width: 33.3%;
+}
+
+.family_wrap h2 {
+    font-weight: normal;
+    margin-bottom: 40px;
+}
+
+.family_wrap {
+    color: #666666;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.family_section2 > div p {
+    color: #666;
+    font-size: 16px;
+    margin: 270px 0 0 600px;
+    width: 390px;
+}
+
+.about_section2 p, .family_section2 p {
+    color: #969696;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.family_section2 {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 550px;
+}
+
+.about_section2 .about_text2, .family_section2 .about_text2 {
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 326px;
+    width: 500px;
+}
+
+.about_section2 .about_text2 h3, .family_section2 .about_text2 h3 {
+    color: #000000;
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 3px;
+}
+
+.about_section2 .about_text2 span, .family_section2 .about_text2 span {
+    color: #b9b9b8;
+    font-size: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.family_section1 .family_text1 {
+    margin-top: 225px;
+}
+
+
+.family_section1 .family_text1 p {
+    color: #666666;
+    font-size: 16px;
+    line-height: 30px;
+}

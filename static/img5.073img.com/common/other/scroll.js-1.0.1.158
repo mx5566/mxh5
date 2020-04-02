@@ -1,0 +1,93 @@
+/**
+ * 
+ * @author  shaozhigang
+ * @date    2017/06/19
+ * 
+ */
+(function($){
+    $.fn.scrolls = function(settings){
+        var defaults = {
+            'aj_url':'',// 加载数据URL
+            'page': 1, // 当前页码
+            'page_size': 10, // 每页条数
+            'flag': false, // 请求标识
+            'data': {}, // 其他数据
+            'min_height': 0, // 离底部多远开始加载数据
+            'type': 'GET',
+            'dataType': 'json',
+            'conDiv': '',   // 内容节点
+            'scrollFunc': 1,    // 执行哪个下拉方法
+            'page_id': 0,   // 用于获取分页数据的ID
+            'scollbackFunc': '' // 回调方法 
+        };  
+        settings = $.extend(defaults, settings);
+        // 初始化
+        init();
+
+        // 初始化程序
+        function init() {
+            initEvent();
+        }
+
+        //初始化点击事件
+        function initEvent(){
+            if (settings.conDiv)
+            {
+                $(window).scroll(function () {
+                    if (settings.scrollFunc == 1)
+                    {
+                        scroll1($(this));
+                    }
+                });
+            }
+        }    
+
+        function scroll1(obj)
+        {
+            var scrollTop = obj.scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = obj.height();
+
+            settings.data.page      = settings.page;
+            settings.data.page_size = settings.page_size;
+            settings.data.page_id   = settings.page_id;
+
+            if ((scrollTop >= (scrollHeight-windowHeight-settings.min_height)) && (settings.flag==false))
+            {
+
+                settings.flag = true;
+                $.ajax({
+                    url: settings.aj_url,
+                    type: settings.type,
+                    dataType: settings.dataType,
+                    data: settings.data,
+                    cache: false,
+                    success: function(msg) 
+                    {
+                        if (msg.errno==100)
+                        {
+                            settings.flag = false;
+                            settings.page++;
+                            $(settings.conDiv).append(msg.info);    
+                            if (msg.page_id)
+                            {
+                                settings.page_id = msg.page_id;
+                            }
+
+                            if ((typeof settings.scollbackFunc == 'function') && (msg.extinfo))
+                            {
+                                settings.scollbackFun(msg.extinfo);
+                            }
+                        }
+                        else if (msg.errno==399)
+                        {
+                            // 没有数据了
+                            settings.flag = true;
+                        }
+                        
+                    }
+                });
+            }
+        }    
+    }
+})(jQuery);

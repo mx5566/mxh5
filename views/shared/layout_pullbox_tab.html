@@ -1,0 +1,93 @@
+<!-- 用于列表页 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>{{.pageTitle}}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+{{template "shared/globalcss.html"}}
+{{.headcssjs}}
+</head>
+<body>
+<ul id="myTab" class="nav nav-tabs">
+</ul>
+
+<div id="myTabContent" class="tab-content">
+</div>
+
+{{.LayoutContent}}
+{{template "shared/globaljs.html"}}
+<script>
+    $(function () {
+        // 发送请求获取tab
+        $.sdpost('{{urlfor "GameController.GetTabs"}}', {}, function (re) {
+            if (re.code === 0) {
+                let data = re.obj.tabs;
+
+                AppendHtml(data, '{{.gameId}}');
+
+                let tabId = '{{.tabId}}';
+
+                console.log("tabId " + tabId + "gameId  "+ '{{.gameId}}');
+
+                if (tabId === "") {
+                    console.log("要出发电机");
+                    $("#myTab  li:first a").click();
+                } else {
+                    let jq = $('#myTab a[href="#Tab' + tabId + '"]');
+                    jq.parent().addClass("active");
+                    jq.tab("show");
+                }
+
+
+               // $("#myTabContent").html(htmlContent);
+            } else {
+                layer.alert("获取失败", { icon: 2, title: "失败" })
+            }
+        })
+    });
+
+    function AppendHtml(data, gameId) {
+        let html = '';
+        for (let i = 0; i < data.length; ++i) {
+            // html += '<li><a href="#Tab' + data[i].TabId  + '" data-toggle="tab" onclick="ClickTab('  + data[i].TabUrl + ',' + data[i].TabId + ')">' + data[i].TabName + '</a></li>';
+
+            //let url = data[i].TabUrl;
+            let tabName = data[i].TabName;
+            html += '<li>';
+            html += '<a href="#Tab' + data[i].TabId + '" data-toggle="tab" onclick="ClickTab(\'' + data[i].TabUrl + '\' , ' + data[i].TabId +  ' , ' + gameId + ')" > ' + tabName + '</a>';
+            html += '</li>';
+            //htmlContent += '<div class="tab-pane" id="Tab' + data[i].TabId + '">kk</div>';
+        }
+
+        console.log("html " + html);
+        $("#myTab").html(html);
+    }
+
+    function escapeHtml(string) {
+        let entityMap = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': '&quot;',
+            "'": '&#39;',
+            "/": '&#x2F;'
+        };
+        return String(string).replace(/[&<>"'\/]/g, function (s) {
+            return entityMap[s];
+        });
+    }
+    
+    function ClickTab(url, tabId, gameId) {
+
+        console.log("ClickTab url" + url + "   tabId  " + tabId);
+        window.location.href = url + '/' + tabId + '/' +  gameId;
+    }
+</script>
+{{.footerjs}}
+</body>
+</html>

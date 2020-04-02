@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{template "usershared/headcss.html"}}
+
+    {{.headcssjs}}
+
+        <!--静态公用的js部分-->
+    {{template "usershared/globaljs.html"}}
+
+
+</head>
+<body class="{{.bg}}">
+    <div class="wrapper">
+        {{.LayoutContent}}
+
+        <div class="h5-wap-loading-common-div">
+            <div class="load h5-wap-loading-div" style="display: none;">
+                <span>加载中...</span>
+            </div>
+        </div>
+        {{template "usershared/bottom_nav.html"}}
+        {{template "usershared/bottom_footer.html"}}
+    </div>
+
+
+    <!--自定义的js脚本 -->
+    {{.footerjs}}
+
+    {{template  "usershared/copyrightjs.html"}}
+    {{template  "usershared/copyrightcss.html"}}
+    {{template  "usershared/copyright.html"}}
+    {{template  "usershared/agree_detail.html"}}
+    {{template  "usershared/sharecss.html"}}
+
+    {{template  "usershared/commonjs.html"}}
+    {{template  "usershared/common.html"}}
+
+    {{template  "usershared/accountjs.html"}}
+    {{template  "usershared/account.html"}}
+
+    {{template  "usershared/appealjs.html"}}
+    {{template  "usershared/appeal.html"}}
+
+
+</body>
+</html>

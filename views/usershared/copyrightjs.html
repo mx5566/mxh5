@@ -1,0 +1,27 @@
+<script>
+    $(function() {
+
+        let navH = $(".nav ul").height();
+        let winH = $(window).height() - navH;
+        $(".agree").css({"height": (winH - navH) / 5 * 4,"margin-top": - winH / 5 * 4 / 2});
+
+        let titH = $(".agree .tit").height();
+
+        $(".agree .cont").css({"height": winH / 5 * 4 - titH - 30 - navH - 50});
+
+        $("#copyright_xieyi").click(function() {
+            let status = $(this).attr('h5-back-status');
+            $('.h5-wap-protocol-div').show();
+            $("#yonghuxieyiGray").show();
+            if (status == 1) {
+                $('.h5-wap-protocol-close-link').attr('h5-back-status', 1);
+            }
+        });
+
+        $('.h5-wap-protocol-close-link').click(function() {
+            $('.h5-wap-protocol-div').hide();
+            $("#yonghuxieyiGray").hide();
+            $(this).attr('h5-back-status', '');
+        });
+    });
+</script>

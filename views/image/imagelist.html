@@ -1,0 +1,57 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        图片列表
+        <small>分页展示</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{urlfor "HomeController.Index"}}">
+                <i class="fa fa-dashboard"></i> 首页</a>
+        </li>
+        <li class="active">图片列表</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+<div class="row">
+
+    {{range $key, $value := .json.rows}}
+            <div class="col-lg-3 col-md-4 col-xs-6">
+                    <div class="image">
+                            <div class="thumbnail">
+                                <input type="hidden" name="Id" id="image-id-{{$value.Id}}" value="{{$value.Id}}">
+                                <img src="{{$value.ImagePath}}" id="img-id-{{$value.Id}}" class="image-name">
+                                <div class="info caption">
+                                    <p class="author ">
+                                        <span class="authorName">
+                                            {{$value.ImageName}}
+                                        </span>
+                                        <span class="authorSex">
+                                            男
+                                        </span>
+                                    </p>
+                                    <p class="image-info" title="{{$value.ImageInfo}}">
+                                        {{$value.ImageInfo}}
+                                    </p>
+                                    <p class="image-edit">
+                                        <a href="javascript:void(0)" class="btn btn-danger" role="button" onclick="onRemoveImage({{$value.Id}})">删除</a>
+                                        <a href="javascript:void(0)" id="id-image-edit" class="btn btn-primary" role="button" onclick="onEditImage({{$value.Id}})">编辑</a>
+                                    </p>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+    {{end}}
+</div>
+
+<div>
+    <div id="Paginator" style="text-align: center">
+        <ul id="pageLimit">
+
+        </ul>
+    </div>
+</div>
+
+</section>

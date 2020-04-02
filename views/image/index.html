@@ -1,0 +1,71 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        图片上传
+        <small>图片上传楼</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{urlfor "HomeController.Index"}}">
+                <i class="fa fa-dashboard"></i> 首页</a>
+        </li>
+        <li class="active">上传列表</li>
+    </ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <!-- 页面内容开始 -->
+    <div class="row">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">图片列表</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form id="thisForm" class="form-horizontal">
+                    <input type="hidden" id="input-image" name="names" value="">
+                    <input type="hidden" name="token" value="{{.token}}">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">上传文件</label>
+                            <div class="kv-image col-sm-8 text-center">
+                                <div class="file-loading form-control col-sm-8">
+                                    <input id="input-b3"  name="input-b3[]" type="file" class="file " multiple
+                                           data-show-upload="true" data-show-caption="true" data-msg-placeholder="Select {files} for upload...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">
+                                图片名称
+                            </label>
+                            <div class="col-sm-8 ">
+                                <input type="text"  class="form-control" name="ImageName" id="image-name" placeholder="长度不超过24">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">
+                                图片描述
+                            </label>
+                            <div class="col-sm-8">
+                                <input type="text"  class="form-control" name="ImageInfo" id="image-info" placeholder="长度不超过100">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="box-footer align-right">
+                <div class="col-sm-10" style="padding-right: 0;">
+                    <button type="submit" class="btn btn-primary">保 存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

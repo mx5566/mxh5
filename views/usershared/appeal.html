@@ -1,0 +1,146 @@
+<div class="appeal20181127">
+    <div class="zy3 complaint dn h5-appeal-first-div">
+        <div class="title9">
+            <p>帐号申诉</p>
+            <a href="javascript:;" id="appealCloseA"><img src="/static/img5.073img.com/h5/2018/winpop/img/appeal_back.png"  alt="" class="back"></a>
+        </div>
+        <div class="cont">
+            <h6>请选择申述方式：</h6>
+            <a href="javascript:;" id="appealOrderA"><span>我可以提供充值记录</span><img src="/static/img5.073img.com/h5/2018/winpop/img/appeal_go.png"  alt=""></a>
+            <a href="javascript:;" id="appealLoginA"><span>我可以提供登陆信息</span><img src="/static/img5.073img.com/h5/2018/winpop/img/appeal_go.png"  alt=""></a>
+        </div>
+    </div>
+
+    <div class="zy3 record dn h5-appeal-order-div">
+        <div class="title9">
+            <p>充值记录</p>
+            <a href="javascript:;" class="h5-appeal-order-back"><img src="/static/img5.073img.com/h5/2018/winpop/img/appeal_back.png"  alt="" class="back"></a>
+        </div>
+        <div class="cont">
+            <ul>
+                <li>
+                    <input id="appeal_order_sn" type="text" placeholder="请提供近期充值成功订单单号(必填)">
+                </li>
+                <li>
+                    <input id="appeal_order_payday" type="text" placeholder="请选择支付时间(必填)" readonly>
+                </li>
+                <li>
+
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select id="appeal_order_gamename" name="appeal_order_gamename" lay-verify="required">
+                                        <option value="">请填写充值的游戏名(必填)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </li>
+                <li>
+                    <input maxlength="11" id="appeal_order_phone" type="text" placeholder="手机号 便于收取短信回执(必填)">
+                </li>
+            </ul>
+            <a href="javascript:;" class="submitBtn h5-appeal-order-submit">提交</a>
+        </div>
+    </div>
+
+    <div class="zy3 success dn h5-appeal-success-div">
+        <div class="title9">
+            <p>申诉提交成功</p>
+            <a href="javascript:;" class="h5-appeal-success-back"><img src="/static/img5.073img.com/h5/2018/winpop/img/appeal_back.png"  alt="" class="back"></a>
+        </div>
+        <div class="cont">
+            <p>审核结果将在<span style="color: #ff0000">1-<o id="appeal_ok_day">2</o>个工作日内</span>通过<span style="color: #ff0000">手机短信形式</span>将申述回执发送到预留手机，请留意手机短信。</p>
+            <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5L6DuoZ"  class="qun">加入07073客服Q群</a>
+            <a href="index.htm"  class="close">返回首页</a>
+        </div>
+    </div>
+
+    <!-- 登录信息 -->
+    <div class="zy3 info dn h5-appeal-login-div">
+        <div class="title9">
+            <p>登录信息</p>
+            <a href="javascript:;" class="h5-appeal-login-back"><img src="/static/img5.073img.com/h5/2018/winpop/img/appeal_back.png"  alt="" class="back"></a>
+        </div>
+        <div class="cont">
+            <ul>
+                <li>
+                    <input id="appeal_login_firstloginday" type="text" placeholder="上次登录时间(必填)" readonly>
+                </li>
+                <li>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select id="appeal_login_gamename" name="appeal_login_gamename" lay-verify="required">
+                                        <option value="">常玩游戏(必填)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </li>
+                <li>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select id="appeal_login_othergamename" name="appeal_login_othergamename">
+                                        <option value="">玩过其他(选填)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </li>
+                <li>
+                    <div>
+                        <div class="layui-field-box">
+                            <div id="appeal_login_regarea"></div>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select id="appeal_login_os" name="appeal_login_os" lay-verify="required">
+                                        <option value="">登录终端(必填)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </li>
+                <li>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select id="appeal_login_browsertype" name="appeal_login_browsertype" lay-verify="required">
+                                        <option value="">登录浏览器(选填)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+                <li>
+                    <textarea id="appeal_login_moreinfo" placeholder="补充信息越详细越容易找回，如常玩游戏的区服和角色名(选填)"></textarea>
+                </li>
+                <li>
+                    <input maxlength="11" id="appeal_login_phone" type="text" placeholder="输入手机号用于发送找回信息(必填)">
+                </li>
+            </ul>
+            <a href="javascript:;" class="submitBtn h5-appeal-login-submit">提交</a>
+        </div>
+    </div>
+</div>

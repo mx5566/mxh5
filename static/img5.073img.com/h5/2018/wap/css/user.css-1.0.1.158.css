@@ -1,0 +1,25 @@
+.btd{border: none;}
+.header{height: auto;}
+.header h4{background: #3c3749;color: #fff;}
+.header .back{background: url("../images/back.png") center no-repeat;background-size: 0.27rem 0.48rem;}
+.userCenter_list{margin-top: 0;}
+
+.zyUserInfoPlus{width: 7.5rem;height: 2rem;background: #3c3749;}
+.zyUserInfoPlus .zyUserInfo{width: 4.2rem;height: 0.9rem;float: left;margin-left: 0.3rem;margin-top: 0.5rem;}
+.zyUserInfoPlus .zyUserInfo img{width: 0.9rem;height: 0.9rem;border-radius: 50%;display: block;float: left;margin-right: 0.25rem;}
+.zyUserInfoPlus .zyUserInfo p{font-size: 0.3rem;color: #ffffff;margin-top: 0.05rem;}
+.zyUserInfoPlus .zyUserInfo span{font-size: 0.22rem;color: #cccccc;float: left;margin-top: 0.1rem;}
+.zyUserInfoPlus .zyUserInfo a{font-size: 0.36rem;color: #ffffff;float: left;}
+
+.zyUserInfoPlus .zyPlus{width: 3rem;height: 1.4rem;background: #14120f;float: right;margin-top: 0.3rem;}
+.zyUserInfoPlus .zyPlus p{width: 2.4rem;height: 0.8rem;line-height: 0.8rem;font-size: 0.3rem;color: #e7b986;margin: 0 auto;border-bottom: 1px dashed #4b4136;text-align: center;}
+.zyUserInfoPlus .zyPlus p img{width: 0.28rem;height: 0.24rem;margin-right: 0.1rem;}
+.zyUserInfoPlus .zyPlus span{width: 3rem;font-size: 0.24rem;color: #e7b986;display: block;text-align: center;margin-top: 0.1rem;}
+
+.totalPref ul{width: 100%;display: flex;background: #fff;}
+.totalPref ul li{width: 50%;height: 1.6rem;border-bottom: 1px solid #d2d2d2;display: flex;flex-direction: column;justify-content: center;align-items: center;}
+.totalPref ul li:first-child{border-right: 1px solid #d2d2d2;}
+.totalPref ul li p{font-size: 0.36rem;color: #ee5925;margin-bottom: 0.05rem;position: relative;}
+.totalPref ul li p em{font-size: 0.24rem;}
+.totalPref ul li p i{height: 0.32rem;line-height: 0.32rem;background: #ff0000;display: block;font-size: 0.24rem;color: #fff;text-align: center;border-radius: 0.16rem;border-bottom-left-radius: 0;left: 0.75rem;top: -0.1rem;position: absolute;padding: 0 0.12rem;}
+.totalPref ul li span{font-size: 0.24rem;color: #666666;margin-top: 0.05rem;}

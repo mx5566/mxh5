@@ -1,0 +1,204 @@
+<!-- 验证插件 -->
+<script src="/static/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/static/plugins/jquery-validation/localization/messages_zh.min.js"></script>
+<!-- 针对当前主题进行简单封装，精简代码 -->
+<script src="/static/sdtheme/scripts/sdvalidate.js"></script>
+<script src="/static/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="/static/plugins/bootstrap-select/js/i18n/defaults-zh_CN.min.js"></script>
+
+<!-- 针对当前主题进行简单封装，精简代码 boostrap-fileinput-->
+<script src="/static/sdtheme/scripts/sdvalidate.js"></script>
+<script src="/static/plugins/bootstrap-fileinput/js/plugins/piexif.min.js" type="text/javascript"></script>
+<script src="/static/plugins/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
+<script src="/static/plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+<script src="/static/plugins/bootstrap-fileinput/themes/explorer-fa/theme.min.js" type="text/javascript"></script>
+<script src="/static/plugins/bootstrap-fileinput/themes/fa/theme.min.js" type="text/javascript"></script>
+
+<script>
+	let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+   $(function () {		
+        //验证
+        validateInfo();
+        InitOptions();
+    });
+
+   // 初始化option选项
+    function InitOptions() {
+
+        let str = '{{.gameTabs}}';
+
+        console.log("selectpicker" + str);
+
+        let arr = str.split(',');
+
+        console.log("selectpicker array" + $("#GameTabs").val());
+
+        $("#GameTabs").selectpicker('val', arr);
+
+        $("#GameType").selectpicker('val', '{{.game.GameType}}');
+
+        $("#GameStatus").selectpicker('val', '{{.game.GameStatus}}');
+    }
+
+    //表单验证及AJAX提交
+    function validateInfo() {
+        var $thisForm = $('#thisForm');
+        $thisForm.sdvalidate({
+            rules: {
+                GameName: {
+                    maxlength: 64,
+                    required: true
+                },
+				GameType: {
+					maxlength: 32,
+					required: true
+				},
+				GameIcov: {
+					required: true
+				},
+				GameIcovStr: "required",
+				GameDescription: {
+					required: true,
+					maxlength: 512
+				},
+                GameTabs: "required"
+            },
+            messages: {},
+            submitHandler: function (form) {
+				let url ='{{ urlfor "GameController.EditGame"}}'
+				let data = $thisForm.serialize();
+				$.sdpost(url,data,function(re){
+					if(re.code === 0){
+						parent.layer.msg(re.msg);
+						parent.refresh(re.obj);
+						parent.layer.close(index)
+					}else{
+						parent.layer.alert(re.msg,{icon:2,title:'失败'})
+					}
+				});
+               return false;
+            }
+        });
+    }
+
+    function FormSubmit() {
+        $("#thisForm").submit();		
+    }
+
+    let htm = '<button type="button" class="btn btn-secondary" title="Add picture tags" ' +
+            'onclick="DeleteImage({{.image.Id}});">' +
+            '<span class="glyphicon glyphicon-tag">删除图片1</span>' +
+            '</button> ';
+    let defaultHtm = '<div class="file-preview-frame krajee-default"> ' +
+            '<div class="kv-file-content"> ' +
+            '<img class="file-preview-image kv-preview-data" style="width:auto;height:auto;max-width:100%;max-height:100%;"' +
+            '{{ if .hasImage }}  src="{{ .image.ImagePath }}" {{else}} src="/static/upload/default-avatar-male.png" alt="Your Avatar" {{end}}>'+
+            ' </div> ' +
+            '</div>';
+    // 上传附件
+    //$("#input-b3").fileinput('destroy');
+    $("#input-b3").fileinput({
+        language:'zh',                                          // 多语言设置，需要引入local中相应的js，例如locales/zh.js
+        theme: "fa",                               // 主题
+        allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+        uploadUrl: {{urlfor "ImageController.UploadSingleImage"}},         // 上传地址
+        //deleteUrl: {{urlfor "ImageController.RemoveImages"}},
+        resizeImage: false,
+        minImageHeight:24,
+        maxImageHeight:32,
+        minImageWidth:24,
+        maxImageWidth:32,
+        overwriteInitial: true,                        // 覆盖初始预览内容和标题设置
+        showCancel:false,                                       // 显示取消按钮
+        showZoom:true,                                         // 显示预览按钮
+        showCaption:false,                                  // 显示文件文本框
+        dropZoneEnabled:true,                          // 是否可拖拽
+        uploadAsync: false,
+        uploadLabel:"上传附件",                         // 上传按钮内容
+        browseLabel: '选择附件',                            // 浏览按钮内容
+        enctype: 'multipart/form-data',
+        showPreview: true,
+        showClose: false,
+        showRemove:false,                                       // 显示移除按钮
+        browseClass:"btn btn-primary",                        // 浏览按钮样式
+        uploadClass:"btn btn-warning",                        // 上传按钮样式
+        removeClass:"btn btn-danger",
+        uploadExtraData: {'uploadToken': 'SOME-TOKEN'},   // 上传数据
+        hideThumbnailContent:false,                  // 是否隐藏文件内容
+        fileActionSettings: {                               // 在预览窗口中为新选择的文件缩略图设置文件操作的对象配置
+            showRemove: true,                                   // 显示删除按钮
+            showUpload: true,                                   // 显示上传按钮
+            showDownload: false,                            // 显示下载按钮
+            showZoom: true,                                    // 显示预览按钮
+            showDrag: false,                                        // 显示拖拽
+            removeIcon: '<i class="fa fa-trash"></i>',   // 删除图标
+            uploadIcon: '<i class="fa fa-upload"></i>',     // 上传图标
+            uploadRetryIcon: '<i class="fa fa-repeat"></i>'  // 重试图标
+        },
+        initialPreview: [
+            '{{ if .hasImage }} {{ .image.ImagePath }} {{else}} "/static/upload/default-avatar-male.png" {{end}} ',
+        ],
+        initialPreviewAsData: true, // 确定你是否仅发送预览数据，而不是原始标记
+        initialPreviewFileType: 'image', // `image`是默认值，可以在下面的配置中覆盖
+        initialPreviewConfig: [
+            {
+                caption: '{{.image.ImageName}}',
+                width: '120px',
+                frameClass: "",
+                key: 100,
+            },
+        ],
+        defaultPreviewContent: defaultHtm,
+        layoutTemplates: {main2: '{preview} ' +  htm + ' {remove} {browse}'},
+
+    });
+    // 上传成功回调 同步结果
+    $("#input-b3").on("filebatchuploadcomplete", function(event, preview, config, tags, extraData) {
+        console.log('File Batch Uploaded', preview, config, tags, extraData);
+
+        //layer.msg("上传附件成功");
+        //setTimeout("closeUpladLayer()",2000)
+    });
+    // 上传失败回input-b3调 异步处理
+    $('#input-b3').on('filebatchuploadsuccess', function(event, data, previewId, index) {
+        if(typeof data.response.obj != "Array"){
+            $("#input-image").val(JSON.stringify(data.response.obj));
+            //document.getElementById("input-image")
+        }
+
+        console.log("filebatchuploadsuccess %s", data.response.obj);
+
+        layer.msg(data.response.msg);
+        //tokenTimeOut(data);
+    });
+    // 上传失败回input-b3调
+    $('#input-b3').on('fileerror', function(event, data, msg) {
+        layer.msg(data.msg);
+        //tokenTimeOut(data);
+        console.log("fileerror %s", data.response.obj);
+
+    });
+
+    // 上传失败回input-b3调 异步处理
+    $('#input-b3').on('fileuploaded', function(event, data, previewId, index) {
+        if (data.response.code == 0) {
+            if(typeof(data.response.obj) == 'string'){
+                $("#input-image").val(data.response.obj);
+            }
+        }
+
+        layer.msg(data.response.msg);
+    });
+
+    // 上传预览的图片被删除
+    $('#input-b3').on('fileremoved', function(event, id, index) {
+        console.log('id = ' + id + ', index = ' + index);
+
+        let plugin = $('#input-b3').data("fileinput");
+        console.log(plugin.initialPreview);
+        //plugin.initialPreview  =  ['{{ if .hasImage }} {{ .image.ImagePath }} {{else}} "/static/upload/default-avatar-male.png" {{end}} '];
+    });
+
+
+
+</script>

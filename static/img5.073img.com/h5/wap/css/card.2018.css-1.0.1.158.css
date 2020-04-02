@@ -1,0 +1,20 @@
+.bd_cont{width: 7.1rem;background: #fff;margin-left: .2rem;margin-top: .2rem;border-radius: .15rem;margin-bottom: 1.33rem;overflow: hidden;}
+.bd_cont .bdBox .intr{padding: .25rem .25rem 0 .25rem;position: relative;}
+.bd_cont .bdBox .intr .face{width: 1.1rem;height: 1.1rem;border-radius: .21rem;float: left;margin-right: .25rem;}
+.bd_cont .bdBox .intr h5{font-size: .32rem;color: #494949;font-weight: normal;margin-top: .07rem;margin-bottom: .23rem;}
+.bd_cont .bdBox .intr p{font-size: .22rem;color: #979797;}
+.bd_cont .bdBox .intr .startGame{width: 1.12rem;height: .6rem;text-align: center;font-size: .3rem;color: #fff;background: linear-gradient(to right, #a154db, #de62e9);display: block;border-radius: .3rem;position: absolute;right: .25rem;top: .53rem;display: flex;align-items: center;justify-content: center;}
+
+.bd_cont .bdBox ul{clear: both;}
+.bd_cont .bdBox ul li{border-bottom: 1px solid #d3d3d3;padding: .25rem;position: relative;}
+.bd_cont .bdBox ul li h5{font-size: .28rem;color: #494949;font-weight: normal;}
+.bd_cont .bdBox ul li span{width: 5.3rem;line-height: .3rem;font-size: .22rem;color: #989898;display: block;margin-top: .15rem;margin-bottom: .18rem;}
+.bd_cont .bdBox ul li .perc{height: .2rem;display: block;font-size: .14rem;color: #5b5b5b;display: flex;align-items: center;}
+.bd_cont .bdBox ul li .perc .em_1{color: #ff8a00;}
+.bd_cont .bdBox ul li .perc .precBox{width: 2.2rem;height: .2rem;border: 1px solid #ff603d;border-radius: .1rem;float: left;margin-right: .15rem;overflow: hidden;}
+.bd_cont .bdBox ul li .perc .precBox b{height: .2rem;display: block;background: linear-gradient(to right, #ff1c51, #ffb425);}
+.bd_cont .bdBox ul li .get{width: 1.08rem;height: .56rem;text-align: center;font-size: .3rem;border: 1px solid #ff603d;display: block;color: #ff3b43;border-radius: .05rem;position: absolute;right: .25rem;top: .3rem;display: flex;align-items: center;justify-content: center;}
+.bd_cont .bdBox ul li a.dn{display: none;}
+.bd_cont .bdBox ul li .view{width: 1.08rem;height: .56rem;text-align: center;font-size: .3rem;border: 1px solid #81d61d;display: block;color: #81d61d;border-radius: .05rem;position: absolute;right: .25rem;top: .3rem;display: flex;align-items: center;justify-content: center;}
+.bd_cont .bdBox ul a.more{height: .9rem;line-height: .9rem;border-bottom: 1px solid #d3d3d3;text-align: center;font-size: .28em;color: #494949;display: block;background: #fafafa;}
+.bd_cont .bdBox ul a.more i{width: .32rem;height: .32rem;background: url("../img/more.png") no-repeat;background-size: .32rem .32rem;display: inline-block;position: relative;top: .07rem;}

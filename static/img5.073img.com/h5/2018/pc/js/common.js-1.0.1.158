@@ -1,0 +1,247 @@
+$(function() {
+    // 用户中心侧栏有无积分样式变化
+    var fen = $("https://img5.073img.com/h5/2018/pc/js/.sideNav .info").find("div").hasClass("fen");
+    if(fen == false) {
+        $("https://img5.073img.com/h5/2018/pc/js/.sideNav .info").css("height", "auto");
+        $("https://img5.073img.com/h5/2018/pc/js/.sideNav .info .name").css("border", "none");
+    }
+
+	// 顶部划过公众号弹出二维码
+    $("https://img5.073img.com/h5/2018/pc/js/.top ul li.gzh").hover(
+        function() {
+            $(this).find(".topQRcode").stop().fadeIn();
+        },
+        function() {
+            $(this).find(".topQRcode").stop().fadeOut();
+        }
+    );
+
+    // 顶部广告显示或隐藏
+    $(".topGg, .topGg_2").mouseover(function() {
+        $(".topGg_2").show();
+    })
+    $(".topGg, .topGg_2").mouseout(function() {
+        $(".topGg_2").hide();
+    }) 
+
+    // 划过用户名显示下拉菜单
+    $(".userName").hover(
+        function() {
+            $(".userName dl").show();
+        },
+        function() {
+            $(".userName dl").hide();
+        }
+    )
+
+    $(".played").hover(
+        function() {
+            $(".played dl").show();
+        },
+        function() {
+            $(".played dl").hide();
+        }
+    )
+
+    // 显示提示搜索
+    $("https://img5.073img.com/h5/2018/pc/js/.navBg .nav .searchBg .text").focus(function() {
+        $(".navBg .nav .searchBg .searchTips").show();
+    })
+    $("https://img5.073img.com/h5/2018/pc/js/.navBg .nav .searchBg .text").blur(function() {
+        $(".navBg .nav .searchBg .searchTips").fadeOut();
+    })
+
+    // 动态设置h3里i的宽度
+    $("h3 span").each(function() {
+        var thisNum = $(this).width();
+        $(this).find("i").css("width", thisNum + "px");
+    })
+
+    /*
+    // 最新&公告&攻略
+    $(".tab .hd li").mouseover(function() {
+        var indexLi = $(this).index();
+        var zj = $(this).find("a").hasClass("active");
+        $(".tab .hd li a").removeClass("active");
+        $(this).find("a").addClass("active");
+        if(!zj) {
+            $("https://img5.073img.com/h5/2018/pc/js/.tab .bd").hide();
+            $("https://img5.073img.com/h5/2018/pc/js/.tab .bd").eq(indexLi).fadeIn();
+        }
+    })    
+	*/
+    
+    // 游戏开服
+    $(".gameOpen .cont ul div").hover(
+        function() {
+            $(this).find(".li2").show();
+            $(this).find(".li1").hide();
+        },
+        function() {
+            $(this).find(".li2").hide();
+            $(this).find(".li1").show();
+        }
+    )
+
+    // 热门礼包
+    $(".hotPage .cont ul li span b i").each(function() {
+        var iWidth = $(this).parent("b").next("em").text();
+        $(this).css("width", iWidth);
+    })
+
+    // $(".hotPage .cont ul li").mouseover(function() {
+    //     $(".hotPage .cont ul li").each(function() {
+    //         $(this).css("height", "auto");
+    //         $(this).find("img").css("display", "none");
+    //         $(this).find("span").css("display", "none");
+    //         $(this).find("span").eq(0).css("display", "inline-block");
+    //         $(this).find(".get").css({"float": "right", "display": "inline-block", "padding": "0"});
+    //         $(this).find("a").css("display", "none");           
+    //     })
+    //         $(this).css("height", "80px");
+    //         $(this).find("img").css("display", "block");
+    //         $(this).find("span").css("display", "block");
+    //         $(this).find(".get").css({"float": "none", "display": "block", "padding": "8px 0"});
+    //         $(this).find("a").css("display", "block");
+    // })
+    
+    $(".hotPage .cont ul li").hover(
+        function() {
+            $(".hotPage .cont ul li").each(function() {
+                $(this).removeClass("active");
+            })
+            $(this).addClass("active");
+        },
+        function() {
+            
+        }
+    )
+
+    //热门攻略
+    $(".hotStrategy .cont ul li a").hover(
+        function() {
+            $(this).find("span").stop().animate({"margin-left": "10px"}, "slow");
+        },
+        function() {
+            $(this).find("span").stop().animate({"margin-left": "0"}, "slow");
+        }
+    )
+
+    // sideNav高度
+    var sideNavH = $(".sideNav").height();
+    var mainH = $(".main").height();
+    if(mainH > sideNavH) {
+        $(".sideNav").css("height", mainH);
+    }
+
+    // 分享垂直居中
+    function shareH() {
+        var winH = $(window).height();
+        $(".sharer").css("top", (winH - 345) / 2);
+    }
+    shareH();
+    $(window).resize(function() {
+        shareH();
+    })
+
+    // 返回顶部
+    $(".goTop").click(function() {
+        $("html,body").animate({scrollTop: 0}, 500);
+    }); 
+
+    // 划过显示分享按钮
+    $(".sharer ul .binShare").hover(
+        function() {
+            $(".sharer ul .bin .myShare").stop().animate({width: "240px"}, 500);
+        },
+        function() {
+            $(".sharer ul .bin .myShare").stop().animate({width: "0"}, 500);
+        }
+    )
+    $(".sharer ul .binPlus").hover(
+        function() {
+            $("https://img5.073img.com/h5/2018/pc/js/.sharer ul .bin .plus").stop().animate({width: "250px"}, 500);
+        },
+        function() {
+            $("https://img5.073img.com/h5/2018/pc/js/.sharer ul .bin .plus").stop().animate({width: "0"}, 500);
+        }
+    )
+
+    // 百度分享
+    //window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+
+    // 关闭popup_1弹窗
+    $(".popup_1 .close, .popup_2 .close").click(function() {
+        $(".mask, .popup_1, .popup_2").fadeOut();
+    })
+    
+    //加入收藏
+    $('.addfav').click(function(){
+    	var sURL = window.location;
+    	var sTitle = document.title;
+        try {
+            window.external.addFavorite(sURL, sTitle);
+        } catch (e) {
+            try {
+                window.sidebar.addPanel(sTitle, sURL, "");
+            } catch (e) {
+            	if (typeof('showNotice') == 'function') {
+            		window.showNotice('加入收藏失败，请使用Ctrl+D进行添加');
+            	} else {
+            		alert("加入收藏失败，请使用Ctrl+D进行添加");
+            	}
+            }
+        }
+        return false;
+    });
+    
+	function initShare()
+	{
+		var title = encodeURIComponent(document.title);
+		var url = encodeURIComponent(location.href);
+
+		var wb = "https://service.weibo.com/share/mobile.php?url="+url+"&title="+title+"&pic=";
+		var qzone = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url="+url+"&title="+title+"&summary="+title+"&site=07073H5游戏平台&pics=";
+		var qf = "http://connect.qq.com/widget/shareqq/index.html?url="+url+"&title="+title+"&source=07073H5游戏平台&pics=&site="+title+"&summary=" + title;
+
+		$('.bdsharebuttonbox>.bds_tsina').attr('href', wb);
+		$('.bdsharebuttonbox>.bds_qzone').attr('href', qzone);
+		$('.bdsharebuttonbox>.bds_sqq').attr('href', qf);
+	}
+	initShare();
+	
+	$('#user_logout').click(function(){
+		$('#logoutOper').click();
+	});
+
+
+    // 显示二级导航
+    $(".navBg .nav .menu ul li").hover(
+        function() {
+            var getCur = $(this).find("a").hasClass("cur");
+            $(this).find("a").eq(0).addClass("active");
+            if(getCur == false) {
+                $(this).find("a").eq(0).find("i").hide();
+            } else {
+                var getDl = $(this).find("dl").length;
+                if(getDl !=0) {
+                    $(this).find("a").eq(0).find("i").hide();
+                }
+            }
+            $(this).find("dl").show();
+            $(this).find("a").eq(0).css("color", "#ff4c4c");
+        },
+        function() {
+            var getCur = $(this).find("a").hasClass("cur");
+            if(getCur == false) {
+                $(this).find("a").eq(0).removeClass("active");
+            } else {
+                $(this).find("a").eq(0).find("i").show();
+            }
+            $(this).find("dl").hide();
+            $(this).find("a").eq(0).css("color", "#b2b3ba");
+            $(this).find(".active").css("color", "#ff4c4c");
+        }
+    );
+
+})

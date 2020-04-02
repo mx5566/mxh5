@@ -1,0 +1,250 @@
+﻿body{background: url("../images/indexBannerBg.jpg") no-repeat center 140px #f4f4f4;}
+
+/* 焦点图 */
+.focus{width: 1200px;height: 400px;margin: 0 auto;}
+.focus .banner{width: 790px;height: 400px;float: left;}
+.focus .banner .btn{position: absolute;top: 50%;margin-top: -50px;width: 44px;height: 76px;cursor: pointer;z-index: 9;opacity: .3;transition:all 1s;}
+.focus .banner:hover .btn{opacity: 1;}
+.focus .banner .next{right: 0;background: url("../images/btn.png");cursor: pointer;}
+.focus .banner .prev{left: 0;background: url("../images/btn.png") 0 76px;cursor: pointer;}
+.focus .banner .swiper-container{width: 100%;margin-top: 46px;}
+.focus .banner .swiper-slide{background-position: center;background-size: 690px 310px;width: 690px;height: 310px;border-radius: .12rem;position: relative;}
+.focus .banner .swiper-slide a{width: 690px;height: 310px;position: absolute;left: 0;top: 0;}
+.focus .banner .swiper-pagination-bullet-active{background: #ff6238 !important;}
+.focus .banner .swiper-pagination-bullet{width: 14px;height: 14px;background: #66708b;background: linear-gradient(232deg, #8a92c8, #66708b);margin: 0 3px;opacity: 1;}
+.focus .banner .swiper-pagination{width: 790px;height: 14px;display: flex;justify-content: center;margin-top: 15px;z-index: 0;}
+.focus .banner .swiper-button-prev, .swiper-container-rtl .swiper-button-next{background-image: url("images/btn.png") no-repeat;}
+
+
+.focus .user{width: 380px;height: 400px;float: right;position: relative;}
+.focus .user .userLine{width: 14px;height: 53px;position: absolute;left: 50%;top: 0;margin-left: -7px;}
+.focus .user .box{width: 380px;height: 320px;margin-top: 40px;}
+.focus .user .box .up{width: 380px;height: 170px;background: #58668e;border-top-left-radius: 10px;border-top-right-radius: 10px;}
+
+.focus .user .box .up .noLogin{height: 90px;padding: 40px 20px;}
+.focus .user .box .up .noLogin img{width: 90px;height: 90px;border-radius: 50%;float: left;}
+.focus .user .box .up .noLogin p{font-size: 14px;color: #fff;text-align: center;margin-top: 10px;margin-bottom: 15px;}
+
+.focus .user .box .up .noLogin .btn a{width: 100px;height: 40px;line-height: 40px;text-align: center;display: block;float: left;color: #fff;border-radius: 20px;}
+.focus .user .box .up .noLogin .btn a.dl{background: #5ba7ff;margin-left: 25px;margin-right: 10px;}
+.focus .user .box .up .noLogin .btn a.dl:hover{background: #75b5ff;}
+.focus .user .box .up .noLogin .btn a.zc{background: #52ca6e;}
+.focus .user .box .up .noLogin .btn a.zc:hover{background: #5ed679;}
+
+.focus .user .box .up .logged{padding-top: 35px;position: relative;}
+.focus .user .box .up .logged .face{width: 90px;height: 90px;position: relative;float: left;margin-right: 20px;margin-left: 20px;}
+.focus .user .box .up .logged .face img{width: 90px;height: 90px;border-radius: 50%;}
+.focus .user .box .up .logged .face .modify{width: 56px;height: 22px;background:url("../images/modify.png") no-repeat;position: absolute;left: 17px;bottom: 0;background-size: 56px 22px;}
+.focus .user .box .up .logged .face .faceOver{width: 90px;height: 90px;display: inline-block;position: absolute;left: 0;top: 0;border-radius: 50%;background: url("../images/modifyOver.png") no-repeat center center rgba(95, 88, 115, .9);display: none;}
+.focus .user .box .up .logged .face:hover .faceOver{display: block;}
+
+.focus .user .box .up .logged .info{float: left;position: relative;top: -15px;}
+.focus .user .box .up .logged .info .name{margin-top: 15px;}
+.focus .user .box .up .logged .info .name p .dn{display: none !important;}
+.focus .user .box .up .logged .info .name p .weixin{display: inline-block;position: relative;top: 2px;}
+.focus .user .box .up .logged .info .name p i.youke{font-size: 12px;color: #f95eff;border:1px solid #f95eff;padding: 0 3px;}
+.focus .user .box .up .logged .info .name p i.pingtai{font-size: 12px;color: #ff7c33;border:1px solid #ff7c33;padding: 0 3px;}
+.focus .user .box .up .logged .info .name p span{font-size: 18px;color: #fff;margin: 0 10px 0 0;}
+.focus .user .box .up .logged .info .name p .edit{width: 15px;height: 17px;display: inline-block;background: url("../images/icon.png") left -670px;position: relative;top: 2px;}
+.focus .user .box .up .logged .info .name p .edit:hover{background-position: left -697px;}
+.focus .user .box .up .logged .info .name b{font-size: 12px;color: #ccc;font-weight: normal;display: block;margin-top: 5px;margin-bottom: 10px;}
+
+.focus .user .box .up .logged .info .fen i{width: 18px;height: 15px;display: block;float: left;background: url("../images/homeIcon.png") no-repeat left -315px;position: relative;top: 2px;margin-right: 4px;}
+.focus .user .box .up .logged .info .fen span{font-size: 14px;color: #ffac00;float: left;margin-right: 5px;}
+.focus .user .box .up .logged .info .fen a{width: 57px;height: 18px;line-height: 18px;font-size: 12px;color: #fff;display: block;background: #ff4d4a;border-radius: 3px;float: left;text-align: center;transition:  all .3s;}
+.focus .user .box .up .logged .info .fen a:hover{background: #ff7c33;}
+.focus .user .box .up .logged .info .fen a em{width: 8px;height: 9px;background: url("../images/homeIcon.png") no-repeat left -340px;display: inline-block;margin-left: 2px;}
+
+.focus .user .box .up .logged .info ul{clear: both;padding-top: 10px;}
+.focus .user .box .up .logged .info ul li{float: left;margin-right: 10px;position: relative;}
+.focus .user .box .up .logged .info ul li a{width: 36px;height: 36px;display: block;border-radius: 50%;background: url("../images/homeIcon.png") no-repeat 10px top #6e81b8;}
+.focus .user .box .up .logged .info ul li a.letter{background-position: 10px -367px;}
+.focus .user .box .up .logged .info ul li a.letter:hover{background-position: 10px -410px;}
+.focus .user .box .up .logged .info ul li a.star{background-position: 10px -455px;}
+.focus .user .box .up .logged .info ul li a.star:hover{background-position: 10px -501px;}
+.focus .user .box .up .logged .info ul li a.lock{background-position: 10px -548px;}
+.focus .user .box .up .logged .info ul li a.lock:hover{background-position: 10px -596px;}
+.focus .user .box .up .logged .info ul li span{min-width: 10px;height: 16px;line-height: 16px;font-size: 12px;color: #fff;background: #ff4c4c;position: absolute;left: 20px;top: 0;display: inline-block;border-radius: 8px;padding: 0 3px;text-align: center;}
+
+.focus .user .box .up .logged a.exit{width: 32px;height: 32px;position: absolute;right: 0;top: 0;background: url("../images/icon.png") no-repeat left -755px;}
+.focus .user .box .up .logged a.exit:hover{background-position: left -797px;}
+
+.focus .user .box .down{width: 380px;height: 150px;background: #f4f4f4;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;}
+.focus .user .box .down .tit{padding: 0 20px;padding-top: 10px;}
+.focus .user .box .down .tit b{font-size: 16px;color: #333;font-weight: normal;float: left;}
+.focus .user .box .down .tit b i{width: 20px;height: 18px;display: inline-block;background: url("../images/homeIcon.png") no-repeat left -287px;margin-right: 3px;position: relative;top: 3px;}
+.focus .user .box .down .tit a{float: right;font-size: 14px;color: #999;transition: all .3s;}
+.focus .user .box .down .tit a i{width: 20px;height: 20px;background: url("../images/icon.png") no-repeat left -257px;display: inline-block;margin-left: 4px;position: relative;top: 4px;}
+.focus .user .box .down .tit a:hover{color: #ff4b4c;}
+.focus .user .box .down .tit a:hover i{background-position: left -287px;}
+
+.focus .user .box .down .cont{clear: both;padding-top: 15px;}
+.focus .user .box .down .cont ul li{float: left;margin-left: 20px;}
+.focus .user .box .down .cont ul li a{width: 70px;display: block;text-align: center;transition: all .3s;color: #333;}
+.focus .user .box .down .cont ul li a:hover{color: #ff4b4c;margin-top: -10px;}
+.focus .user .box .down .cont ul li a img{width: 70px;height: 70px;border-radius: 10px;}
+.focus .user .box .down .cont ul li a span{font-size: 12px;}
+
+/* 热门推荐&新闻公告 */
+.RecoNews{width: 1200px;margin: 0 auto;margin-top: 15px;}
+
+.RecoNews .hotReco{width: 790px;float: left;}
+.RecoNews .hotReco .cont{margin-top: 30px;}
+.RecoNews .hotReco ul li{width: 160px;position: relative;float: left;margin-right: 50px;margin-bottom: 30px;}
+.RecoNews .hotReco ul li:hover .over{display: block;}
+.RecoNews .hotReco ul li.mr0{margin-right: 0;}
+.RecoNews .hotReco ul li .normal{width: 160px;text-align: center;font-size: 16px;color: #333;}
+.RecoNews .hotReco ul li .normal img{margin-bottom: 10px;}
+
+.RecoNews .hotReco ul li .over{width: 200px;height: 262px;position: absolute;left: -20px;top: -10px;background: #fff;display: none;box-shadow: 3px 3px 5px #ccc, -1px -1px 5px #ddd;}
+.RecoNews .hotReco ul li .over .up{width: 200px;height: 110px;background: url("../images/overUp.jpg") no-repeat;}
+.RecoNews .hotReco ul li .over .up img{width: 80px;height: 80px;margin: 0 auto;border: 4px solid #ff7138;border-radius: 3px;position: relative;top: 16px;}
+
+.RecoNews .hotReco ul li .over .down h4{font-size: 18px;color: #333;font-weight: normal;text-align: center;margin-top: 10px;}
+.RecoNews .hotReco ul li .over .down b{font-size: 12px;color: #666;font-weight: normal;text-align: center;display: block;margin-top: 5px;}
+.RecoNews .hotReco ul li .over .down b em{color: #ff4d4b;}
+.RecoNews .hotReco ul li .over .down p{line-height: 18px;font-size: 12px;color: #999;padding: 0 15px;margin-top: 5px;}
+.RecoNews .hotReco ul li .over .down .btn{margin-left: 15px;margin-top: 12px;}
+.RecoNews .hotReco ul li .over .down .btn a{width: 73px;height: 28px;line-height: 28px;text-align: center;display: block;float: left;font-size: 16px;border-radius: 14px;margin: 0 5px;}
+.RecoNews .hotReco ul li .over .down .btn a.startGame{border: 1px solid #ff6f39;color: #ff6f39;transition: all .3s;}
+.RecoNews .hotReco ul li .over .down .btn a.startGame:hover{background: #ff6f39;background: linear-gradient(to right, #ff4f50, #ff8037);color: #fff;}
+.RecoNews .hotReco ul li .over .down .btn a.favorite{border: 1px solid #ff9d33;color: #ff9d33;}
+.RecoNews .hotReco ul li .over .down .btn a.favorite:hover{background: #ff9d33;background: linear-gradient(to right, #fb7e39, #f3b13c);color: #fff;}
+
+.RecoNews .hotReco ul i{width: 50px;height: 50px;position: absolute;left: 0;top: 0;background: url("../images/homeIcon.png") no-repeat;}
+.RecoNews .hotReco ul i.dj{background-position: left top;}
+.RecoNews .hotReco ul i.sf{background-position: left -60px;}
+.RecoNews .hotReco ul i.ip{background-position: left -120px;}
+.RecoNews .hotReco ul i.hd{background-position: left -180px;}
+.RecoNews .hotReco ul i.libao{width: 29px;height: 37px;background-position: left -240px;left: 128px;top: -3px;}
+
+.RecoNews .newsNotice{width: 380px;float: right;}
+.RecoNews .newsNotice .newsNoticeCont{padding-top: 10px;}
+.RecoNews .newsNotice .newsNoticeCont ul li{height: 84px;padding-left: 10px;margin-top: 20px;}
+.RecoNews .newsNotice .newsNoticeCont ul li a{position: relative;display: block;transition: all .3s;left: 0;}
+.RecoNews .newsNotice .newsNoticeCont ul li a:hover{left: 10px;}
+.RecoNews .newsNotice .newsNoticeCont ul li a img{width: 122px;height: 84px;float: left;margin-right: 10px;}
+.RecoNews .newsNotice .newsNoticeCont ul li a h4{font-size: 16px;color: #333;font-weight: normal;transition: all .3s;margin-bottom: 10px;}
+.RecoNews .newsNotice .newsNoticeCont ul li a:hover h4{color: #ff4c4c;}
+.RecoNews .newsNotice .newsNoticeCont ul li a p{width: 225px;line-height: 24px;font-size: 14px;color: #999;float: left;}
+
+.hotStrategy .cont ul li a span em{margin-right: 10px;color: #999;}
+
+/* 分类 */
+.classify{width: 1200px;height: 200px;margin: 0 auto;clear: both;background: url("../images/classifyBg.png") no-repeat center bottom;}
+.classify ul{padding-top: 35px;}
+.classify ul li{float: left;margin-right: 18px;}
+.classify ul li.mr0{margin-right: 0;}
+.classify ul li a{width: 117px;height: 124px;display: block;color: #fff;font-size: 14px;background: url("../images/classify.png") no-repeat;text-align: center;transition: all .3s;}
+.classify ul li a:hover{margin-top: -10px;}
+.classify ul li a span{position: relative;top: 12px;}
+.classify ul li a.jsby{background-position: left top;}
+.classify ul li a.cql{background-position: left -134px;}
+.classify ul li a.gjfz{background-position: left -268px;}
+.classify ul li a.ipdz{background-position: left -402px;}
+.classify ul li a.xxl{background-position: left -536px;}
+.classify ul li a.zzcl{background-position: left -670px;}
+.classify ul li a.jqyc{background-position: left -804px;}
+.classify ul li a.mnjy{background-position: left -938px;}
+.classify ul li a.gd{background-position: left -1072px;}
+/* 2019-02-18新增 */
+.classify ul li a img{width: 50px;height: 50px;display: block;margin: 0 auto;padding-top: 20px;}
+.classify ul li a b{font-size: 14px;color: #fff;font-weight: normal;text-align: center;display: block;}
+
+/* 新游推荐&游戏开服 */
+.recoOpen{width: 1200px;margin: 0 auto;}
+.recoOpen .newReco{width: 790px;float: left;margin-top: 10px;}
+.recoOpen .newReco ul{padding: 0 10px;margin-top: 40px;}
+.recoOpen .newReco ul li{width: 240px;height: 80px;position: relative;float: left;margin-right: 25px;margin-bottom: 30px;}
+.recoOpen .newReco ul li.mr0{margin-right: 0;}
+.recoOpen .newReco ul li:hover .over{display: block;}
+.recoOpen .newReco ul li .normal img{width: 80px;height: 80px;float: left;border-radius: 20px;margin-right: 10px;}
+.recoOpen .newReco ul li .normal h4{font-size: 16px;color: #333;margin-bottom: 10px;padding-top: 7px;}
+.recoOpen .newReco ul li .normal p{line-height: 18px;font-size: 14px;color: #999;}
+
+.recoOpen .newReco ul li .over{width: 250px;height: 100px;background: url("../images/newRecoOverBg.png") no-repeat;position: absolute;left: -10px;top: -10px;display: none;}
+.recoOpen .newReco ul li .over .code img{width: 78px;height: 78px;border: 2px solid #fff;border-radius: 15px;margin-top: 9px;margin-left: 10px;float: left;}
+.recoOpen .newReco ul li .over .start{width: 75px;height: 35px;line-height: 35px;float: right;margin-top: 49px;padding-left: 15px;color: #ff4b4c;}
+
+.recoOpen .gameOpen{width: 380px;float: right;margin-top: 10px;}
+
+/* gg */
+.gg{width: 1200px;height: 80px;clear: both;margin: 0 auto;padding-top: 20px;}
+.gg img{width: 1200px;height: 80px;}
+
+/* 游戏专题&游戏礼包 */
+.specialPageage{width: 1200px;margin: 0 auto;}
+.specialPageage .special{width: 790px;float: left;margin-top: 15px;}
+
+.specialPageage .special .dh{margin-top: 30px;}
+.specialPageage .special .dh ul{position: relative;overflow: hidden;width: 790px;height: 285px;margin: 0 auto 0;}
+.specialPageage .special .dh ul li{float: left;width: 69px;overflow: hidden;height: 100%;position: relative;cursor: pointer;margin-right: 1px;}
+.specialPageage .special .dh ul li.mr0{margin-right: 0;}
+.specialPageage .special .dh ul li img{display: block;width: 580px; height: 285px;}
+.specialPageage .special .dh ul li a{display: block;width: 100%;height: 100%;}
+.specialPageage .special .dh ul li .layer{position: absolute;bottom: 0;left: 0;width: 100%;background:rgba(0, 0, 0, .5);height: 100%;}
+.specialPageage .special .dh ul li .layer p{width: 562px;position: absolute;bottom: 8px;left: 18px;white-space: nowrap;font-size: 16px;}
+.specialPageage .special .dh ul li .layer p b{color: #fff;font-weight: normal;}
+.specialPageage .special .dh ul li .layer p span{color: #ff7c33;float: right;margin-right: 15px;}
+.specialPageage .special .dh ul li .layer p span i{width: 10px;height: 7px;background: url("../images/homeIcon.png") no-repeat left -633px;display: inline-block;margin-right: 8px;position: relative;top: -2px;}
+
+/* 游戏礼包 */
+.specialPageage .pageage{width: 380px;float: right;}
+.specialPageage .pageage .hotPage .cont{margin-top: 18px;}
+
+/* 榜单 */
+.bangBg{width: 100%;height: 630px;background: #3e424f;clear: both;margin-top: 30px;}
+.bang{width: 1200px;margin: 0 auto;padding-top: 15px;}
+.bang .hotBang{width: 380px;float: left;margin-right: 30px;}
+.bang .hotBang.mr0{margin-right: 0;}
+.bang .hotBang h3{border-bottom: 1px solid #646a7d;}
+.bang .hotBang h3 span{color: #fff;}
+.bang .hotBang h3 span .i_2{background: linear-gradient(to right, #24c5b2, #3bdb92);}
+
+.bang .hotBang .cont ul{margin-top: 30px;}
+.bang .hotBang .cont ul li{height: 60px;position: relative;clear: both;padding: 10px 0;margin-bottom: 5px;}
+.bang .hotBang .cont ul li:hover{background: url("../images/hotBangBg.png") no-repeat center top;}
+.bang .hotBang .cont ul li em{width: 30px;height: 30px;line-height: 30px;background: #8b93a9;color: #fff;text-align: center;border-radius: 15px;display: block;float: left;margin-right: 10px;margin-top: 15px;}
+.bang .hotBang .cont ul li em.bg_1_1{height: 60px;line-height: 60px;margin-top: 0;background: #ff5f41;background: linear-gradient(to bottom, #fa4b4c, #fb7b33);}
+.bang .hotBang .cont ul li em.bg_1_2{background: #ff7b33;}
+.bang .hotBang .cont ul li em.bg_1_3{background: #f9b31e;}
+.bang .hotBang .cont ul li em.bg_2_1{height: 60px;line-height: 60px;margin-top: 0;background: #2dd2a7;background: linear-gradient(to bottom, #24c5b2, #3bdb92);}
+.bang .hotBang .cont ul li em.bg_2_2{background: #3add94;}
+.bang .hotBang .cont ul li em.bg_2_3{background: #6ceab2;}
+.bang .hotBang .cont ul li em.bg_3_1{height: 60px;line-height: 60px;margin-top: 0;background: #f8bd23;background: linear-gradient(to bottom, #f4ab1d, #f3d330);}
+.bang .hotBang .cont ul li em.bg_3_2{background: #e0c12a;}
+.bang .hotBang .cont ul li em.bg_3_3{background: #d3c477;}
+
+.bang .hotBang .cont ul li a img{width: 60px;height: 60px;float: left;border-radius: 10px;margin-right: 12px;transition: all .3s;}
+.bang .hotBang .cont ul li:hover img{margin-left: 10px;}
+.bang .hotBang .cont ul li a h5{font-size: 16px;color: #fff;font-weight: normal;padding-top: 5px;padding-bottom: 10px;}
+.bang .hotBang .cont ul li p{font-size: 14px;color: #999;}
+.bang .hotBang .cont ul li a.start{width: 73px;height: 28px;line-height: 28px;color: #ff4a4d;display: block;text-align: center;border: 1px solid #ff4a4d;border-radius: 14px;position: absolute;right: 0;top: 26px;transition: all .3s;}
+.bang .hotBang .cont ul li a.start:hover{background: #ff4a4d;background: linear-gradient(to right, #fb4b4d, #ff7138);color: #fff;}
+
+/* 友情链接 */
+.friendLink{width: 1200px;margin: 0 auto;clear: both;padding-top: 15px;}
+.friendLink ul{margin-top: 27px;clear: both;padding-bottom: 100px;}
+.friendLink ul li{float: left;font-size: 16px;color: #333;margin-bottom: 17px;}
+.friendLink ul li a{color: #333;transition: all .3s;margin-right: 14px;}
+.friendLink ul li a:hover{color: #ff4b4c;}
+.friendLink ul span{margin-right: 14px;color: #c1c1c1;float: left;}
+
+/* 推荐在这里 */
+.hereBtn{width: 23px;height: 100px;position: fixed;right: 0;bottom: 94px;border-top-left-radius: 5px;border-bottom-left-radius: 5px;cursor: pointer;background: url("../images/here.png") no-repeat 5px center #6f7ca2;padding-left: 17px;}
+.hereBtn span{width: 14px;line-height: 16px;font-size: 14px;color: #fff;display: block;margin-top: 11px;}
+
+.hereBox{width: 317px;height: 194px;background: #6f7ca2;position: fixed;right: -317px;bottom: 0;border-radius: 5px;}
+.hereBox .tit{height: 40px;line-height: 40px;font-size: 14px;color: #fff;margin-left: 10px;position: relative;}
+.hereBox .tit i.close{width: 14px;height: 12px;display: block;background: url("../images/homeIcon.png") no-repeat left -649px;position: absolute;right: 10px;top: 15px;cursor: pointer;}
+.hereBox .cont{width: 310px;height: 150px;margin: 0 auto;}
+.hereBox .cont img{width: 310px;height: 150px;}
+
+
+/*2018/8/6  进入专区*/
+.recoOpen .newReco ul li .over a.loginZone{font-size: 14px;color: #fdded3;position: absolute;right: 0;top: 20px;}
+.recoOpen .newReco ul li .over a.loginZone:hover{color: #fff;}
+
+/* 新年新增 */
+.RecoNews .hotReco ul li .normal{position: relative;}
+.RecoNews .hotReco ul li .normal .zhu{width: 130px;height: 130px;position: absolute;left: 15px;top: 40px;}

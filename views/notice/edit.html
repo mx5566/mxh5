@@ -1,0 +1,40 @@
+<div class="row">
+    <!-- form start -->
+    <form class="form-horizontal" id="thisForm">
+        <input type="hidden" Name="GameId" id="GameId" value="{{.gameId}}">
+        <input type="hidden" Name="NoticeId" id="NoticeId" value="{{.m.NoticeId}}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">公告标题 </label>
+            <div class="col-sm-8">
+                <input type="text" name="NoticeTitle" class="form-control" placeholder="字母汉字" value="{{.m.NoticeTitle}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">顺序</label>
+            <div class="col-sm-8">
+                <input type="text" name="NoticeWeight" class="form-control" placeholder="非负整数" value="{{.m.NoticeWeight}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-8">
+                <select  class="bs-select form-control" name="NoticeStatus" id="NoticeStatus">
+                    {{range $index, $elem := .mapNoticeTabs}}
+                    <option value="{{$index}}">{{$elem}}</option>
+                    {{end}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">
+                内容
+            </label>
+            <div class="col-sm-8">
+                <textarea name="NoticeContent" class="form-control" id="NoticeContent" >
+                {{.m.NoticeContent}}
+                </textarea>
+                {{/*<input  type="text" name="NoticeContent" class="form-control"  value="{{.m.NoticeContent}}" >*/}}
+            </div>
+        </div>
+    </form>
+</div>

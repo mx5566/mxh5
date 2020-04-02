@@ -1,0 +1,1829 @@
+<script type="text/javascript">
+    var gFINDPWD_FLAG = false;
+    var gbindPhoneCodeGet_FLAG = false;
+    var gPwdPhoneCode_FLAG = false;
+    var gChangePwd_FLAG = false;
+    var gRegister_FLAG = false;
+    var gBindChgpwd_FLAG = false;
+    var gDrawBind_FLAG = false;
+    var gLOGIN_FLAG = false;
+    var gREG_FLAG = false;
+    var gFINDPWD_FLAG = false;
+    var gfindpwdPhoneCodeGet_FLAG = false;
+    var gfindpwdPhoneOper_FLAG = false;
+    var gchgpwdOper_FLAG = false;
+    var glogoutOper_FLAG = false;
+    var gVisitREG_FLAG = false;
+
+    var countdown = 60;
+    //倒计时
+    function setDownTimes(obj, downTimesBefore, downTimesAfter) {
+        if (countdown == 60) {
+            obj.text('获取验证码');
+        }
+        countdown--;
+        obj.addClass('span1').text('再次获取(' + countdown + 's)');
+        if (typeof(downTimesBefore) == 'function') {
+            downTimesBefore(obj);
+        }
+        var t = setTimeout(function() {
+            setDownTimes(obj, downTimesBefore, downTimesAfter);
+        }, 1000);
+        if (countdown <= 0) {
+            obj.removeClass('span1');
+            obj.text('获取验证码');
+            if (typeof(downTimesAfter) == 'function') {
+                downTimesAfter(obj);
+            }
+            clearTimeout(t);
+            countdown = 60;
+        }
+    }
+
+    // 姓名检测
+    function check_realname() {
+        // 姓名值
+        var realname_val = $.trim($("#reg_realname").val());
+        if (realname_val == "") {
+            showNotice('请输入真实姓名');
+            return false;
+        }
+        return true;
+    }
+
+    // 身份证检测
+    function check_idcard() {
+        var idcard_val = $.trim($("#reg_idcard").val());
+        var res = checkCard(idcard_val);
+        if (idcard_val == "" || !res) {
+            showNotice('请使用真实身份信息认证');
+            return false;
+        }
+        return true;
+    }
+    var vcity = { 11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",
+        21:"辽宁",22:"吉林",23:"黑龙江",31:"上海",32:"江苏",
+        33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",
+        42:"湖北",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",
+        51:"四川",52:"贵州",53:"云南",54:"西藏",61:"陕西",62:"甘肃",
+        63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外"
+    };
+
+    checkCard = function(card)
+    {
+        //是否为空
+        if(card === '') {
+            return false;
+        }
+        //校验长度，类型
+        if(isCardNo(card) === false) {
+            return false;
+        }
+        //检查省份
+        if(checkProvince(card) === false) {
+            return false;
+        }
+        //校验生日
+        if(checkBirthday(card) === false) {
+            return false;
+        }
+        //检验位的检测
+        if(checkParity(card) === false) {
+            return false;
+        }
+        return true;
+    };
+
+
+    //检查号码是否符合规范，包括长度，类型
+    isCardNo = function(card) {
+        //身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+        var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+        if(reg.test(card) === false) {
+            return false;
+        }
+
+        return true;
+    };
+
+    //取身份证前两位,校验省份
+    checkProvince = function(card) {
+        var province = card.substr(0,2);
+        if(vcity[province] == undefined)
+        {
+            return false;
+        }
+        return true;
+    };
+
+    //检查生日是否正确
+    checkBirthday = function(card) {
+        var len = card.length;
+        //身份证15位时，次序为省（3位）市（3位）年（2位）月（2位）日（2位）校验位（3位），皆为数字
+        if(len == '15')
+        {
+            var re_fifteen = /^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/;
+            var arr_data = card.match(re_fifteen);
+            var year = arr_data[2];
+            var month = arr_data[3];
+            var day = arr_data[4];
+            var birthday = new Date('19'+year+'/'+month+'/'+day);
+            return verifyBirthday('19'+year,month,day,birthday);
+        }
+        //身份证18位时，次序为省（3位）市（3位）年（4位）月（2位）日（2位）校验位（4位），校验位末尾可能为X
+        if(len == '18')
+        {
+            var re_eighteen = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
+            var arr_data = card.match(re_eighteen);
+            var year = arr_data[2];
+            var month = arr_data[3];
+            var day = arr_data[4];
+            var birthday = new Date(year+'/'+month+'/'+day);
+            return verifyBirthday(year,month,day,birthday);
+        }
+        return false;
+    };
+
+    //校验日期
+    verifyBirthday = function(year,month,day,birthday) {
+        var now = new Date();
+        var now_year = now.getFullYear();
+        //年月日是否合理
+        if(birthday.getFullYear() == year && (birthday.getMonth() + 1) == month && birthday.getDate() == day)
+        {
+            //判断年份的范围（3岁到100岁之间)
+            var time = now_year - year;
+            if(time >= 17 && time <= 100)
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    };
+
+    //校验位的检测
+    checkParity = function(card) {
+        //15位转18位
+        card = changeFivteenToEighteen(card);
+        var len = card.length;
+        if(len == '18') {
+            var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+            var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+            var cardTemp = 0, i, valnum;
+            for(i = 0; i < 17; i ++)
+            {
+                cardTemp += card.substr(i, 1) * arrInt[i];
+            }
+            valnum = arrCh[cardTemp % 11];
+            if (valnum == card.substr(17, 1))
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    };
+
+    //15位转18位身份证号
+    changeFivteenToEighteen = function(card) {
+        if(card.length == '15') {
+            var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+            var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+            var cardTemp = 0, i;
+            card = card.substr(0, 6) + '19' + card.substr(6, card.length - 6);
+            for(i = 0; i < 17; i ++)
+            {
+                cardTemp += card.substr(i, 1) * arrInt[i];
+            }
+            card += arrCh[cardTemp % 11];
+            return card;
+        }
+        return card;
+    };
+
+    // 统计
+    function tongjiReg(type) {
+        if (!type) {
+            return false;
+        }
+
+        var tongji_type = 0;
+        var share_type = 0;
+        if (type == 'reg') {
+            tongji_type = 2;
+            share_type = 1; //注册
+        } else if (type == 'login') {
+            tongji_type = 4;
+            share_type = 2; // 登录
+        } else if (type == 'visitorlogin') {
+            tongji_type = 6;
+            share_type = 2;
+        }
+
+        var tghzhks_game_id_val = $("#info").attr("da-tghzhks-game_id") | 0;
+        var tghzhks_appid_val = $("#info").attr("da-tghzhks-appid") | 0;
+        var tghzhks_tgc_val = $.trim($("#info").attr("da-tghzhks-tgc"));
+
+        $.ajax({
+            url: "/tongji/aj_click_tongji",
+            type: "GET",
+            data: {appid: tghzhks_appid_val, game_id: tghzhks_game_id_val, type: tongji_type, tgc: tghzhks_tgc_val},
+            dataType: "json",
+            //cache: false,
+            timeout: 500,
+            success: function(msg) {
+            },
+            error: function() {
+            }
+        });
+
+        if (share_type > 0) {
+            var usershare_from_uid_val = $("#info").attr("da-usershare-fromuid") | 0;
+            if (usershare_from_uid_val > 0) {
+                // 邀请统计
+                $.ajax({
+                    url: '/invite/aj_user_share_tj',
+                    data: {
+                        from_uid: usershare_from_uid_val,
+                        type: share_type // 注册
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    cache: false,
+                    success: function(msg) {}
+                });
+            }
+        }
+    }
+
+    // 游客注册
+    function visitorreg() {
+        if (true === gVisitREG_FLAG) {
+            return false;
+        }
+        gVisitREG_FLAG = true;
+        var visitor_name = window.utils07073.getCustomCookieItem('visitor_name');
+        var visitor_pwd = window.utils07073.getCustomCookieItem('visitor_pwd');
+        if (visitor_name != '' && visitor_name != null && visitor_pwd != '' && visitor_pwd != null) {
+            $.ajax({
+                url: '/login/aj_login',
+                data: {
+                    username: visitor_name,
+                    password: visitor_pwd,
+                    appid: $('#info').attr('da-appid'),
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gLOGIN_FLAG = false;
+                    if ((msg.errno == 100) || (msg.errno == 121)) {
+                        $('#info').attr('da-uid', msg.info.uid);
+                        $('#info').attr('da-username', msg.info.username);
+                        $('#info').attr('da-avatar', msg.info.avatar);
+                        window.utils07073.setCustomCookieItem('visitor_name', visitor_name);
+                        window.utils07073.setCustomCookieItem('visitor_pwd', visitor_pwd);
+
+                        resetValue();
+                        loginYet();
+                        if (typeof tongjiReg == "function") {
+                            tongjiReg('visitorlogin');
+                        }
+                        if (typeof loginCallback == 'function') {
+                            loginCallback();
+                        }
+                    } else {
+                        $.ajax({
+                            url: '/login/visitor_reg',
+                            data: {
+                                appid: $('#info').attr('da-appid')
+                            },
+                            type: 'POST',
+                            dataType: 'json',
+                            cache: false,
+                            success: function(msg) {
+                                gVisitREG_FLAG = false;
+                                if ((msg.errno == 100) || (msg.errno == 121)) {
+                                    $('#info').attr('da-uid', msg.info.uid);
+                                    $('#info').attr('da-username', msg.info.username);
+                                    $('#info').attr('da-avatar', msg.info.avatar);
+                                    window.utils07073.setCustomCookieItem('visitor_name', msg.info.username);
+                                    window.utils07073.setCustomCookieItem('visitor_pwd', msg.info.password);
+
+                                    resetValue();
+                                    loginYet();
+                                    if (typeof tongjiReg == "function") {
+                                        tongjiReg('visitorlogin');
+                                    }
+                                    if (typeof loginCallback == 'function') {
+                                        loginCallback();
+                                    }
+                                } else {
+                                    showNotice(msg.errstr);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            return false;
+        } else {
+            $.ajax({
+                url: '/login/visitor_reg',
+                data: {
+                    appid: $('#info').attr('da-appid')
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gVisitREG_FLAG = false;
+                    if ((msg.errno == 100) || (msg.errno == 121)) {
+                        $('#info').attr('da-uid', msg.info.uid);
+                        $('#info').attr('da-username', msg.info.username);
+                        $('#info').attr('da-avatar', msg.info.avatar);
+                        window.utils07073.setCustomCookieItem('visitor_name', msg.info.username);
+                        window.utils07073.setCustomCookieItem('visitor_pwd', msg.info.password);
+
+                        resetValue();
+                        loginYet();
+                        if (typeof tongjiReg == "function") {
+                            tongjiReg('visitorlogin');
+                        }
+                        if (typeof loginCallback == 'function') {
+                            loginCallback();
+                        }
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+
+        }
+    }
+
+    // 登录操作
+    function doLogin() {
+
+        if (true === gLOGIN_FLAG) {
+            return false;
+        }
+        var login_username_val = $.trim($('#login_username').val());
+        var login_password_val = $.trim($('#login_password').val());
+
+        if ((login_username_val === '') || (login_password_val === '')) {
+            showNotice('帐号或密码为空');
+            return false;
+        }
+
+        if (cPasswd(login_password_val)) {
+            showNotice('不支持中文的密码哦 ');
+            return false;
+        };
+
+        //gLOGIN_FLAG = true;
+        $.ajax({
+            url: '/login/aj_login',
+            data: {
+                username: login_username_val,
+                password: login_password_val,
+                appid: $('#info').attr('da-appid'),
+            },
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            success: function(msg) {
+                gLOGIN_FLAG = false;
+                if ((msg.errno == 100) || (msg.errno == 121)) {
+                    $('#info').attr('da-uid', msg.info.uid);
+                    $('#info').attr('da-username', msg.info.username);
+                    $('#info').attr('da-avatar', msg.info.avatar);
+
+                    resetValue();
+                    loginYet();
+                    if (typeof tongjiReg == "function") {
+                        tongjiReg('login');
+                    }
+                    if (typeof loginCallback == 'function') {
+                        loginCallback();
+                    }
+                } else {
+                    showNotice(msg.errstr);
+                }
+            }
+        });
+    }
+    // 打开侧栏手机绑定
+    function openSidebarBindPhone()
+    {
+        $("#userInfoDiv").hide();
+        $("#conDiv").show();
+        $("#ballConDiv").hide();
+        $('#ballUserinfoDiv').hide();
+        $('#bindPhoneDiv').show();
+        $('.gray').hide();
+        resetValue();
+    }
+    // 已登陆状态
+    function loginYet() {
+        $('.thisWinPop').hide();
+    }
+
+    function moreLoginShow() {
+        $('#moreLoginDiv').show();
+        $("#userInfoDiv").show();
+        $("#loginDiv").hide();
+    }
+    function moreLoginHide() {
+        $('#moreLoginDiv').hide();
+        $("#userInfoDiv").hide();
+        $(".gray").hide();
+    }
+
+    function login() {
+        $('#loginDiv').show();
+        $("#userInfoDiv").show();
+    }
+
+    function noticeLs() {
+        if (confirm("是否复制客服QQ,未复制可点击取消返回复制")) {
+            $.ajax({
+                url: '/login/aj_logout',
+                data: {},
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    glogoutOper_FLAG = false;
+                    if (msg.errno == 100) {
+                        $('#info').attr('da-uid', 0);
+                        $('#info').attr('da-username', '');
+                        $('#info').attr('da-avatar', '');
+                        $('.thisWinPop').hide();
+                        resetValue();
+
+                        if (typeof logoutCallback == 'function') {
+                            logoutCallback();
+                        }
+
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        } else {
+            $("#noticeDivLs").show();
+            $(".gray").show();
+        }
+    }
+
+    // app微信登录回调
+    function wxappcallback(code)
+    {
+        var url = "/sns_login/wxappcallback?code="+code+"&r=" + encodeURIComponent(window.location.href);
+        window.location.href = url;
+    }
+
+    // app微信登录
+    function BSL_WEIXIN_LOGIN(res) {
+        var json_res = JSON.parse(res);
+        $.ajax({
+            url: "/sns_login/bslapp_weixin_login",
+            data: json_res,
+            dataType: 'json',
+            type: 'POST',
+            cache: false,
+            success: function (msg) {
+                if (msg.errno == 100) {
+                    window.location.href = updateUrl(window.location.href);
+                } else {
+                    alert(msg.errstr);
+                }
+            }
+        });
+    }
+
+    // app微信登录 自己
+    function webweixinlogin(res) {
+
+        $("#loaderDiv").hide();
+        if (typeof(res) == "object") {
+            var json_res = res;
+        } else {
+            var json_res = JSON.parse(res);
+        }
+
+        // 判断登录是否成功
+        if (json_res.login_res != 1) {
+            return false;
+        }
+        $.ajax({
+            url: "/sns_login/web_weixin_login",
+            data: json_res,
+            dataType: 'json',
+            type: 'POST',
+            cache: false,
+            success: function (msg) {
+
+                if (msg.errno == 100) {
+                    window.location.href = updateUrl(window.location.href);
+                } else {
+                    alert(msg.errstr);
+                }
+            }
+        });
+    }
+
+    function updateUrl(url, key) {
+        return url;
+        var key = (key || 'ut') + '=';  //默认是"ut"
+        var reg = new RegExp(key + '\\d+');  //正则：ut=1472286066028
+        var timestamp = +new Date();
+        if (url.indexOf(key) > -1) { //有时间戳，直接更新
+            return url.replace(reg, key + timestamp);
+        } else {  //没有时间戳，加上时间戳
+            if (url.indexOf('\?') > -1) {
+                var urlArr = url.split('\?');
+                if (urlArr[1]) {
+                    return urlArr[0] + '?' + key + timestamp + '&' + urlArr[1];
+                } else {
+                    return urlArr[0] + '?' + key + timestamp;
+                }
+            } else {
+                if (url.indexOf('#') > -1) {
+                    return url.split('#')[0] + '?' + key + timestamp + location.hash;
+                } else {
+                    return url + '?' + key + timestamp;
+                }
+            }
+        }
+    }
+
+    function init() {
+        var uid = $('#info').attr('da-uid') | 0;
+        var autoLogin = $('#info').attr('da-auto-login') | 0;
+        var isBindPhone = $('#info').attr('da-is-bindphone') | 0;
+        var isShowLogin = $("#info").attr("da-is-showlogin") | 0;
+        if (uid > 0) {
+            if (isBindPhone == 1) { // 已绑定手机
+                loginYet();
+            }
+        } else {
+            if (autoLogin) {
+                //login();
+            } else {
+                if (isShowLogin == 1) {
+                    login();
+                }
+            }
+        }
+
+        // 监听消息
+        window.addEventListener('message', function(e) {
+            switch (e.data.cmd) {
+                case "snslogin":
+                    if (typeof tongjiReg == "function") {
+                        tongjiReg('login');
+                    }
+                    setTimeout(function(){
+                        window.location.href = updateUrl(window.location.href);
+                    }, 500);
+                    break;
+            }
+        }, false);
+    }
+</script>
+<script src="/static/static.geetest.com/static/tools/gt.js" ></script>
+<script type="text/javascript">
+    var gGEET_captchaObj = null;
+    $(function() {
+        // 人机验证关闭
+        $(".valiWrap a").click(function() {
+            $(".valiWrap, #valiWrapMask").fadeOut();
+        });
+
+        $('.h5-wap-eye').click(function() {
+            var obj = $(this).parents('li').find('.h5-wap-input-password');
+            var type = obj.attr('type');
+            if (type == 'text') {
+                obj.attr('type', 'password');
+                $(this).removeClass('eye_2');
+                $(this).addClass('eye_1');
+            } else {
+                obj.attr('type', 'text');
+                $(this).removeClass('eye_1');
+                $(this).addClass('eye_2');
+            }
+            obj.focus();
+        });
+
+        $(".BDafter i.close").click(function() {
+            $('#bangPhoneNoticeDiv').show();
+            $(".BDafter").hide();
+        });
+
+        // 关闭弹窗
+        $(".BDphone .close").click(function() {
+            $('#userInfoDiv').hide();
+            $('.gray').hide();
+            $(".BDphone").fadeOut();
+        });
+
+        // 密码找回确认按钮处理
+        $('.h5-wap-find-pwd-confirm-btn').click(function() {
+            // 校验输入验证码是否是否正确
+            if (true === gPwdPhoneCode_FLAG) {
+                return false;
+            }
+
+            var code = $.trim($('#h5-wap-input-phone-code').val());
+            if (code === '') {
+                showNotice('验证码未填写');
+                return false;
+            }
+            gPwdPhoneCode_FLAG = true;
+            $.ajax({
+                url: '/login/aj_findpwd_phonecode_check',
+                data: {
+                    code: code
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gPwdPhoneCode_FLAG = false;
+                    if (msg.errno == 100) {
+                        $('#findpwdConfirmDiv').hide();
+                        $('#settingPwdDiv').show();
+                        $('#h5-wap-input-phone-code').val('');
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        // 更新密码
+        $('.h5-wap-change-pwd-btn').click(function() {
+            if (true === gChangePwd_FLAG) {
+                return false;
+            }
+
+            var chgpwd_password_val = $.trim($('#h5-wap-input-setting-password').val());
+
+            if (chgpwd_password_val === '') {
+                showNotice('密码未填写');
+                return false;
+            }
+            if (chgpwd_password_val.length < 6 || chgpwd_password_val.length > 15) {
+                showNotice('密码最少6位，最长15位');
+                return false;
+            };
+
+            if (cPasswd(chgpwd_password_val)) {
+                showNotice('不支持中文的密码哦');
+                return false;
+            };
+
+            gChangePwd_FLAG = true;
+            $.ajax({
+                url: '/login/aj_chgpwd',
+                data: {
+                    password: chgpwd_password_val
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gChangePwd_FLAG = false;
+                    if (msg.errno == 100) {
+                        showNotice(msg.errstr);
+                        $('.thisWinPop').hide();
+                        $('#settingPwdDiv').hide();
+                        $('#loginDiv').show();
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        // 绑定并更新密码
+        $('.h5-wap-bind-and-chgpwd-btn').click(function() {
+            if (true === gBindChgpwd_FLAG) {
+                return false;
+            }
+
+            var bind_and_chgpwd_username_val = $.trim($('#bind_and_chgpwd_username').val());
+            var bind_and_chgpwd_password_val = $.trim($('#bind_and_chgpwd_password').val());
+            var bind_and_chgpwd_code_val     = $.trim($('#bind_and_chgpwd_code').val());
+
+            if (bind_and_chgpwd_username_val === '') {
+                showNotice('手机号为空');
+                return false;
+            }
+            if (!cPhone(bind_and_chgpwd_username_val)) {
+                showNotice('手机号格式不正确');
+                return false;
+            }
+
+            if (bind_and_chgpwd_password_val === '') {
+                showNotice('密码未填写');
+                return false;
+            }
+            if (bind_and_chgpwd_password_val.length < 6 || bind_and_chgpwd_password_val.length > 15) {
+                showNotice('密码最少6位，最长15位');
+                return false;
+            }
+            if (cPasswd(bind_and_chgpwd_password_val)) {
+                showNotice('不支持中文的密码哦');
+                return false;
+            }
+
+            if (bind_and_chgpwd_code_val === '') {
+                showNotice('验证码为空');
+                return false;
+            }
+
+            gBindChgpwd_FLAG = true;
+            $.ajax({
+                url: '/login/aj_bind_and_chgpwd',
+                data: {
+                    username: bind_and_chgpwd_username_val,
+                    password: bind_and_chgpwd_password_val,
+                    code: bind_and_chgpwd_code_val
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gBindChgpwd_FLAG = false;
+                    if (msg.errno == 100) {
+                        showNotice(msg.errstr);
+                        $('#h5-wap-bind-phone-popup-div').hide();
+                        $('.thisWinPop').hide();
+                        $('#settingPwdDiv').hide();
+                        $('#loginDiv').show();
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        // 抽奖绑定手机
+        $('.h5-wap-draw-bind-btn').click(function() {
+            if (true === gDrawBind_FLAG) {
+                return false;
+            }
+
+            var bind_draw_username_val = $.trim($('#bind_draw_username').val());
+            var bind_draw_code_val     = $.trim($('#bind_draw_code').val());
+
+            if (bind_draw_username_val === '') {
+                showNotice('手机号为空');
+                return false;
+            }
+            if (!cPhone(bind_draw_username_val)) {
+                showNotice('手机号格式不正确');
+                return false;
+            }
+
+            if (bind_draw_code_val === '') {
+                showNotice('验证码为空');
+                return false;
+            }
+
+            gDrawBind_FLAG = true;
+            $.ajax({
+                url: '/login/aj_bind_draw_phone',
+                data: {
+                    phone: bind_draw_username_val,
+                    code: bind_draw_code_val
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gDrawBind_FLAG = false;
+                    if (msg.errno == 100) {
+                        showNotice(msg.errstr);
+                        $('.gray').hide();
+                        $('#userInfoDiv').hide();
+                        $('#h5-wap-draw-bind-phone-popup-div').hide();
+                        $('.thisWinPop').hide();
+                        $('#settingPwdDiv').hide();
+                        $('.mask').addClass('dn');
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+        // 选择框状态
+        $('#reg_protocol').click(function() {
+            var checked = $(this).is(':checked');
+            if (!checked) {
+                $('.h5-wap-reg-btn').css('background-color', '#cccccc');
+                $('.h5-wap-change-status').css('color', '#cccccc');
+            } else {
+                $('.h5-wap-reg-btn').css('background-color', '#fe632b');
+                $('.h5-wap-change-status').css('color', '#fe632b');
+            }
+        });
+        // 发送手机验证码
+        $('.h5-wap-get-captcha-link span').click(function() {
+            if (true === gbindPhoneCodeGet_FLAG) {
+                return false;
+            }
+            var _this = $(this);
+            var hasError = false;
+            var data = {};
+            $.each(_this.parents('ul').find('.h5-wap-input-data'), function(i,o) {
+                var item = $(o).val();
+                if (item == '') {
+                    if ($(o).attr('id') == 'reg_username' || $(o).attr('id') == 'bind_and_chgpwd_username' || $(o).attr('id') == 'bind_draw_username') {
+                        showNotice('手机号为空');
+                        hasError = true;
+                        return false;
+                    } else if ($(o).attr('id') == 'reg_password' || $(o).attr('id') == 'bind_and_chgpwd_password') {
+                        showNotice('密码为空');
+                        hasError = true;
+                        return false;
+                    } else if ($(o).attr('id') == 'reg_protocol') {
+                        showNotice('必须同意协议');
+                        hasError = true;
+                        return false;
+                    }
+                } else {
+                    if ($(o).attr('id') == 'reg_username' || $(o).attr('id') == 'bind_and_chgpwd_username'|| $(o).attr('id') == 'bind_draw_username') {
+                        if (!cPhone(item)) {
+                            showNotice('手机号格式不正确');
+                            hasError = true;
+                            return false;
+                        }
+                    } else if ($(o).attr('id') == 'reg_password' || $(o).attr('id') == 'bind_and_chgpwd_password') {
+                        if (item.length < 6 || item.length > 15) {
+                            showNotice('密码最少6位，最长15位');
+                            hasError = true;
+                            return false;
+                        }
+                    } else if ($(o).attr('id') == 'reg_protocol') {
+                        var checked = $(o).is(":checked");
+                        if (!checked) {
+                            showNotice("必须同意协议");
+                            hasError = true;
+                            return false;
+                        }
+                    }
+                }
+                data[$(o).attr('id')] = item;
+            });
+            if (hasError) {
+                return false;
+            }
+
+            var validate = gGEET_captchaObj.getValidate();
+
+            var input = _this.parents('li').find('input');
+            // 取得
+            gbindPhoneCodeGet_FLAG = true;
+
+            var type = _this.attr('h5-wap-captcha-type');
+
+            if (!validate) {
+                //showNotice('请先完成验证');
+
+                $(".valiWrap,#valiWrapMask").show();
+                gbindPhoneCodeGet_FLAG = false;
+
+            } else {
+                data.geetest_challenge = validate.geetest_challenge;
+                data.geetest_validate = validate.geetest_validate;
+                data.geetest_seccode = validate.geetest_seccode;
+
+                $.ajax({
+                    url: "/login/aj_send_" + type + "_phonecode",
+                    type: "post",
+                    dataType: "json",
+                    data: data,
+                    success: function (msg) {
+                        gbindPhoneCodeGet_FLAG = false;
+                        if (msg.errno == 100) {
+                            showNotice(msg.errstr);
+                            input.val('');
+                            setDownTimes(_this, downTimesBefore, downTimesAfter);
+                            input.focus();
+                        } else {
+                            showNotice(msg.errstr);
+                        }
+                        gGEET_captchaObj.reset();
+                    }
+                });
+            }
+        });
+        /*
+            var handlerEmbed = function (captchaObj) {
+                gGEET_captchaObj = captchaObj;
+                // 将验证码加到id为captcha的元素里，同时会有三个input的值：geetest_challenge, geetest_validate, geetest_seccode
+                gGEET_captchaObj.appendTo("#embed-captcha");
+                gGEET_captchaObj.onReady(function () {
+                });
+            };*/
+        $.ajax({
+            // 获取id，challenge，success（是否启用failback）
+            url: "/login/gtCaptcha?t=" + (new Date()).getTime(), // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    new_captcha: data.new_captcha,
+                    product: "embed", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                    offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                    // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
+                }, function (captchaObj) {
+                    gGEET_captchaObj = captchaObj;
+                    // 将验证码加到id为captcha的元素里，同时会有三个input的值：geetest_challenge, geetest_validate, geetest_seccode
+                    gGEET_captchaObj.appendTo("#embed-captcha");
+                    gGEET_captchaObj.onReady(function () {
+                    });
+                    gGEET_captchaObj.onSuccess(function() {
+
+                        setTimeout(function() {
+                            $(".valiWrap,#valiWrapMask").hide();
+                        } ,1500);
+                        // $(".valiWrap,#valiWrapMask").hide();
+                    });
+                });
+            }
+        });
+
+        // 找回密码
+        $("#findpwdOper").click(function (e) {
+
+            var findpwd_username_val = $.trim($('#findpwd_username').val());
+            if (findpwd_username_val === '') {
+                showNotice('用户名/手机号未填写');
+                return false;
+            }
+
+            var validate = gGEET_captchaObj.getValidate();
+            if (!validate) {
+                //showNotice('请先完成验证');
+
+                $(".valiWrap,#valiWrapMask").show();
+
+                e.preventDefault();
+            } else{
+                if (true === gFINDPWD_FLAG) {
+                    return false;
+                }
+                gFINDPWD_FLAG = true;
+                // 取得用户手机号
+                $.ajax({
+                    url: '/login/aj_get_user_phone',
+                    type: 'POST',
+                    data: {username:findpwd_username_val,
+                        geetest_challenge: validate.geetest_challenge,
+                        geetest_validate: validate.geetest_challenge,
+                        geetest_seccode: validate.geetest_challenge
+                    },
+                    dataType: 'json',
+                    cache: false,
+                    success: function(msg) {
+                        gFINDPWD_FLAG = false;
+                        if (msg.errno == 100) {
+                            $('#findpwdDiv').hide();
+                            $('#findpwdConfirmDiv .phone i').text(msg.info.phone);
+                            $('#findpwdConfirmDiv .phone i').attr('h5-wap-bind-phone', msg.info.phone);
+                            $('#findpwdConfirmDiv').show();
+
+                        } else if (msg.errno == 201) {
+                            showNotice('此帐号未绑定手机');
+                        } else {
+                            if (msg.errstr) {
+                                showNotice(msg.errstr);
+                            } else {
+                                showNotice('请输入用户名/手机号');
+                            }
+                        }
+
+                        gGEET_captchaObj.reset();
+                    }
+                });
+            }
+        });
+
+
+        $('.h5-bind-phone-link').click(function() {
+            var uid = $('#info').attr('da-uid') | 0;
+            if (uid > 0) {
+                $('#bangPhoneNoticeDiv').hide();
+                $('#h5-wap-bind-phone-popup-div').show();
+            } else {
+                login();
+                $('.h5-wap-reg-link').click();
+                $('.h5-wap-back-login-div').attr('h5-wap-bind-phone-referer', 1);
+            }
+        });
+        $('.h5-change-account').click(function() {
+            $('#bangPhoneNoticeDiv').hide();
+            login();
+
+            $('#loginDiv .h5-wap-back-login-div').attr('h5-wap-bind-phone-referer', 1);
+            $('#loginDiv .WinPop_close').show();
+            $('#loginDiv #loginBackA').attr('h5-wap-bind-phone-referer', 1);
+        });
+
+
+        $('.h5-wap-login-link').click(function() {
+            $('#loginDiv').show();
+            $('#thirdPartyDiv').hide();
+        });
+        $('.h5-wap-reg-link').click(function() {
+            $('#loginDiv').hide();
+            $('#regDiv').show();
+        });
+
+        // 注册
+        $('.h5-wap-reg-btn').click(function() {
+            var checked = $('#reg_protocol').is(':checked');
+            if (!checked) {
+                return false;
+            }
+            if (true === gRegister_FLAG) {
+                return false;
+            }
+
+            var reg_username_val = $.trim($('#reg_username').val());
+            var reg_password_val = $.trim($('#reg_password').val());
+            var reg_code_val     = $.trim($('#reg_code').val());
+
+            if (reg_username_val === '') {
+                showNotice('手机号为空');
+                return false;
+            }
+            if (!cPhone(reg_username_val)) {
+                showNotice('手机号格式不正确');
+                return false;
+            }
+            if (reg_password_val === '') {
+                showNotice('密码为空');
+                return false;
+            }
+
+            if (reg_password_val.length < 6 || reg_password_val.length > 15) {
+                showNotice('密码最少6位，最长15位');
+                return false;
+            }
+
+            if (cPasswd(reg_password_val)) {
+                showNotice('不支持中文的密码哦 ');
+                return false;
+            }
+
+            if ((reg_code_val === '')) {
+                showNotice('验证码为空');
+                return false;
+            }
+
+            var appid_val = $('#info').attr('da-appid') | 0;
+            var reg_data = {username: reg_username_val, password: reg_password_val, code: reg_code_val, appid: appid_val};
+
+            if (appid_val < 1) {
+                var reg_realname_val = $.trim($('#reg_realname').val());
+                var reg_idcard_val   = $.trim($('#reg_idcard').val());
+                if ((reg_realname_val === '')) {
+                    showNotice('真实姓名为空');
+                    return false;
+                }
+
+                if ((reg_idcard_val === '')) {
+                    showNotice('身份证号码为空');
+                    return false;
+                }
+
+                if (false === check_realname()) {
+                    showNotice('真实姓名格式不正确');
+                    return false;
+                }
+                if (false === check_idcard()) {
+                    showNotice('身份证号码格式不正确');
+                    return false;
+                }
+
+                reg_data.realname = reg_realname_val;
+                reg_data.idcard = reg_idcard_val;
+            }
+
+            gRegister_FLAG = true;
+            var reg_url = "/login/aj_user_reg";
+            if (appid_val > 0) {
+                reg_url = "/login/aj_user_reg_no_idcard";
+            }
+            $.ajax({
+                url: reg_url,
+                data: reg_data,
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gRegister_FLAG = false;
+                    if ((msg.errno == 100) || (msg.errno == 121)) {
+                        $('#info').attr('da-uid', msg.info.uid);
+                        $('#info').attr('da-username', msg.info.username);
+                        $('#info').attr('da-avatar', msg.info.avatar);
+                        resetValue();
+                        loginYet();
+                        if (typeof tongjiReg == 'function') {
+                            tongjiReg('reg');
+                        }
+                        if (typeof regCallback == 'function') {
+                            regCallback();
+                        }
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+        // 显示密码
+        $('.eye').click(function() {
+            var obj = $(this).parents('li').find('.h5-wap-input-password');
+            if ($(this).attr('src') != undefined) {
+                if ($(this).attr('h5-wap-eye-type') == 'on') {
+                    $(this).attr('h5-wap-eye-type', 'off');
+                    $(this).attr('src', 'https://img5.073img.com/h5/wap/img/login/icon_3.png');
+                } else {
+                    $(this).attr('h5-wap-eye-type', 'on');
+                    $(this).attr('src', 'https://img5.073img.com/h5/wap/img/login/icon_4.png');
+                }
+            }
+            obj.focus();
+            obj.addClass('on');
+            if ($(this).hasClass('eye_open')) {
+                $(this).removeClass('eye_open');
+                obj.attr('type', 'password');
+            } else {
+                $(this).addClass('eye_open');
+                obj.attr('type', 'text');
+            }
+        });
+
+        $('.h5-wap-protocol-link').click(function() {
+            var status = $(this).attr('h5-back-status');
+            $('.h5-wap-reg-div').hide();
+            $('.h5-wap-protocol-div').show();
+            if (status == 1) {
+                $('.h5-wap-protocol-close-link').attr('h5-back-status', 1);
+            }
+        });
+        $('.h5-wap-protocol-close-link').click(function() {
+            var status = $(this).attr('h5-back-status');
+            // $('.h5-wap-protocol-div').hide();
+            if (typeof(status) == 'undefined' || status != 1) { // 是否显示注册
+                $('.h5-wap-reg-div').show();
+            }
+            $(this).attr('h5-back-status', '');
+        });
+        $('.h5-start-game-link').click(function() {
+            var uid = $('#info').attr('da-uid') | 0;
+            var autoLogin = $('#info').attr('da-auto-login') | 0;
+            var isBindPhone = $('#info').attr('da-is-bindphone') | 0;
+            if (uid > 0) {
+                $('#userInfoDiv').hide();
+                $('#bangPhoneNoticeDiv').hide();
+                $(".SuspendedBall").show();
+                $('.gray').hide();
+            } else {
+                visitorreg();
+                $.cookie('visitorregFlag', 1, {
+                    path: "/",
+                    expires: 1
+                });
+            }
+
+        });
+
+        // 回车登录
+        $(document).keyup(function (evnet) {
+            if ($('#loginDiv').is(':visible') && evnet.keyCode == '13') {
+                doLogin();
+            }
+        });
+
+        // 切换登陆弹窗
+        $('#loginA').click(function() {
+            $('.thisWinPop').hide();
+            $('#loginDiv').show();
+            resetValue();
+        });
+        // 关闭登陆注册框
+        $("#loginBackA, #thirdPartyBackA").click(function() {
+            $(".thisWinPop").hide();
+            var referer = $(this).attr('h5-wap-bind-phone-referer');
+            if (referer == 1) {
+                $('#bangPhoneNoticeDiv').show();
+                $('#userInfoDiv').show();
+                $(this).attr('h5-wap-bind-phone-referer', 0);
+            } else {
+                if (typeof closeLogin == 'function') {
+                    closeLogin();
+                }
+                $(".mask").hide();
+            }
+        });
+        // 关闭登录框
+        $(".h5-wap-back-login-div").click(function() {
+
+            $('.thisWinPop').hide();
+
+            var referer = $(this).attr('h5-wap-bind-phone-referer');
+            if (referer == 1) {
+                $('#bangPhoneNoticeDiv').show();
+                $('#userInfoDiv').show();
+                $(this).attr('h5-wap-bind-phone-referer', 0);
+            } else {
+                if (typeof showlogin == 'function') {
+                    showlogin();
+                } else {
+                    $(".gray,.mask").hide();
+                    $("#userInfoDiv").hide();
+                }
+            }
+        });
+        //游客登陆后操作
+        $("#visitorBackB").click(function() {
+            var uid = $('#info').attr('da-uid') | 0;
+            if (uid > 0) {
+                if (typeof logingBack == 'function') {
+                    logingBack();
+                }
+            } else {
+                var visitor_name = window.utils07073.getCustomCookieItem('visitor_name');
+                var visitor_pwd = window.utils07073.getCustomCookieItem('visitor_pwd');
+                if (visitor_name != '' && visitor_name != null && visitor_pwd != '' && visitor_pwd != null) {
+
+                    $.ajax({
+                        url: '/login/aj_login',
+                        data: {
+                            username: visitor_name,
+                            password: visitor_pwd,
+                            appid: $('#info').attr('da-appid'),
+                        },
+                        type: 'POST',
+                        dataType: 'json',
+                        cache: false,
+                        success: function(msg) {
+                            gLOGIN_FLAG = false;
+                            if ((msg.errno == 100) || (msg.errno == 121)) {
+                                $('#info').attr('da-uid', msg.info.uid);
+                                $('#info').attr('da-username', msg.info.username);
+                                $('#info').attr('da-avatar', msg.info.avatar);
+
+                                resetValue();
+                                loginYet();
+                                if (typeof tongjiReg == "function") {
+                                    tongjiReg('visitorlogin');
+                                }
+                                if (typeof loginCallback == 'function') {
+                                    loginCallback();
+                                }
+                            } else {
+                                loginCallback();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+        // 登录操作
+        $('#loginOper').click(function() {
+            doLogin();
+        });
+
+        // 找回密码弹窗
+        $('#findpwdA').click(function() {
+            $('.thisWinPop').hide();
+            $('#findpwdDiv').show();
+            resetValue();
+        });
+        // 找回密码返回
+        $('#findpwdBackA').click(function() {
+            $('.thisWinPop').hide();
+            $('#loginDiv').show();
+            resetValue();
+        });
+        // 找回密码验证码图片
+        $('#findPwdImg').click(function() {
+            $('#findPwdImg').attr('src', '/login/captcha?' + Math.random());
+        });
+
+        // 验证手机返回
+        $('#findpwdPhoneBackA').click(function() {
+            $('.thisWinPop').hide();
+            $('#loginDiv').show();
+            resetValue();
+        });
+        // 找回密码获取验证码
+        $('#findpwdPhoneCodeGet').click(function() {
+            if (true === gfindpwdPhoneCodeGet_FLAG) {
+                return false;
+            }
+            var _this = $(this);
+            gfindpwdPhoneCodeGet_FLAG = true;
+            $.ajax({
+                url: '/login/aj_findpwd_phonecode',
+                data: {},
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gfindpwdPhoneCodeGet_FLAG = false;
+                    if (msg.errno == 100) {
+                        showNotice(msg.errstr);
+                        resetValue();
+                        setTimes(_this);
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        // 找回密码验证验证码
+        $('#findpwdPhoneOper').click(function() {
+            if (true === gfindpwdPhoneOper_FLAG) {
+                return false;
+            }
+
+            var code = $.trim($('#findpwdPhoneCode').val());
+            if (code === '') {
+                showNotice('验证码未填写');
+                return false;
+            }
+            gfindpwdPhoneOper_FLAG = true;
+            $.ajax({
+                url: '/login/aj_findpwd_phonecode_check',
+                data: {
+                    code: code
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gfindpwdPhoneOper_FLAG = false;
+                    if (msg.errno == 100) {
+                        $('.thisWinPop').hide();
+                        $('#chgpwdDiv').show();
+                        resetValue();
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        // 修改密码返回
+        $('#chgpwdBackA').click(function() {
+            $('.thisWinPop').hide();
+            $('#loginDiv').show();
+            resetValue();
+        });
+        // 修改密码操作
+        $('#chgpwdOper').click(function() {
+            if (true === gchgpwdOper_FLAG) {
+                return false;
+            }
+
+            var chgpwd_password_val = $.trim($('#chgpwd_password').val());
+            var chgpwd_repassword_val = $.trim($('#chgpwd_repassword').val());
+
+            if (chgpwd_password_val === '') {
+                showNotice('密码未填写');
+                return false;
+            }
+            if (chgpwd_password_val.length < 6 || chgpwd_password_val.length > 15) {
+                showNotice('密码最少6位，最长15位');
+                return false;
+            };
+
+            if (cPasswd(chgpwd_password_val)) {
+                showNotice('不支持中文的密码哦 ');
+                return false;
+            };
+            if (chgpwd_password_val != chgpwd_repassword_val) {
+                showNotice('两次输入密码不一致');
+                return false;
+            }
+
+            gchgpwdOper_FLAG = true;
+            $.ajax({
+                url: '/login/aj_findpwd_chgpwd',
+                data: {
+                    password: chgpwd_password_val,
+                    repassword: chgpwd_repassword_val
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function(msg) {
+                    gchgpwdOper_FLAG = false;
+                    if (msg.errno == 100) {
+                        showNotice(msg.errstr);
+                        $('.thisWinPop').hide();
+                        $('#loginDiv').show();
+                        resetValue();
+                    } else if (msg.errno == 121) {
+                        loginYet();
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        $('#moreLoginOper').click(function() {
+            visitorreg();
+        });
+
+        //游客登陆
+        $('.h5-wap-visitor-login-btn').click(function() {
+            if (true === gVisitREG_FLAG) {
+                return false;
+            }
+            gVisitREG_FLAG = true;
+            var visitor_name = window.utils07073.getCustomCookieItem('visitor_name');
+            var visitor_pwd = window.utils07073.getCustomCookieItem('visitor_pwd');
+            if (visitor_name != '' && visitor_name != null && visitor_pwd != '' && visitor_pwd != null) {
+                $.ajax({
+                    url: '/login/aj_login',
+                    data: {
+                        username: visitor_name,
+                        password: visitor_pwd,
+                        appid: $('#info').attr('da-appid'),
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    cache: false,
+                    success: function(msg) {
+                        gLOGIN_FLAG = false;
+                        if ((msg.errno == 100) || (msg.errno == 121)) {
+                            $('#info').attr('da-uid', msg.info.uid);
+                            $('#info').attr('da-username', msg.info.username);
+                            $('#info').attr('da-avatar', msg.info.avatar);
+                            $('.my_code_save_img img').attr('src', '/wap/user/loginPic?username=' + visitor_name + '&password=' + visitor_pwd + '&v=' + Math.random());
+                            window.utils07073.setCustomCookieItem('visitor_name', visitor_name);
+                            window.utils07073.setCustomCookieItem('visitor_pwd', visitor_pwd);
+                            resetValue();
+                            loginYet();
+                            $("#visitorLoginDiv").show();
+
+                            if (typeof tongjiReg == "function") {
+                                tongjiReg('visitorlogin');
+                            }
+                        } else {
+                            $.ajax({
+                                url: '/login/visitor_reg',
+                                data: {
+                                    appid: $('#info').attr('da-appid')
+                                },
+                                type: 'POST',
+                                dataType: 'json',
+                                cache: false,
+                                success: function(msg) {
+                                    gVisitREG_FLAG = false;
+                                    if ((msg.errno == 100) || (msg.errno == 121)) {
+                                        $('#info').attr('da-uid', msg.info.uid);
+                                        $('#info').attr('da-username', msg.info.username);
+                                        $('#info').attr('da-avatar', msg.info.avatar);
+                                        $('.my_code_save_img img').attr('src', '/wap/user/loginPic?username=' + msg.info.username + '&password=' + msg.info.password + '&v=' + Math.random());
+                                        window.utils07073.setCustomCookieItem('visitor_name', msg.info.username);
+                                        window.utils07073.setCustomCookieItem('visitor_pwd', msg.info.password);
+                                        resetValue();
+                                        loginYet();
+                                        $("#visitorLoginDiv").show();
+                                        if (typeof tongjiReg == "function") {
+                                            tongjiReg('visitorlogin');
+                                        }
+                                        // if (typeof regCallback == 'function') {
+                                        //     regCallback();
+                                        // }
+                                    } else {
+                                        showNotice(msg.errstr);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                return false;
+            } else {
+                $.ajax({
+                    url: '/login/visitor_reg',
+                    data: {
+                        appid: $('#info').attr('da-appid')
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    cache: false,
+                    success: function(msg) {
+                        gVisitREG_FLAG = false;
+                        if ((msg.errno == 100) || (msg.errno == 121)) {
+                            $('#info').attr('da-uid', msg.info.uid);
+                            $('#info').attr('da-username', msg.info.username);
+                            $('#info').attr('da-avatar', msg.info.avatar);
+                            $('.my_code_save_img img').attr('src', '/wap/user/loginPic?username=' + msg.info.username + '&password=' + msg.info.password + '&v=' + Math.random());
+                            window.utils07073.setCustomCookieItem('visitor_name', msg.info.username);
+                            window.utils07073.setCustomCookieItem('visitor_pwd', msg.info.password);
+                            resetValue();
+                            loginYet();
+                            $("#visitorLoginDiv").show();
+
+                            if (typeof tongjiReg == "function") {
+                                tongjiReg('visitorlogin');
+                            }
+
+                            // if (typeof regCallback == 'function') {
+                            //     regCallback();
+                            // }
+                        } else {
+                            showNotice(msg.errstr);
+                        }
+                    }
+                });
+
+            }
+        })
+
+        $('.data-more-login-btn').click(function() {
+            moreLoginHide();
+            login();
+        });
+
+        //关闭绑定手机提示
+        $("#bandohoneBackA,#bandohoneBackB").click(function() {
+            $('#userInfoDiv').hide();
+            $("#bangPhoneNoticeDiv").hide();
+            $(".gray").hide();
+            SuspendedBall.ShowBall();
+        });
+        // 打开侧边栏绑定手机
+        $('#bindPhoneC').click(function() {
+
+            window.location.href = "wap/user-login.htm";
+        });
+
+        // 第三方登录点击
+        $(".h5-wap-third-party-link").click(function() {
+            var type_val = $(this).attr('da-type') | 0;
+            var pre_url = "";
+            var browser_val = $("#info").attr("da-browser") | 0;
+            var appid_val = $("#info").attr("da-appid");
+
+            switch (type_val) {
+                case 1: // weibo
+                    if (browser_val == 5) {
+                        // ios app 微信登录
+                        window.webkit.messageHandlers.webLogin.postMessage({type:"WEIBO", callback:"webweixinlogin"});
+                        return false;
+                    }
+
+                    // android
+
+                    pre_url = "/sns_login/weibo";
+                    break;
+                case 2: // qq
+                    if (browser_val == 5) {
+                        // ios app 微信登录
+                        window.webkit.messageHandlers.webLogin.postMessage({type:"QQ", callback:"webweixinlogin"});
+                        return false;
+                    }
+
+                    // android
+
+                    pre_url = "/sns_login/qq";
+                    break;
+                case 3: // 微信
+                    // ios
+
+                    // android
+
+                    // wap下微信登录引导
+
+                    // 变色龙
+
+                    // 其他正常
+                    pre_url = "/sns_login/weixin";
+                    break;
+
+                default:
+                    break;
+            }
+
+            var url = pre_url + "?r=" + encodeURIComponent(window.location.href);
+            if (browser_val == 3) {
+                // pc 浏览器
+                var l = ($(window).width() - 600) / 2;
+                var t = ($(window).height() - 450) / 2;
+                window.open(url, "newwindow", 'height=450,width=600,top=' + t + ',left=' + l + ',toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
+            } else {
+                window.location.href = url;
+            }
+            return false;
+        });
+
+        // 未绑定手机，今日不再提示
+        $('#notishiBindPhone').click(function() {
+            if ($(this).is(":checked")) {
+                $.cookie('notishiBindPhone', 1, {
+                    path: "/",
+                    expires: 1
+                });
+            } else {
+                $.cookie('notishiBindPhone', 0, {
+                    path: "/",
+                    expires: 1
+                });
+            }
+        });
+
+        init();
+    });
+</script>
+
+<script type="text/javascript">
+    (function() {
+        var glogoutOper_FLAG = false;
+        $(document).ready(function() {
+            //确定退出
+            $("#logoutBtnYes").click(function() {
+                $('#logoutOper').click();
+            });
+            // 取消退出
+            $("#logoutBtnNo").click(function() {
+                $("#logoutNoticeDiv").hide();
+                $('.gray').hide();
+            });
+
+            // 切换帐号
+            $('#logoutOper').click(function() {
+                if (true === glogoutOper_FLAG) {
+                    return false;
+                }
+
+                //glogoutOper_FLAG = true;
+                $.ajax({
+                    url: '/login/aj_logout',
+                    data: {},
+                    type: 'POST',
+                    dataType: 'json',
+                    cache: false,
+                    success: function(msg) {
+                        glogoutOper_FLAG = false;
+                        if (msg.errno == 100) {
+                            $('#info').attr('da-uid', 0);
+                            $('#info').attr('da-username', '');
+                            $('#info').attr('da-avatar', '');
+                            $('.thisWinPop').hide();
+                            resetValue();
+
+                            if (typeof logoutCallback == 'function') {
+                                logoutCallback();
+                            }
+
+                        } else if (msg.errno == 121) {
+                            loginYet();
+                        } else {
+                            showNotice(msg.errstr);
+                        }
+                    }
+                });
+            });
+            //任务提示知道了
+            $("#task_kown_btn").click(function(){
+                var url = $(this).attr('data-url');
+                if (url != ''){
+                    location.href=url;
+                }
+                $('#task_notice').hide();
+                $('.gray').hide();
+            });
+        })
+
+        function loginYet() {
+
+        };
+
+        function cName(str) {
+            //if (str.length < 6 || str.length > 15){return false;}
+            var rules = /^[a-zA-Z][a-za-z0-9]+$/; //帐号必须是字母、数字
+            return rules.test(str);
+        }
+
+        function cPasswd(str) {
+            //if (str.length < 6 || str.length > 16){return false;}
+            var rules = /[\u4E00-\u9FA5]/i;
+            return rules.test(str);
+        }
+
+        function cPhone(str) {
+            var rules = /^1\d{10}$/i;
+            return rules.test(str);
+        }
+
+        var countdown = 60;
+        //倒计时
+        function setTimes(obj) {
+            if (countdown == 60) {
+                var html = '<a target="_self" href="javascript:;" class="get2"></a>';
+                obj.hide().after(html);
+            }
+            countdown--;
+            obj.next('a').text('重新发送' + countdown + 's');
+            var t = setTimeout(function() {
+                setTimes(obj);
+            }, 1000);
+            if (countdown <= 0) {
+                obj.show().next('a').remove();
+                clearTimeout(t);
+                countdown = 60;
+            }
+        }
+
+        // 弹出提示框
+        function showNotice(msg) {
+            $('#noticeDiv').html(msg);
+            $('#noticeDiv').show();
+            /*
+            var x = ($(window).outerWidth() - $('#noticeDiv').outerWidth()) / 2 + 'px';
+            var y = ($(window).outerHeight() - $('#noticeDiv').outerHeight()) / 2 + 'px';
+            $('#noticeDiv').css({
+                'top': y,
+                'left': x
+            });*/
+            $('#noticeDiv').delay(2000).fadeOut();
+        }
+
+        // 清空input框
+        function resetValue() {
+            $('input[type="text"]').val('');
+            $('input[type="password"]').val('');
+            $('.error').html('');
+        }
+        //未绑定手机提示
+        function bandPhoneNotice(msg) {
+            var msg = {
+                cmd: "gobackurl",
+                data: {},
+            };
+            window.frames[0].postMessage(msg, '*');
+        }
+        //任务完成提示
+        function taskNotice(msg, score, url)
+        {
+            $('#task_notice .user_winpop_record').html(msg);
+            $("#task_notice").show();
+            if (url != '') {
+                $("#task_kown_btn").attr('data-url',url);
+            }
+
+            if (score) {
+                var new_score = parseInt($("#my_score").attr('score'))+parseInt(score);
+                $("#my_score").attr('score',new_score);
+                var score_str = new_score.toString();
+                var re=/(?=(?!(\b))(\d{3})+$)/g;
+                $("#my_score").text(score_str.replace(re,","));
+            }
+        }
+        // 对外提供接口
+        window.showNotice = showNotice;
+        window.resetValue = resetValue;
+        window.setTimes = setTimes;
+        window.cPhone = cPhone;
+        window.cPasswd = cPasswd;
+        window.cName = cName;
+        window.bandPhoneNotice = bandPhoneNotice;
+        window.taskNotice = taskNotice;
+    })(jQuery);
+</script>

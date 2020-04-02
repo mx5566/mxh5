@@ -1,0 +1,595 @@
+/**
+ * 提供给渠道引入
+ * @author shao
+ * 
+ * @date 2017/08/15
+ */
+(function($, window){
+// sdk 主类
+sdk = function() {
+    this.payGameNode    = '07073pay_iframe_wrap';  // 支付的window对象
+    this.payCloseNode   = '07073pay_close_btn';  // 支付外层关闭按钮
+    this.payDivNode     = '07073pay_div';  // 支付外层
+    this.payDivGray     = '07073pay_gray';  // 支付灰层遮罩
+    this.payGameParentNode = '';    // 支付层外框节点，在pc下使用支付框，需要给定在哪个节点下显示,需要用id获取
+    this.sdk_version = 2;   // JSSDK
+    this.isPc = 0; // 是否PC
+
+    this.shareDatas = null; // 分享数据
+    this.wxsharePull = null;    // 微信分享拉起操作
+    this.wxSubscribePull = null; // 微信关注拉起操作
+    this.isSubscribeBtnPull = null; // 是否显示关注按钮
+    this.wxxcxpath = null; // 小程序路径
+};
+
+// 初始化配置
+sdk.prototype.initConfig = function(options) {
+    var _this = this;
+    // 属性
+    _this.cpGameNode = options.cpGameNode; // 游戏iframe节点
+    
+    if (options.payGameParentNode)
+    {
+        _this.payGameParentNode = options.payGameParentNode;
+    }
+    if (options.sdk_version)
+    {
+        _this.sdk_version = options.sdk_version;
+    }
+    if (options.isPc) {
+        _this.isPc = options.isPc;
+    }
+
+    if (options.wxsharePull) {
+        _this.wxsharePull = options.wxsharePull;
+    }
+    
+    if (options.wxSubscribePull) {
+        _this.wxSubscribePull = options.wxSubscribePull;
+    }    
+    
+    // 是否显示关注按钮
+    if (options.isSubscribeBtnPull) {
+        _this.isSubscribeBtnPull = options.isSubscribeBtnPull;
+    }
+
+    // 微信小程序路径
+    if (options.wxxcxpath) {
+        _this.wxxcxpath = options.wxxcxpath;
+    }    
+
+    _this.payData = {};
+    // 动态事件
+    _this.events = {};
+    // 实用工具类
+    _this.utils = options.utils;
+    // 初始化事件
+    _this.initEvent();
+};
+
+// 初始化事件
+sdk.prototype.initEvent = function() {
+    var _this = this;
+    window.addEventListener("message", function(e) {
+        if (!e.data) 
+        {
+            return false;
+        }
+        switch (e.data.cmd) {
+            // 支付操作
+            case "cp:pay":
+                _this.pay(e.data.data);
+                break;
+            // 游戏初始化iframe
+            case "cp:init:frame":
+                break;
+            // cpgame window对象
+            case "cp:init:gamewin":
+                _this.cpgameWin = e.data.win;
+                break;
+            // 游戏加载完成
+            case "cp:game:ready":
+                break;
+            // 分享操作
+            case "cp:game:share":
+                _this.doshare(e.data.data);
+                break;
+            // 关注操作
+            case "cp:game:subscribe":
+                _this.doSubscribe(e.data.data);
+                break;
+            case "cp:game:issubscribe": // 是否关注操作
+                _this.doIsSubscribe(e.data.data);
+                break;
+            // 接到sdk关闭支付操作
+            case "sdk:pay:close":
+                _this.payclose(e.data.data);
+                break;
+            // 接收到sdk请求的父页面数据
+            case "sdk:pay:phost":
+                _this.phost();
+                break;
+            // 接受到sdk 微信jsapi支付请求
+            case "sdk:wxjsapipay":
+                _this.wxjsapipay(e.data.data);
+                break;
+            // 接到sdk关闭支付操作
+            case "sdk:pay:success":
+                _this.paysuccess(e.data.data);
+                break;
+            // 接到sdk弹出支付关闭按钮操作
+            case "sdk:pay:open_close_btn":
+                _this.pay_open_close_btn(e.data.data);
+                break;
+            // 接到sdk关闭支付关闭按钮操作
+            case "sdk:pay:close_close_btn":
+                _this.pay_close_close_btn(e.data.data);
+                break;
+            // 微信小程序支付
+            case "sdk:wxh5xiaochengxupay":
+                _this.wxh5xiaochengxupay(e.data.data);
+                break;
+        }
+    });
+};
+
+// 向下发送消息
+// 游戏iframe
+sdk.prototype.postGameMessage = function(data) {
+    document.getElementById(this.cpGameNode).contentWindow.postMessage(data, "*");
+};
+// 支付iframe
+sdk.prototype.postPayMessage = function(data) {
+    document.getElementById(this.payGameNode).contentWindow.postMessage(data, "*");
+};
+
+// 支付
+sdk.prototype.pay = function(data) {
+    var _this = this;
+    var defaults = {
+        appid: null,
+        proid: null,
+        uid: null,
+        time: null,
+        goods_id: null,
+        goods_name: null,
+        fee: null,
+        game_ordersn: null,
+        ext_sdk: '',
+        ext_cp: '',
+        sign_type: 'MD5',
+        sdk_version: _this.sdk_version,
+    };
+
+    data = _this.utils.extend(defaults, data);
+    if (!data.appid) 
+    { 
+        alert("缺少参数：appid"); 
+        return false; 
+    }
+    if (!data.proid) 
+    { 
+        alert("缺少参数：proid"); 
+        return false; 
+    }
+    if (!data.time) 
+    { 
+        alert("缺少参数：time"); 
+        return false; 
+    }
+    if (!data.fee) 
+    { 
+        alert("缺少参数：fee"); 
+        return false; 
+    }
+    if (!data.game_ordersn) 
+    { 
+        alert("缺少参数：game_ordersn"); 
+        return false; 
+    }
+    // 支付数据
+    _this.payData = data;
+
+    _this.crePayDiv();
+    _this.dopay();
+    _this.creCloseBtn();
+};
+
+// 生成支付外框
+sdk.prototype.crePayDiv = function()
+{
+    var _this = this;
+
+    var pay_div = document.createElement('div');
+    pay_div.id                    = _this.payDivNode;
+    pay_div.scrolling             = 'no';
+    pay_div.width                 = '100%';
+    pay_div.height                = '100%';
+    pay_div.marginWidth           = 0;
+    pay_div.marginHeight          = 0;
+    pay_div.style.height          = '100%';
+
+    pay_div.style['z-index']      = 1110;
+    pay_div.style['margin-left']  = 0;
+    pay_div.style.background      = '#FFFFFF none repeat scroll 0 0';
+
+    // 支付灰层遮罩
+    var paygray_div = document.createElement('div');
+    paygray_div.id                  = _this.payDivGray;
+    paygray_div.width               = '100%';
+    paygray_div.height              = '100%';
+    paygray_div.style.position      = 'fixed';
+    paygray_div.style.top           = 0;
+    paygray_div.style.left          = 0;
+    paygray_div.style.background    = '#000';
+    paygray_div.style.width         = '100%';
+    paygray_div.style.height        = '100%';
+    paygray_div.style['z-index']    = 1109;
+    paygray_div.style.opacity       = 0.5;
+    paygray_div.style.filter        = 'alpha(opacity=50)';
+    
+    // 存在支付外框
+    if (_this.payGameParentNode)
+    {
+        /*pay_div.style.left = "50%";
+        pay_div.style.width= '750px';
+        pay_div.style['margin-left']  = "-375px";*/
+        document.getElementById(_this.payGameParentNode).appendChild(paygray_div);
+        pay_div.style.width = document.getElementById(_this.payGameParentNode).clientWidth;
+        document.getElementById(_this.payGameParentNode).appendChild(pay_div);
+    }
+    else
+    {
+        pay_div.style.position        = 'absolute';
+        pay_div.style.top             = 0;
+        pay_div.style.left            = 0;
+        pay_div.style.width           = '100%';
+
+        if (_this.isPc == 1) {
+            pay_div.style.width = '50%';
+            pay_div.style['margin-left']  = '25%';
+        }
+
+        var creaP = document.createElement("p");
+        var creaSpan = document.createElement("span");
+        var creaText = document.createTextNode("安全跳转中...");
+        pay_div.appendChild(creaP);
+        creaP.appendChild(creaSpan);
+        creaSpan.appendChild(creaText);
+
+        creaP.style.textAlign = "center";
+        creaSpan.style.background = "rgba(0, 0, 0, .8)";
+        creaSpan.style.color = "#FFF";
+        creaSpan.style.padding = "8px 20px 8px 20px";
+        creaSpan.style.fontSize = "16px";
+        creaSpan.style.borderRadius = "5px";
+        creaP.style.marginTop = "200px";
+
+        document.body.appendChild(paygray_div);
+        // 以BODY 为窗体显示支付框
+        document.body.appendChild(pay_div);    
+    }
+}
+
+// 执行支付
+sdk.prototype.dopay = function() {
+    var _this = this;
+    var data = _this.payData;
+    var iframe_id = _this.payGameNode;
+    if (window.frames[iframe_id])
+    {   
+        // iframe已经存在
+        return false;
+    }
+    var prePayUrl = 'https://sdk.07073.com/jsgamepay';
+    if(!data){
+        alert('支付参数缺失!');
+    }
+
+    // 生成支付地址
+    var payUrl = _this.utils.buildUrl(prePayUrl, data);
+
+    var pay_iframe = document.createElement('iframe');
+    pay_iframe.id                    = iframe_id;
+    pay_iframe.name                  = iframe_id;
+    pay_iframe.src                   = payUrl;
+    pay_iframe.scrolling             = 'auto';
+    pay_iframe.width                 = '100%';
+    pay_iframe.height                = '100%';
+    pay_iframe.frameBorder           = 0;
+    pay_iframe.marginWidth           = 0;
+    pay_iframe.marginHeight          = 0;
+    pay_iframe.style.height          = '100%';
+    pay_iframe.style.position        = 'absolute';
+    pay_iframe.style.top             = 0;
+    pay_iframe.style.left            = 0;
+    pay_iframe.style.width           = '100%';
+    pay_iframe.style['z-index']      = 1111;
+    pay_iframe.style['margin-left'] = 0;
+    pay_iframe.style['overflow-y']  =  'auto';
+    
+    document.getElementById(_this.payDivNode).appendChild(pay_iframe);
+};
+
+// 添加关闭按钮
+sdk.prototype.creCloseBtn = function()
+{
+    var _this = this;
+    var close_btn_obj = document.createElement('div');
+
+    close_btn_obj.id = _this.payCloseNode;
+    close_btn_obj.style.position = 'absolute';
+    close_btn_obj.style.background = '#ff6537';
+    close_btn_obj.style.color = '#fff';
+    close_btn_obj.style['text-align'] = 'center';
+    close_btn_obj.style['z-index'] = 2222;
+    close_btn_obj.style.display = 'none';
+    close_btn_obj.innerText = "关闭";;
+
+    var right   = '30px';
+    var bottom  = '50px';
+    var font_size = '15px';
+    var width   = '50px';
+    var height  = '50px';
+    var border_radius = '50%';
+    var line_height   = '50px';
+
+    if (_this.utils.isMobile())
+    {
+        // 移动端
+        right   = 'https://img5.073img.com/sdk/js/0.4rem';
+        bottom  = 'https://img5.073img.com/sdk/js/1.5rem';
+        font_size = '0.24rem';
+        width   = 'https://img5.073img.com/sdk/js/0.8rem';
+        height  = 'https://img5.073img.com/sdk/js/0.8rem';
+        border_radius = 'https://img5.073img.com/sdk/js/0.8rem';
+        line_height   = 'https://img5.073img.com/sdk/js/0.8rem';
+    }
+    close_btn_obj.style.right = right;
+    close_btn_obj.style.bottom = bottom;
+    close_btn_obj.style['font-size'] = font_size;
+    close_btn_obj.style.width   = width;
+    close_btn_obj.style.height  = height;
+    close_btn_obj.style['border-radius'] = border_radius;
+    close_btn_obj.style['line-height']   = line_height;
+
+    document.getElementById(_this.payDivNode).appendChild(close_btn_obj);
+
+    // 点击关闭按钮
+    document.getElementById(_this.payCloseNode).onclick = function() 
+    {
+        this.style.display = "none";
+        document.getElementById(_this.payGameNode).src = _this.utils.getSession('iframe_pay_goback_url');
+    }
+}
+
+// 取消支付
+sdk.prototype.payclose = function(data) 
+{
+    var _this = this;
+    _this.paycommon();
+
+    var post_data = {
+        cmd:"channel:pay:cancel", 
+        data:{
+            errstr: "支付取消"
+        }
+    };
+
+    // 通知cp 游戏取消充值
+    _this.postGameMessage(post_data);
+}
+
+// 支付成功
+sdk.prototype.paysuccess = function(data) 
+{
+    var _this = this;
+    _this.paycommon();
+
+    var post_data = {
+        cmd:"channel:pay:callback", 
+        data:{
+            errstr: "支付成功"
+        }
+    };
+    // 通知cp 游戏充值成功
+    _this.postGameMessage(post_data);
+}
+
+// 支付以后的公共操作
+sdk.prototype.paycommon = function()
+{
+    var _this = this;
+    // 关闭支付iframe
+    var el = document.getElementById(_this.payDivNode);
+    el.parentNode.removeChild(el);
+    // 关闭灰层
+    var el_gray = document.getElementById(_this.payDivGray);
+    el_gray.parentNode.removeChild(el_gray);
+}
+
+// 打开关闭按钮
+sdk.prototype.pay_open_close_btn = function(data)
+{
+    var _this = this;
+    var el = document.getElementById(_this.payCloseNode);
+    el.style.display = "block";
+    // sdk支付回退地址
+    _this.utils.setSession('iframe_pay_goback_url', data.url);
+}
+
+// 隐藏关闭按钮
+sdk.prototype.pay_close_close_btn = function(data)
+{
+    var _this = this;
+    var el = document.getElementById(_this.payCloseNode);
+    el.style.display = "none";
+}
+
+// 上层页面信息
+sdk.prototype.phost = function(data) 
+{
+    var _this = this;
+    var url = _this.utils.getCurUrl();
+    var hostname = _this.utils.getHostname();
+
+    var post_data = {
+        cmd: "parent:url",
+        data: {
+            cur_url: url,
+            hostname: hostname,
+            browser: 'other'
+        }
+    };
+
+    // 微信下判断是否小程序环境
+    if (_this.utils.isWeixin() == true) {
+        wx.miniProgram.getEnv((envres) => {
+            if (envres.miniprogram) {
+                // 微信小程序中
+                post_data.data.browser = 'weixinxiaochengxu';
+            } else {
+                //在微信中
+                post_data.data.browser = 'weixin';
+            }
+        });
+    }
+
+    // 通知支付地址当前页面信息
+    _this.postPayMessage(post_data);
+}
+
+// sdk下呼起微信JSAPI支付
+sdk.prototype.wxjsapipay = function(data) 
+{
+    var _this = this;
+    var jsapipara = eval('(' + data.jsapipara + ')');
+
+    //调用微信JS api 支付
+    function jsApiCall()
+    {
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',jsapipara,
+        function(res){
+            if(res.err_msg=="get_brand_wcpay_request:ok"){
+                // 支付成功
+                _this.paysuccess();
+            }else if(res.err_msg=="get_brand_wcpay_request:cancel"){
+                // 支付取消
+                
+            }else{
+                alert(res.err_msg+"支付失败,请联系客服人员");
+            }
+        }
+        );
+    }
+    function callpay()
+    {
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall();
+        }
+    }
+    callpay();
+}
+
+
+// 执行分享操作
+sdk.prototype.doshare = function(data) 
+{
+    var _this = this;
+
+    if (true === _this.utils.isWeixin()) {
+        // 拉起微信分享
+        _this.wxsharePull();
+    } else {
+        _this.wxsharePull();
+    }
+}
+
+// 执行微信分享结束
+sdk.prototype.wxShareComplete = function(data) 
+{
+    var _this = this;
+    var post_data = {
+        cmd: "channel:share:callback",
+        data: {
+            errno: data.errno,
+            errstr: data.errstr,
+        }
+    };
+    // 分享完成通知游戏
+    _this.postGameMessage(post_data);
+}
+
+// 执行关注操作
+sdk.prototype.doSubscribe = function(data) 
+{
+    var _this = this;
+
+    if (true === _this.utils.isWeixin()) {
+        // 拉起微信关注
+        _this.wxSubscribePull();
+    } else {
+        _this.wxSubscribePull();
+    }
+}
+
+// 执行微信关注结束
+sdk.prototype.wxSubscribeComplete = function(data) 
+{
+    var _this = this;
+    var post_data = {
+        cmd: "channel:subscribe:callback",
+        data: {
+            errno: data.errno,
+            errstr: data.errstr,
+        }
+    };
+    // 分享完成通知游戏
+    _this.postGameMessage(post_data);
+}
+
+// 执行是否关注操作
+sdk.prototype.doIsSubscribe = function(data) 
+{
+    var _this = this;
+    _this.isSubscribeBtnPull(data);
+}
+
+// 是否显示关注按钮操作
+sdk.prototype.isSubscribeBtnCallback = function(data) 
+{
+    var _this = this;
+
+    var post_data = {
+        cmd: "channel:issubscribe:callback",
+        data: data
+    };
+    // 是否关注通知游戏
+    _this.postGameMessage(post_data);
+}
+
+// 微信小程序支付
+sdk.prototype.wxh5xiaochengxupay = function(data) 
+{
+    var _this = this;
+    var path = _this.wxxcxpath;
+    var pre = '?';
+    for (var i in data) {
+        path += pre + i + '=' + encodeURIComponent(data[i]);
+        pre = '&';
+    }
+
+    wx.miniProgram.navigateTo({url: path});
+}
+
+window.h5sdk07073channel = new sdk();
+
+})(null, window);

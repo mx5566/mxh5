@@ -1,0 +1,93 @@
+<script type="text/javascript" src="/static/img5.073img.com/common/jquery/jquery-1.9.1.min.js-1.0.1.158" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/jquery/jquery.cookie.js-1.0.1.158" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/other/util.js-1.0.1.158" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/jquery/jquery.eraser.js-1.0.1.158" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/layui-v2.4.5/lay/exts/picker.data.js" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/layui-v2.4.5/layui.js" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/other/fastclick.js" ></script>
+<script type="text/javascript" src="/static/img5.073img.com/common/clipboard/clipboard.min.js-1.0.1.158"  charset="utf-8"></script>
+<script type="text/javascript">
+    adaptation(750);
+
+    function adaptation(size){
+        if(document.documentElement.clientWidth>size){
+            document.documentElement.style.fontSize=size/7.5+'px';
+        }else{
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+'px';
+        }
+    }
+    $(window).resize(function(){
+        adaptation(750);
+    });
+
+    $(function () {
+
+        $("[url-jump]") .click(function () {
+            let obj = $(this);
+            let url_val = obj.attr("data-url");
+            window.location.href = url_val;
+        });
+    });
+
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        // 分享操作
+        $('#share_native').share({
+            url: "",
+            weiboKey: "86462105",
+            sites: ['qzone', 'qq', 'weibo'],
+            icons: {
+                'qzone':'https://img5.073img.com/h5/wap/img/share/qzone.png',
+                'qq':'https://img5.073img.com/h5/wap/img/share/qq.png',
+                'weibo':'https://img5.073img.com/h5/wap/img/share/sina.png'
+            },
+            titles: {
+                'qzone':'QQ空间',
+                'qq':'QQ',
+                'weibo':'微博'
+            },
+            title: "07073h5游戏平台-最新h5游戏在线玩_好玩的手机网页游戏排行榜大全_推荐热门微信小游戏不用下载电脑版",
+            description: "07073h5游戏平台-最新h5游戏在线玩_好玩的手机网页游戏排行榜大全_推荐热门微信小游戏不用下载电脑版",
+            image: "https://pics.073img.com/h5",
+            source: "07073H5游戏平台"
+        });
+        $('.social-share-icon').click(function() {
+            $('.h5-wap-close-link').click();
+            h5sdk07073channel.wxShareComplete({errno:0, errstr:"分享成功"});
+        });
+
+        $('.h5-wap-close-link').click(function(){
+            $('.mask').hide();
+            $('.h5-wap-share').hide();
+        });
+
+        var clipboard2 = new ClipboardJS('.h5-wap-copy-url');
+
+        clipboard2.on('success', function(e) {
+            $('.h5-wap-curr-url').select();
+            showNotice('复制成功');
+            setTimeout(function(){
+                $('.h5-wap-close-link').click();
+                h5sdk07073channel.wxShareComplete({errno:0, errstr:"分享成功"});
+            }, 2500);
+        });
+
+        clipboard2.on('error', function(e) {
+            showNotice('复制失败，长按复制');
+        });
+    });
+</script><!-- 加载动画 -->
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#commonGray").click(function () {
+            $(this).hide();
+        });
+    });
+</script>
+

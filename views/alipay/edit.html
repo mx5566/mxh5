@@ -1,0 +1,30 @@
+<div class="row">
+    <!-- form start -->
+    <form class="form-horizontal" id="thisForm">
+        <input type="hidden" Name="AlipayId" id="AlipayId" value="{{.m.AlipayId}}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">公钥</label>
+            <div class="col-sm-8">
+                <input type="text" name="AlipayPublicSecret" class="form-control" placeholder="字母数字" value="{{.m.AlipayPublicSecret}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">APPID</label>
+            <div class="col-sm-8">
+                <input type="text" name="AlipayAppid" class="form-control" placeholder="数字" value="{{.m.AlipayAppid}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">私钥</label>
+            <div class="col-sm-8">
+                <input type="text" name="AlipayPrivateSecret" class="form-control" placeholder="字母数字" value="{{.m.AlipayPrivateSecret}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商户名称</label>
+            <div class="col-sm-8">
+                <input type="text" name="AlipayBsName" class="form-control" placeholder="字母中文" value="{{.m.AlipayBsName}}">
+            </div>
+        </div>
+    </form>
+</div>

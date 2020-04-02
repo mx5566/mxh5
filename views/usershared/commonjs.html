@@ -1,0 +1,305 @@
+<script type="text/javascript">
+    var gKAIFUT_SUBSCRIBE_FLAG = false;
+    var gKAIFUT_NOTICE_FLAG = false;
+    var gKAIFUT_NOTICE_CANCEL_OBJ = null;
+
+    function loginCallback()
+    {
+        window.location.href = updateUrl(window.location.href);
+    }
+    function logoutCallback()
+    {
+        window.location.href = updateUrl(window.location.href);
+    }
+    function regCallback()
+    {
+        window.location.href = updateUrl(window.location.href);
+    }
+    function logingBack()
+    {
+        $(".gray,.mask").hide();
+        $("#userInfoDiv").hide();
+    }
+    function closeLogin() {
+        $(".gray,.mask").hide();
+        $("#userInfoDiv").hide();
+    };
+    $(function() {
+
+        $(".itemA").each(function() {
+            var getRemind = $(this).find(".gamePlay").parent("a").prev("i").hasClass("remind");
+            if(getRemind == false) {
+                $(this).find(".gamePlay").addClass("corners");
+            }
+        });
+
+        // 开服提醒操作
+        $(".itemA .zyBtnBox .remind").click(function() {
+            var obj = $(this);
+            $(".mask").show();
+            login();
+            return false;
+
+            if (gKAIFUT_SUBSCRIBE_FLAG == true) {
+                alert("请求中...");
+                return false;
+            }
+
+            var kaifuid_val = obj.attr("data-kaifuid");
+            var isnotice_val = obj.attr("data-isnotice");
+
+            gKAIFUT_NOTICE_CANCEL_OBJ = obj;
+            if (isnotice_val == 0) {
+                var itemA_obj = obj.parents(".itemA");
+                var game_name_val = itemA_obj.attr("data-game-name");
+                $("#kaifuNoticeCancelGameName").text(game_name_val);
+                $("#kaifuNoticeCancel,.mask").show();
+                return false;
+            }
+
+            gKAIFUT_SUBSCRIBE_FLAG = true;
+
+            $.ajax({
+                url: "/user/aj_wxgh_subscribe",
+                data: {},
+                type: "GET",
+                dataType: "json",
+                cache: false,
+                success: function(subscribe_msg) {
+                    gKAIFUT_SUBSCRIBE_FLAG = false;
+                    if (subscribe_msg.errno == 100) {
+                        if (subscribe_msg.info.is_subscribe == 1) {
+                            // 已关注
+                            kaifunoticeReq(obj, kaifuid_val, isnotice_val);
+                        } else {
+                            // 未关注
+                            $("#kaifuNoticeQrcode").attr("src", "/qrcode/kaifu_notice?kaifu_id="+kaifuid_val);
+                            $("#kaifuNoticeNoSubscribe,.mask").show();
+
+                            // 获得关注状态
+                            gKAIFU_NOTICE_WXGZ_STATUS_P = setInterval(function() {getKaifuNoticeWxgzStatus(gKAIFUT_NOTICE_CANCEL_OBJ)}, 3000);
+                        }
+                    }
+                }
+            });
+        });
+
+        $(".closeTips, .zyyThink").click(function() {
+            $("https://h5.07073.com/.zyy, .mask").fadeOut();
+            clearInterval(gKAIFU_NOTICE_WXGZ_STATUS_P);
+        });
+
+        // 确定取消
+        $(".zyyCancel").click(function() {
+            var kaifuid_val = gKAIFUT_NOTICE_CANCEL_OBJ.attr("data-kaifuid");
+            var isnotice_val = gKAIFUT_NOTICE_CANCEL_OBJ.attr("data-isnotice");
+
+            kaifunoticeReq(gKAIFUT_NOTICE_CANCEL_OBJ, kaifuid_val, isnotice_val, function() {
+                $("https://h5.07073.com/.zyy, .mask").fadeOut();
+            });
+        });
+
+    });
+
+    // 开服提醒请求
+    function kaifunoticeReq(obj, kaifuid_val, isnotice_val, callback)
+    {
+        if (gKAIFUT_NOTICE_FLAG == true) {
+            alert("请求中...");
+            return false;
+        }
+
+        gKAIFUT_NOTICE_FLAG = true;
+        $.ajax({
+            url: "/kaifu/aj_set_notice",
+            data: {
+                kaifu_id: kaifuid_val,
+                isnotice: isnotice_val,
+            },
+            cache: false,
+            dataType: "json",
+            type: "GET",
+            success: function(msg) {
+                gKAIFUT_NOTICE_FLAG = false;
+                if (msg.errno == 100) {
+                    if (isnotice_val == 1) {
+                        obj.text("取消提醒");
+                        obj.attr("data-isnotice", 0);
+                        $("#kaifuNoticeOk,.mask").show();
+                    } else {
+                        obj.text("开服提醒");
+                        obj.attr("data-isnotice", 1);
+                    }
+                    obj.toggleClass("cancel");
+
+                    if (typeof(callback) == "function") {
+                        callback.call();
+                    }
+                } else if (msg.errno == 201) {
+                    $("#kaifuNoticeThreeSecond").show();
+                    $("#kaifuNoticeThreeSecondP").html(msg.errstr);
+                } else {
+                    alert(msg.errstr);
+                }
+            }
+        });
+    }
+
+    var gKAIFU_NOTICE_WXGZ_STATUS_P = null;
+
+    // 获得关注状态
+    function getKaifuNoticeWxgzStatus(obj) {
+        $.ajax({
+            url: "/user/aj_wxgh_subscribe",
+            data: {
+            },
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            success: function(subscribe_msg) {
+
+                if (subscribe_msg.errno == 100) {
+                    if (subscribe_msg.info.is_subscribe == 1) {
+                        $("#kaifuNoticeNoSubscribe").hide();
+
+                        var kaifuid_val = obj.attr("data-kaifuid");
+                        var isnotice_val = obj.attr("data-isnotice");
+
+                        // 已关注
+                        kaifunoticeReq(obj, kaifuid_val, isnotice_val);
+                        clearInterval(gKAIFU_NOTICE_WXGZ_STATUS_P);
+                    } else {
+
+                    }
+                }
+
+            }
+        });
+    }
+
+</script>
+<script>
+    let swiper = new Swiper('.index_focus', {
+        // 如果需要分页器
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        autoplay: {
+            delay: 3000,
+            stopOnLastSlide: false,
+            disableOnInteraction: true,
+        },
+        paginationClickable: true,
+        loop: true,
+    });
+    let gameSwiper = new Swiper('.game-swiper-container', {
+        slidesPerView: 'auto'
+    });
+
+    $(document).ready(function() {
+
+        $(".tab_nav a").click(function() {
+            var id = $(this).attr('data-title');
+            $(this).addClass('this');
+            $(this).parent().siblings().find('a').removeClass();
+            $('#' + id).show().siblings('.gameList_con2').hide();
+        })
+
+        $("img.lazy").lazyload({
+            placeholder: "/static/m1.073img.com/grey.gif",
+        });
+        $("#hot_game img").lazyload({
+            placeholder: "/static/m1.073img.com/grey.gif"
+        });
+        $("#new_game img").lazyload({
+            placeholder: "/static/m1.073img.com/grey.gif",
+            event: "sporty"
+        });
+        $("#r_cx_game img").lazyload({
+            placeholder: "/static/m1.073img.com/grey.gif",
+            event: "sporty"
+        });
+        $(".tab_nav a").one("click", function() {
+            var title = $(this).attr('data-title');
+            $("#" + title + " img").trigger("sporty");
+        });
+
+        $(".hd ul li a").click(function() {
+            $(".hd ul li a").removeClass("active")
+            $(this).addClass("active");
+
+            var indexLi = $(this).parent("li").index();
+            $(".bd .gameList_con").hide();
+            $(".bd").find(".gameList_con").eq(indexLi).show();
+            $(".bd").find(".gameList_con").removeClass('h5-wap-tab-active');
+            $(".bd").find(".gameList_con").eq(indexLi).addClass('h5-wap-tab-active');
+            if (indexLi == 3) {
+                $('.h5-wap-loading-common-div').hide();
+            } else {
+                $('.h5-wap-loading-common-div').show();
+            }
+        });
+        // 下拉加载数据
+        $('.h5-wap-hot-div').tabScrolls({
+            aj_tab_url: [
+                "/wap/welcome/aj_hot_game",
+                "/wap/welcome/aj_new_game",
+                "/wap/welcome/aj_top_game",
+            ],
+            page: [2,2,2],
+            page_size: 10,
+            data: {},
+            min_height: 100,
+            conDiv: '.h5-wap-tab-div',
+            acitveTabDiv: '.h5-wap-tab-active',
+            tabId: 'h5-wap-tab-id',
+            loadingDiv: '.h5-wap-loading-div',
+            loadingInfoDiv: '.h5-wap-loading-div span',
+            loadingInfo: '加载中...',
+            loadingNoDataInfo: '没有数据了',
+            scrollFunc: 1
+        });
+
+// 加载已经开服信息
+        $("#moreYetKfA").click(function() {
+            var _this = $(this);
+            var page = _this.attr('da-page') | 0;
+            var page_size = _this.attr('da-page_size') | 0;
+
+            if ((page < 1) || (page_size < 1)) {
+                return false;
+            }
+
+            $.ajax({
+                url: "/wap/kaifu/aj_yet_kaifu",
+                type: "GET",
+                data: {page:page, page_size:page_size},
+                dataType: "json",
+                cache: false,
+                success: function(msg) {
+                    if (msg.errno == 100) {
+                        $("#yetKfDiv").append(msg.info);
+                        _this.attr('da-page', page+1);
+                    } else if (msg.errno == 201) {
+                        _this.parent('div').remove();
+                    } else {
+                        console.log(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        // 公告
+        let swiper = new Swiper('.notice-swiper-container', {
+            paginationClickable: true,
+            direction: 'vertical',
+            loop: 'true',
+            autoplay: {
+                delay: 3000,
+                stopOnLastSlide: false,
+                disableOnInteraction: true,
+            }
+        });
+    });
+</script>
+

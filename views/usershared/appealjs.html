@@ -1,0 +1,265 @@
+<script>
+    $(function () {
+        // 帐号申诉
+        $("#appealAcountA").click(function () {
+            if (typeof closeLogin == 'function') {
+                closeLogin();
+            }
+            $('.thisWinPop').hide();
+            $(".mask").show();
+            $(".zy3").hide();
+            $("#userInfoDiv").show();
+            $(".h5-appeal-first-div").show();
+        });
+
+        // 关闭申诉
+        $("#appealCloseA").click(function () {
+            $('#findpwdA').click();
+            $(".h5-appeal-first-div").hide();
+        });
+
+        // 充值订单申诉
+        $("#appealOrderA").click(function () {
+            $(".zy3").hide();
+            $(".h5-appeal-order-div").show();
+        });
+
+        // 登录信息申诉
+        $("#appealLoginA").click(function () {
+            $(".zy3").hide();
+            $(".h5-appeal-login-div").show();
+        });
+
+        // 订单申诉回退
+        $(".h5-appeal-order-back").click(function () {
+            $(".zy3").hide();
+            $(".h5-appeal-first-div").show();
+        });
+
+        // 登录信息申诉回退
+        $(".h5-appeal-login-back").click(function () {
+            $(".zy3").hide();
+            $(".h5-appeal-first-div").show();
+        });
+
+        // 申诉成功回退
+        $(".h5-appeal-success-back").click(function () {
+            $("https://h5.07073.com/.zy3,.mask").hide();
+            // pc
+            //$("#loginAa").click();
+            $(".h5-back-login-div").click();
+            // WAP
+            //$("#loginBtnA").click();
+            $(".h5-wap-back-login-div").click();
+        });
+
+        // 订单申诉提交
+        $(".h5-appeal-order-submit").click(function () {
+
+            var appeal_order_sn_val = $.trim($("#appeal_order_sn").val());
+            var appeal_order_payday_val = $.trim($("#appeal_order_payday").val());
+            var appeal_order_gamename_val = $("#appeal_order_gamename").val() | 0;
+            var appeal_order_phone_val = $.trim($("#appeal_order_phone").val());
+
+            if (!appeal_order_sn_val) {
+                showNotice('订单号未填');
+                return false;
+            }
+
+            if (!appeal_order_payday_val) {
+                showNotice('订单支付时间未填');
+                return false;
+            }
+            if (appeal_order_gamename_val < 1) {
+                showNotice('充值的游戏名未选择');
+                return false;
+            }
+
+            if (false === utils07073.checkPhone(appeal_order_phone_val)) {
+                showNotice('手机号错误')
+                return false;
+            }
+
+            var json_data = {
+                order_sn: appeal_order_sn_val,
+                pay_day: appeal_order_payday_val,
+                game_name: appeal_order_gamename_val,
+                phone: appeal_order_phone_val,
+            };
+
+            $.ajax({
+                url: '/wap/account_appeal/aj_order_appeal',
+                data: json_data,
+                type: "POST",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.errno == 100) {
+
+                        showNotice(msg.errstr);
+                        $(".zy3").hide();
+                        $(".h5-appeal-success-div").show();
+                        $("#appeal_ok_day").text('2');
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+        });
+
+        // 登录信息申诉提交
+        $(".h5-appeal-login-submit").click(function () {
+            var appeal_login_gamename_val = $("#appeal_login_gamename").val() | 0;
+            //var appeal_login_regarea_val = $.trim($("#appeal_login_regarea").val());
+            var appeal_login_firstloginday_val = $.trim($("#appeal_login_firstloginday").val());
+            var appeal_login_browsertype_val = $("#appeal_login_browsertype").val() | 0;
+            var appeal_login_moreinfo_val = $.trim($("#appeal_login_moreinfo").val());
+            var appeal_login_phone_val = $.trim($("#appeal_login_phone").val());
+            var appeal_login_os_val = $("#appeal_login_os").val() | 0;
+            var appeal_login_othergamename_val = $("#appeal_login_othergamename").val() | 0;
+
+            var province_name = 'provinceappeal_login_regarea';
+            var city_name = 'cityappeal_login_regarea';
+
+            if (!appeal_login_firstloginday_val) {
+                showNotice('上次登录时间未选择');
+                return false;
+            }
+
+            if (appeal_login_gamename_val < 1) {
+                showNotice('常玩的游戏未选择');
+                return false;
+            }
+
+            var city_id_val = $("#"+city_name).val() | 0;
+            if (city_id_val < 1) {
+                showNotice('登录地点未选择');
+                return false;
+            }
+            var appeal_login_regarea_val = $("#"+province_name).find("option:selected").text()+$("#"+city_name).find("option:selected").text();
+
+            if (!appeal_login_regarea_val) {
+                showNotice('登录地点未选择');
+                return false;
+            }
+
+            if (appeal_login_browsertype_val < 1) {
+                showNotice('登录终端未选择');
+                return false;
+            }
+
+            if (false === utils07073.checkPhone(appeal_login_phone_val)) {
+                showNotice('手机号错误')
+                return false;
+            }
+
+            var json_data = {
+                phone: appeal_login_phone_val,
+                browser_type: appeal_login_browsertype_val,
+                game_name: appeal_login_gamename_val,
+                reg_area: appeal_login_regarea_val,
+                first_game_login_day: appeal_login_firstloginday_val,
+                moreinfo:appeal_login_moreinfo_val,
+                appeal_login_os: appeal_login_os_val,
+                appeal_login_othergamename: appeal_login_othergamename_val
+            };
+
+            $.ajax({
+                url: '/wap/account_appeal/aj_login_appeal',
+                data: json_data,
+                type: "POST",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.errno == 100) {
+
+                        showNotice(msg.errstr);
+                        $(".zy3").hide();
+                        $(".h5-appeal-success-div").show();
+                        $("#appeal_ok_day").text('7');
+                    } else {
+                        showNotice(msg.errstr);
+                    }
+                }
+            });
+
+
+        });
+
+        layui.extend({
+            picker: '{/}https://img5.073img.com/common/layui-v2.4.5/lay/exts/picker' // {/}的意思即代表采用自有路径，即不跟随 base 路径
+        })
+        // 选项
+        $.ajax({
+            url: '/wap/account_appeal/aj_sel_check',
+            data:{},
+            dataType: "json",
+            type: "GET",
+            success: function (msg) {
+                if (msg.errno == 100) {
+                    var info = msg.info;
+
+                    var game_arr = info.game;
+                    var browser_arr = info.browser;
+                    var os_arr = info.os;
+                    for (var i in game_arr) {
+                        var tmp_html = '<option value="'+game_arr[i].game_id+'">'+game_arr[i].title+'</option>';
+                        $("#appeal_order_gamename").append(tmp_html);
+                        $("#appeal_login_gamename").append(tmp_html);
+                        $("#appeal_login_othergamename").append(tmp_html);
+                    }
+
+                    for (var i in os_arr) {
+                        var tmp_html = '<option value="'+os_arr[i].id+'">'+os_arr[i].title+'</option>';
+                        $("#appeal_login_os").append(tmp_html);
+                    }
+
+                    for (var i in browser_arr) {
+                        var tmp_html = '<option value="'+browser_arr[i].id+'">'+browser_arr[i].title+'</option>';
+                        $("#appeal_login_browsertype").append(tmp_html);
+                    }
+
+                    // layui 插件
+                    layui.use(['laydate','form', 'picker'], function() {
+                        var laydate = layui.laydate;
+                        var layform = layui.form;
+                        var laypicker = layui.picker;
+
+                        laydate.render({
+                            elem: '#appeal_order_payday', //指定元素
+                            theme: '#fe632b',
+                            range: false,
+                            max: 0,
+                            done: function (value, date, endDate) {
+                                console.log(value)
+                            }
+                        });
+
+                        laydate.render({
+                            elem: '#appeal_login_firstloginday', //指定元素
+                            theme: '#fe632b',
+                            range: true,
+                            max: 0,
+                            done: function (value, date, endDate) {
+                                console.log(value)
+                            }
+                        });
+
+                        var laypicker_p1 = new laypicker();
+                        laypicker_p1.set({
+                            elem: '#appeal_login_regarea',
+                            data: PICKER_AREAS,
+                            codeConfig: {
+                                code: 0,
+                                type: 2
+                            },
+                            level: 2,
+                            vid: 'appeal_login_regarea',
+                        }).render();
+                    });
+
+                } else {
+                    showNotice(msg.errst);
+                }
+            }
+        });
+    });
+</script><div class="gray" id="boxA2"></div>
